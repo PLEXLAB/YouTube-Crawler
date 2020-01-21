@@ -15,12 +15,16 @@ function getVideoTitles()
 function getVideUrls()
 {
 	var vURLS = [];
-	let videoUrls = document.querySelectorAll("#video-info-edit > a");
+	let videoUrls = document.querySelectorAll("#video-title");
 	if(videoUrls.length > 0){
 		for (var i = 0; i < videoUrls.length; i++) {
 			var vurl = videoUrls[i].getAttribute("href");
+			var temp = vurl.substring(7);
+			var slashIndex = temp.indexOf('/'); 
+			vurl = temp.substring(0, slashIndex != -1 ? slashIndex : temp.length);
+			vurl = "https://www.youtube.com/watch?v=" + vurl;
 			vURLS.push(vurl);
-			//console.log(videoUrls[i][0]);
+			console.log(vurl);
 		}	
 	}
 	return vURLS;
@@ -42,12 +46,12 @@ function getDate()
 function getVisibility()
 {
 	var vVisList = [];
-	let videoVis = document.querySelectorAll("#container > div > div.style-scope.ytcp-video-list-cell-visibility.first-row > div");
+	let videoVis = document.querySelectorAll("#row-container > div.style-scope.ytcp-video-row.cell-body.tablecell-visibility > div > div > span");
 	if(videoVis.length > 0){
 		for (var i = 0; i < videoVis.length; i++) {
 			var temp = videoVis[i].innerText;
 			vVisList.push(temp)
-			//console.log(videoVis[i].innerText);
+			console.log(videoVis[i].innerText);
 		}
 	}
 	return vVisList;
