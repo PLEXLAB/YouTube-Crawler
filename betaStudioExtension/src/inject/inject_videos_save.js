@@ -10,7 +10,7 @@ function saveMetaData(chID, vTitles, vURLS, vDates, vViss, vDescs, vViews, vNoCo
 	for(var i = 0; i < vCount; ++i)
 	{		
 		var vVis		    = vViss[i];
-		if (vVis.indexOf('Private') > -1 || vVis.indexOf('Unlisted') > -1)
+		if (!(vVis.indexOf('Public') > -1))
 		{
 			continue;			
 		}
