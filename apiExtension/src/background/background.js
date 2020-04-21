@@ -24,15 +24,20 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
                 //TO DO: have user choose from a list for reportTypeId
                 //TO DO: upon successful creation set a chrome alarm to
                 //       automate report retrievals
+                var rt;
+                chrome.storage.local.get(['reportType'], function(data){
+                    rt = data.reportType;
+                });
 
                 $.ajax({
                     type: 'POST',
-                    url:  'https://youtubereporting.googleapis.com/v1/jobs?key='+API_KEY,
+                    url:  'https://youtubereporting.googleapis.com/v1/jobs?key=AIzaSyC_HhJ3YZStGj8e3YJtB9hvFthZ4K4wemE',
                     headers: {authorization: "Bearer " + authToken},
                     contentType: 'application/json',
-                    data: JSON.stringify( { 
-                        name: 'POSTRequestTest',
-                        reportTypeId: 'channel_subtitles_a2',
+                    data: JSON.stringify({ 
+                        name: 'POSTRequestTest2',
+                        reportTypeId: rt
+                        //reportTypeId: 'channel_subtitles_a2',
                     }),
                     success: function(data){
                         //var responseData = JSON.parse(data);
@@ -65,11 +70,11 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
     
                     success: function(data){
                         //var responseData = JSON.parse(data);
-                        var responseData = JSON.stringify(data);
-                        console.log("Success" + responseData);
+                        //var responseData = JSON.stringify(data);
+                        console.log("Success " + data);
                     },
                     error: function(response) {
-                        console.log("Request Failed");
+                        console.log("Request Failed ");
                         console.log(response.message);
                     }
                 });
