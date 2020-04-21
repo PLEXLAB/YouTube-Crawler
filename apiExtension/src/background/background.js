@@ -24,9 +24,10 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
                 //TO DO: have user choose from a list for reportTypeId
                 //TO DO: upon successful creation set a chrome alarm to
                 //       automate report retrievals
-                var rt;
+                var rt = "";
                 chrome.storage.local.get(['reportType'], function(data){
                     rt = data.reportType;
+                    console.log(rt);
                 });
 
                 $.ajax({
@@ -81,8 +82,6 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
             });   
         }
 
-                    
-
 
                     /*
                     * Retreive the report with download URL
@@ -108,4 +107,6 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 
 //TO DO: Create an onSuspend chrome function to get the latest reports from a specific job
 //       and store report information in chrome storage
+
+//User Interaction: last time report was received, minimal interaction 
   
