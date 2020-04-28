@@ -2,7 +2,7 @@
     "name": "Youtube reports extension",
     "version": "0.1",
     "manifest_version": 2,
-    "description": "An extension that will extract data from a youtube analytics spreadsheet",
+    "description": "An extension that will create Youtube analytics reports and routinely check those reports",
 
     "browser_action": {
         "default_popup": "src/browser_action/popup.html",
@@ -15,7 +15,8 @@
     "background":{
         "scripts":[
             "src/background/background.js",
-            "src/browser_action/jquery-3.4.1.min.js"
+            "src/browser_action/jquery-3.4.1.min.js",
+            "src/background/reportIDs.js"
         ]
     },
 
@@ -30,17 +31,6 @@
         "https://*.googleusercontent.com/*",
         "https://youtubereporting.googleapis.com/*"
     ],
-
-    "content_scripts": [{
-        "matches":[
-            "https://*.google.com/*"
-        ],
-        "js": [
-          "src/inject/report.js"
-        ],
-        
-        "Content_Security_Policy": "script-src 'self' blob: filesystem: chrome-extension-resource: 'strict-dynamic' 'unsafe-inline' object-src 'self'"
-    }],
 
     "oauth2": {
         "client_id": "452970754221-s86hs2fit6d62v8bdc8si86cdrbf45mh.apps.googleusercontent.com",
