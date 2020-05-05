@@ -6,7 +6,8 @@ var API_URL = 'https://youtubereporting.googleapis.com/v1/jobs?key='+API_KEY;
 * JSON Structure
 * jobsArrObject = {
 *   JobName:
-*   JobID:    
+*   JobID:
+*   reportType:    
 * }
 */
 var jobsArr = [];
@@ -21,7 +22,18 @@ var jobsArr = [];
 *   downloadURL:
 * }
 */
-var reportsArr = []; 
+var todaysReports = []; 
+
+/* JSON object containing meta data to post to server
+* report metadata report name, start time, end time
+* access token
+* download URL
+*/
+var metaRep = {
+    "reportName" : null,
+    "accessToken" : null,
+    "downloadURL" : null
+}
 
 function callback() {
     if (chrome.runtime.lastError) {
@@ -38,8 +50,6 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
         if (response == "Authenticate"){ 
             chrome.identity.getAuthToken({'interactive':true}, function (authToken){
                 
-                //TO DO: upon successful creation set a chrome alarm to
-                //       automate report retrievals
                 $.ajax({
                     /* Channel Basic */
                     type: 'POST',
@@ -159,10 +169,10 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
                 // });
 
 
-                /* Get list of jobs just created */
+                /* Get list of jobs just created and push it into the array */
                 $.ajax({
                     type: 'GET',
-                    url: API_URL,
+                    url: API_URL+'&includeSystemManaged=true',
                     headers: {authorization: "Bearer " + authToken },
 
                     success: function(data){
@@ -170,7 +180,8 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
                         for(job of data.jobs){
                             jobsArr.push({
                                 "JobName": job.name, 
-                                "JobID": job.id
+                                "JobID": job.id,
+                                "reportType": job.reportTypeId 
                             });
                         }
                         console.log(jobsArr);
@@ -181,66 +192,148 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
                     }
                 });
                 
-                //at this point set a chrome alarm to retrieve first jobs
-                chrome.alarms.create("DailyReports", {delayInMinutes: 0.1, periodInMinutes: 0.1});
+                chrome.runtime.sendMessage("verifiedAccount");
+
+                /** at this point set a chrome alarm to retrieve first jobs **/
+                /** Jobs Take 48 hours to create, upon creation, a job's report is created daily */
+
+                //this alarm will set off 2 days after the jobs are created and repeat daily 
+                //chrome.alarms.create("JobCreated_48Hours_daily", {delayInMinutes: 2880.0, periodInMinutes: 1440.0});
+
+                /* for testing purposes */
+                chrome.alarms.create("JobCreated_48Hours_daily", {delayInMinutes: 0.2, periodInMinutes: 0.2});
             });
         }             
     }
 }); 
 
+
 /** listen for the chrome alarms here **/
 chrome.alarms.onAlarm.addListener(function (alarm){
-    console.log("Got an alarm ", alarm);
+    
     var jobID = '';
     var reportID = '';
-    var reportURL = 'https://youtubereporting.googleapis.com/v1/jobs/'+ jobID +'/reports/'+ reportID +'?key='+API_KEY;
+    var reportName = '';
+    var zDate;
+    var reportURL = 'https://youtubereporting.googleapis.com/v1/jobs/'+ jobID +'/reports/?createdAfter=' + zDate + '&key=' + API_KEY;
 
-    chrome.identity.getAuthToken({'interactive': false}, function(authToken){
+    if(alarm.name == "JobCreated_48Hours_daily") {
+        console.log("Got an alarm ", alarm.name);
+    
+        zDate = new Date();
+        zDate = zuluDate(getYesterday(zDate));
+        console.log(zDate);
+
+
+        chrome.identity.getAuthToken({'interactive': false}, function(authToken){
         
-        /* Calls a list of reportIDs for all jobs in the jobs array */
-        for(jobs of jobsArr){
-            jobID = jobs.JobID;
-            
-            $.ajax({
-                /*
-                * Calls a get request on for a report based on sepecific jobID
-                * returns a download URL
-                */
-                type: 'GET',
-                url:  'https://youtubereporting.googleapis.com/v1/jobs/'+ jobID +'/reports/'+'?key=' + API_KEY,
-                headers: {authorization: "Bearer " + authToken},
-                contentType: 'application/json',
+            /* Calls a list of the most recent report for all jobs in the jobs array */
+            //for(jobs of jobsArr){
+            for(var i = 0; i < jobsArr.length; i++){
+                var obj = jobsArr[i];
+                jobID = obj.JobID;
+                reportName = obj.reportType;
+                console.log(obj.reportType);
 
-                success: function(data){
-                    console.log("Success " + data);
-                    for(rep of Object.keys(data)){ //not iterable?
-                        reportsArr.push({
-                            "repID": rep.id
-                            // "jobID": rep.jobId,
-                            // "startTime": rep.startTime,
-                            // "endTime": rep.endTime,
-                            // "createTime": rep.createTime,
-                            // "downloadURL": rep.downloadUrl
+                $.ajax({
+                    /*
+                    * Calls a get request on for a report based on sepecific jobID
+                    * returns a download URL
+                    */
+                    type: 'GET',
+                    url:  'https://youtubereporting.googleapis.com/v1/jobs/'+ jobID +'/reports/?createdAfter=' + zDate + '&key=' + API_KEY,
+                    headers: {authorization: "Bearer " + authToken},
+                    contentType: 'application/json',
+    
+                    success: function(data){
+                        console.log("Success " + data);
+                        console.log("MAKING AJAX CALL iteration: " + i);
+                        
+                        rep = data.reports[0];
+
+                        todaysReports.push({
+                            "repType": reportName,
+                            "repID": rep.id,
+                            "jobID": rep.jobId,
+                            "startTime": rep.startTime,
+                            "endTime": rep.endTime,
+                            "createTime": rep.createTime,
+                            "downloadURL": rep.downloadUrl
                         });
+                    },
+                    error: function(response) {
+                        console.log("Request Failed ");
+                        console.log(response.message);
                     }
-                    
-                    console.log(reportsArr);
-                },
-                error: function(response) {
-                    console.log("Request Failed ");
-                    console.log(response.message);
-                }
-            }); 
-        }
-        
-    });
+                }); 
+            }//end for
+
+            //push report type to today's reports
+            console.log("Entering for loop today's report");
+            for(var i = 0; i < todaysReports; i++){
+                var obj=todaysReports[i];
+                console.log("today's report" + obj[i]);
+                var rtype = getReportName(obj.jobID);
+                obj.repType = rtype;
+            }
+            
+            
+        });
+
+        //TO DO: post today's reports array database
+        //clear todaysReports array to get it ready for the next day
+    }
+
+    console.log(todaysReports); 
 });
 
-//TO DO: finally get latest report bu calling GET req with download URL 
 
-//on suspend test 
+
+//on suspend test
 chrome.runtime.onSuspend.addListener(function() {
     chrome.browserAction.setBadge({text: 'Suspended'});
     console.log("Suspended...");
 });
-  
+
+
+function clearAlarm(alarmName){
+    chrome.alarms.clear(alarmName, function() {
+        console.log("clearing alarm " + alarmName);
+    });
+}
+
+function clearAllAlarms(){
+    chrome.alarms.clearAll(function(){
+        console.log("clearing all alarms...");
+    });
+}
+
+function zuluDate(date){
+    function pad(n){ return n<10 ? '0'+n : n }
+    return pad(date.getUTCFullYear()) + '-' 
+        + pad(date.getUTCMonth()+1) + '-'
+        + pad(date.getUTCDate()) + 'T'
+        + pad(date.getUTCHours()) + '%3A' //%3A is the ':' char for url headers
+        + pad(date.getUTCMinutes()) + '%3A'
+        + pad(date.getUTCSeconds()) + 'Z'
+}
+
+function getYesterday(date){
+    var today = new Date();
+    var yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    return yesterday;
+}
+
+function getReportName(jobid){
+    for(var i = 0; i < jobsArr.length; i++){
+        var obj = jobsArr[i];
+        if(obj.JobID == jobid){
+            return obj.reportType;
+        }
+    }
+    return "error";
+}
+
+

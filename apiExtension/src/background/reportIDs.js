@@ -23,7 +23,7 @@
 // }); //end ajax request
 
 
-/* returns a download URL to a specific report using its ID
+/* returns a download URL to a specific report using its report ID
 // $.ajax({
 //     /*
 //     * In URL from MyFirstJob Report Job,
