@@ -1,6 +1,4 @@
 
-//TO DO: Create an onSuspend chrome function to get the latest reports from a specific job
-//       and store report information in chrome storage
 
 /*
 * Retreive the report with download URL

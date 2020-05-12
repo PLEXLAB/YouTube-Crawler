@@ -1,7 +1,6 @@
 var API_KEY = 'AIzaSyC_HhJ3YZStGj8e3YJtB9hvFthZ4K4wemE';
 var API_URL = 'https://youtubereporting.googleapis.com/v1/jobs?key='+API_KEY;
 
-
 /*
 * JSON Structure
 * jobsArrObject = {
@@ -23,17 +22,6 @@ var jobsArr = [];
 * }
 */
 var todaysReports = []; 
-
-/* JSON object containing meta data to post to server
-* report metadata report name, start time, end time
-* access token
-* download URL
-*/
-var metaRep = {
-    "reportName" : null,
-    "accessToken" : null,
-    "downloadURL" : null
-}
 
 function callback() {
     if (chrome.runtime.lastError) {
@@ -168,7 +156,6 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
                 //     }
                 // });
 
-
                 /* Get list of jobs just created and push it into the array */
                 $.ajax({
                     type: 'GET',
@@ -197,20 +184,18 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
                 /** at this point set a chrome alarm to retrieve first jobs **/
                 /** Jobs Take 48 hours to create, upon creation, a job's report is created daily */
 
-                //this alarm will set off 2 days after the jobs are created and repeat daily 
+                /* this alarm will set off 2 days after the jobs are created and repeat daily */
                 //chrome.alarms.create("JobCreated_48Hours_daily", {delayInMinutes: 2880.0, periodInMinutes: 1440.0});
 
-                /* for testing purposes */
+                /* for testing purposes, be sure to clear all alarms when switching */
                 chrome.alarms.create("JobCreated_48Hours_daily", {delayInMinutes: 0.2, periodInMinutes: 0.2});
             });
         }             
     }
 }); 
 
-
 /** listen for the chrome alarms here **/
 chrome.alarms.onAlarm.addListener(function (alarm){
-    
     var jobID = '';
     var reportID = '';
     var reportName = '';
@@ -224,8 +209,15 @@ chrome.alarms.onAlarm.addListener(function (alarm){
         zDate = zuluDate(getYesterday(zDate));
         console.log(zDate);
 
-
         chrome.identity.getAuthToken({'interactive': false}, function(authToken){
+
+            chrome.identity.getProfileUserInfo(function(res){
+                console.log("Identity response: " + res.email);
+                todaysReports.push({
+                    "user": res.email,
+                    "accessToken": authToken
+                });
+            });
         
             /* Calls a list of the most recent report for all jobs in the jobs array */
             //for(jobs of jobsArr){
@@ -247,12 +239,10 @@ chrome.alarms.onAlarm.addListener(function (alarm){
     
                     success: function(data){
                         console.log("Success " + data);
-                        console.log("MAKING AJAX CALL iteration: " + i);
-                        
+                        //first index contains the latest report
                         rep = data.reports[0];
-
                         todaysReports.push({
-                            "repType": reportName,
+                            //"repType": reportName, //had a litle trouble getting report name with my current method
                             "repID": rep.id,
                             "jobID": rep.jobId,
                             "startTime": rep.startTime,
@@ -266,28 +256,26 @@ chrome.alarms.onAlarm.addListener(function (alarm){
                         console.log(response.message);
                     }
                 }); 
-            }//end for
-
+            }
             //push report type to today's reports
             console.log("Entering for loop today's report");
             for(var i = 0; i < todaysReports; i++){
                 var obj=todaysReports[i];
-                console.log("today's report" + obj[i]);
+                console.log("today's report: " + obj[i]);
                 var rtype = getReportName(obj.jobID);
                 obj.repType = rtype;
             }
-            
-            
         });
-
-        //TO DO: post today's reports array database
-        //clear todaysReports array to get it ready for the next day
+        
+        //post todaysReports to DB and clear todaysReports array to get it ready for the next day
+        if (todaysReports != null){
+            //saveReportData(todaysReports);
+            todaysReports = [];
+        }
     }
 
     console.log(todaysReports); 
 });
-
-
 
 //on suspend test
 chrome.runtime.onSuspend.addListener(function() {
@@ -336,4 +324,27 @@ function getReportName(jobid){
     return "error";
 }
 
-
+function saveReportData(obj){
+    httpReq = new XMLHttpRequest();
+    httpReq.onreadystatechange = function() {
+        if (typeof httpReq !== 'undefined')
+        {		
+            console.log(httpReq.responseText);
+            if (httpReq.readyState === XMLHttpRequest.DONE) {
+                if (httpReq.status == 201) {
+                    console.log('successful');
+                } 
+                else {
+                    console.log("ERROR: status " + httpReq.status);
+                }
+            }
+        }	
+    };
+    httpReq.timedout = 3000;
+	httpReq.ontimeout = function(e){
+        console.log("XMLHttpRequest timed out");
+    };    
+    httpReq.open('POST', /* URL */ '', true);
+    httpReq.setRequestHeader("Content-Tyoe", "application/json");
+    xhr.send(encodeURIComponent(obj));
+}

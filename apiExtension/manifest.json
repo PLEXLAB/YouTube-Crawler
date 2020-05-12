@@ -24,6 +24,7 @@
         "alarms",
         "storage",
         "identity",
+        "identity.email",
         "tabs",
         "activeTab",
         "background",
