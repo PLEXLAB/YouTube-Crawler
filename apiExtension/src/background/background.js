@@ -242,9 +242,9 @@ chrome.alarms.onAlarm.addListener(function (alarm){
                         //first index contains the latest report
                         rep = data.reports[0];
                         todaysReports.push({
-                            //"repType": reportName, //had a litle trouble getting report name with my current method
-                            "repID": rep.id,
-                            "jobID": rep.jobId,
+                            "repType": getReportName(rep.jobId),
+                            //"repID": rep.id,
+                            //"jobID": rep.jobId,
                             "startTime": rep.startTime,
                             "endTime": rep.endTime,
                             "createTime": rep.createTime,
@@ -256,14 +256,6 @@ chrome.alarms.onAlarm.addListener(function (alarm){
                         console.log(response.message);
                     }
                 }); 
-            }
-            //push report type to today's reports
-            console.log("Entering for loop today's report");
-            for(var i = 0; i < todaysReports; i++){
-                var obj=todaysReports[i];
-                console.log("today's report: " + obj[i]);
-                var rtype = getReportName(obj.jobID);
-                obj.repType = rtype;
             }
         });
         
