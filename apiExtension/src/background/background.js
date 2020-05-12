@@ -25,6 +25,7 @@ var todaysReports = [];
 
 /*
 * The object to push to the database
+* contains user email, access token, and the array from todaysReports
 */
 var dbData = {
     "user": null,
@@ -266,10 +267,10 @@ chrome.alarms.onAlarm.addListener(function (alarm){
             }
         });
         
-        //post todaysReports to DB and clear todaysReports array to get it ready for the next day
+        //post dbData to DB and clear todaysReports array to get it ready for the next day
         if (todaysReports != null){
             dbData.dailyReps = todaysReports;
-            //saveReportData(todaysReports);
+            //saveReportData(dbData);
             todaysReports = [];
         }
     }
