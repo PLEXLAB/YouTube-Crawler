@@ -23,6 +23,15 @@ var jobsArr = [];
 */
 var todaysReports = []; 
 
+/*
+* The object to push to the database
+*/
+var dbData = {
+    "user": null,
+    "accessToken": null,
+    "dailyReps": null
+} 
+
 function callback() {
     if (chrome.runtime.lastError) {
         console.log(chrome.runtime.lastError.message);
@@ -213,10 +222,8 @@ chrome.alarms.onAlarm.addListener(function (alarm){
 
             chrome.identity.getProfileUserInfo(function(res){
                 console.log("Identity response: " + res.email);
-                todaysReports.push({
-                    "user": res.email,
-                    "accessToken": authToken
-                });
+                dbData.user = res.email;
+                dbData.accessToken = authToken;
             });
         
             /* Calls a list of the most recent report for all jobs in the jobs array */
@@ -261,12 +268,13 @@ chrome.alarms.onAlarm.addListener(function (alarm){
         
         //post todaysReports to DB and clear todaysReports array to get it ready for the next day
         if (todaysReports != null){
+            dbData.dailyReps = todaysReports;
             //saveReportData(todaysReports);
             todaysReports = [];
         }
     }
 
-    console.log(todaysReports); 
+    console.log(dbData); 
 });
 
 //on suspend test
