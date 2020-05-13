@@ -10,7 +10,7 @@ XMLHttpRequest where I couldve had more control of listening to server
 states and provided minor UI feedback on:
 
 -successful/failed account authentication
--extension badges to indicate requests for re logins (to refresh auth tokens)
+-extension badges to indicate requests for user re logins (to refresh auth tokens)
 -extension badges to indicate if reports were successful to post for the day
 
 Other than that thank you for letting me be a part of this project!
