@@ -1,4 +1,4 @@
-var API_KEY = 'AIzaSyC_HhJ3YZStGj8e3YJtB9hvFthZ4K4wemE';
+var API_KEY = 'Your API Key from google developers console';
 var API_URL = 'https://youtubereporting.googleapis.com/v1/jobs?key='+API_KEY;
 
 /*
