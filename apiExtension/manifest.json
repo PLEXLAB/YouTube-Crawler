@@ -34,7 +34,7 @@
     ],
 
     "oauth2": {
-        "client_id": "452970754221-s86hs2fit6d62v8bdc8si86cdrbf45mh.apps.googleusercontent.com",
+        "client_id": "Your client oAuth2 ID from google developers console",
         "scopes": [
             "profile",
             "https://www.googleapis.com/auth/yt-analytics-monetary.readonly",
