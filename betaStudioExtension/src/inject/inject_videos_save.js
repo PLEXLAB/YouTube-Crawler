@@ -4,16 +4,18 @@
 */
 //========================================================================
 let totalNoVideos = 0;
-function saveMetaData(chID, vTitles, vURLS, vDates, vViss, vDescs, vViews, vNoComms) {
+function saveMetaData(chID, vTitles, vURLS, vDates, vViss, vDescs, vViews, vNoComms, visOuterH, monOuterH, ristOuterH) {
+	
 	var vCount = vTitles.length;
 	var httpReq = new Array(vCount);
 	for(var i = 0; i < vCount; ++i)
 	{		
 		var vVis		    = vViss[i];
-		if (!(vVis.indexOf('Public') > -1))
-		{
-			continue;			
-		}
+		console.log("*******************************");
+		console.log(vVis);
+		console.log("*******************************");
+		if(vVis == null) continue;	
+		if (!(vVis.indexOf('Public') > -1))	continue;
 		totalNoVideos += 1;
 		var vTitle 		    = vTitles[i];
 		var vURL   		    = vURLS[i];
@@ -41,6 +43,12 @@ function saveMetaData(chID, vTitles, vURLS, vDates, vViss, vDescs, vViews, vNoCo
 		var vView           = vViews[i];
 		var vNoComm         = vNoComms[i];
 		var todayDate		= Date.now();
+		var vvisOuterH      = visOuterH[i];
+		var vmonOuterH      = monOuterH[i];
+		var vristOuterH     = ristOuterH[i];
+		//var vvisOuterH      = "";
+		//var vmonOuterH      = "";
+		//var vristOuterH     = "";
 		httpReq[i] = new XMLHttpRequest();
 		httpReq[i].onreadystatechange = function() {
 			if (typeof httpReq[i] !== 'undefined')
@@ -56,7 +64,7 @@ function saveMetaData(chID, vTitles, vURLS, vDates, vViss, vDescs, vViews, vNoCo
 				}
 			}	
 		}; 
-		// Check if the server is not reachable
+		/* Check if the server is not reachable
 		httpReq[i].onerror = function(){
 			chrome.runtime.sendMessage("NetworkError");
 		};
@@ -64,7 +72,7 @@ function saveMetaData(chID, vTitles, vURLS, vDates, vViss, vDescs, vViews, vNoCo
 		httpReq[i].ontimeout = function(e){
 			console.log("XMLHttpRequest is timedout");
 			chrome.runtime.sendMessage("NetworkError");
-		};
+		};*/
 		httpReq[i].open('POST', 'https://plexweb.cs.nmsu.edu/VideosSaveRoute', true);
 		httpReq[i].setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		httpReq[i].send('chID='     + encodeURIComponent(chID)    +
@@ -77,7 +85,10 @@ function saveMetaData(chID, vTitles, vURLS, vDates, vViss, vDescs, vViews, vNoCo
 						'&vVis='    + encodeURIComponent(vVis)    +
 						'&vDesc='   + encodeURIComponent(vDesc)   +
 						'&vView='   + encodeURIComponent(vView)   +
-						'&vNoComm=' + encodeURIComponent(vNoComm));	
+						'&vNoComm=' + encodeURIComponent(vNoComm) +
+						'&vvisOuterH='   + encodeURIComponent(vvisOuterH)   +
+						'&vmonOuterH='   + encodeURIComponent(vmonOuterH)   +
+						'&vristOuterH=' + encodeURIComponent(vristOuterH));	
 	}
 }
 //========================================================================

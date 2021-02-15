@@ -11,7 +11,7 @@ let conFormCheck	= true	;
 var chID		 	= ""	;
 var readyStateChkInterval 	= setInterval(chkDocReady	, 3000);
 var betaPageCformchk		= setInterval(chkBetaCform	, 3000);
-var videoLinkChk 			= setInterval(chkVideoLink	, 3000);
+//var videoLinkChk 			= setInterval(chkVideoLink	, 3000);
 var nextBtnChkClk			= setInterval(chkClkNextBtn , 3000);
 
 //=========================================================
@@ -49,7 +49,7 @@ function chkVideoLink(){
 	let videosBtn = document.querySelector("#menu-item-1 > paper-icon-item");
 	let videosBtnCaption = document.querySelector("#menu-item-1 > paper-icon-item > div.nav-item-text.style-scope.ytcp-navigation-drawer");
 	videosBtnCaption = videosBtnCaption.innerText;
-	if (videosBtnCaption === "Videos")
+	if (videosBtnCaption === "Content" || videosBtnCaption === "Videos")
 	{
 		setTimeout(function(){videosBtn.click();}, Math.floor(Math.random() * 2000));
 		clearInterval(videoLinkChk);
@@ -63,10 +63,10 @@ function chkClkNextBtn(){
 	let nextBtn 		= document.querySelector("#navigate-after");
 	let nextBtnStatus 	= document.querySelector("#navigate-after").getAttribute("aria-disabled");
 	console.log("0");
-	if (nextBtnStatus !== "true"){
+	if (nextBtnStatus != "true"){
 		console.log("1");
 		setTimeout(function(){
-				saveMetaData (chID, getVideoTitles(), getVideUrls(), getDate(), getVisibility(), getVideoDescriptions(), getNoViews(), getNoComments());
+				saveMetaData (chID, getVideoTitles(), getVideUrls(), getDate(), getVisibility(), getVideoDescriptions(), getNoViews(), getNoComments(), getOuterHtml_Vis(), getOuterHtml_Mon(), getOuterHtml_Rist());
 				nextBtn.click();
 		}, Math.floor(Math.random() * 4000));
 		lastPageFlag = true;
@@ -74,11 +74,11 @@ function chkClkNextBtn(){
 	else{
 		if (lastPageFlag === true || nextBtnStatus === "true"){
 			console.log("2");
-			saveMetaData (chID, getVideoTitles(), getVideUrls(), getDate(), getVisibility(), getVideoDescriptions(), getNoViews(), getNoComments());
+			saveMetaData (chID, getVideoTitles(), getVideUrls(), getDate(), getVisibility(), getVideoDescriptions(), getNoViews(), getNoComments(), getOuterHtml_Vis(), getOuterHtml_Mon(), getOuterHtml_Rist());
 			lastPageFlag = false;
 			// Send message to background to inject the scripit that will crawl the analytics page
 			removeOverlay();
-			displayOverlay("<h2 align='center'>Crawling Your Channel</h2><h5 align='center'><br>Please DO NOT close this window<br>This window will be closed automatically once the crawling is finished<br>Number of crawled videos: " + totalNoVideos + "</h5>");
+			//displayOverlay("<h2 align='center'>Crawling Your Channel</h2><h5 align='center'><br>Please DO NOT close this window<br>This window will be closed automatically once the crawling is finished<br>Number of crawled videos: " + totalNoVideos + "</h5>");
 			setTimeout(function(){chrome.runtime.sendMessage("get_single_video_Analytics_lifetime");}, 3000);
 			clearInterval(nextBtnChkClk);
 		}

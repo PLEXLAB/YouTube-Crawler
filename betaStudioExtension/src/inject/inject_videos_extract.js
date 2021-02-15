@@ -1,4 +1,41 @@
 // The following functions are used to extract metadata from videos tab
+// Get outerHtml for all visibility section
+function getOuterHtml_Vis()
+{
+	var outerHTML_Vis = [];
+	let outerHTML_VisS = document.querySelectorAll("#row-container > div:nth-child(3)");
+	if(outerHTML_VisS.length > 0){
+		for (var i = 0; i < outerHTML_VisS.length; i++) {
+			outerHTML_Vis.push(outerHTML_VisS[i].outerHTML);
+		}
+	}
+	return outerHTML_Vis;
+}
+// Get outerHtml for all Monitization section
+function getOuterHtml_Mon()
+{
+	var outerHTML_Mon = [];
+	let outerHTML_MonS = document.querySelectorAll("#row-container > div:nth-child(4)");
+	if(outerHTML_MonS.length > 0){
+		for (var i = 0; i < outerHTML_MonS.length; i++) {
+			outerHTML_Mon.push(outerHTML_MonS[i].outerHTML);
+		}
+	}
+	return outerHTML_Mon;
+}
+// Get outerHtml for all restrictions section
+function getOuterHtml_Rist()
+{
+	var outerHTML_Rist = [];
+	let outerHTML_RistS = document.querySelectorAll("#row-container > div:nth-child(5)");
+	if(outerHTML_RistS.length > 0){
+		for (var i = 0; i < outerHTML_RistS.length; i++) {
+			outerHTML_Rist.push(outerHTML_RistS[i].outerHTML);
+		}
+	}
+	return outerHTML_Rist;
+}
+
 // Get videos titles
 function getVideoTitles()
 {

@@ -1,6 +1,6 @@
 chrome.browserAction.setBadgeText({text: ''});
 // URL of the YoutTube beta studio to be first visited in the new popup window
-const cURL = "https://studio.youtube.com/channel/";
+const cURL = "https://studio.youtube.com/channel/*/videos/";
 chrome.windows.getCurrent(currWin => {
 	// Sepecify the location of the new popup window
 	let newTop = currWin.top + currWin.height + 10000;

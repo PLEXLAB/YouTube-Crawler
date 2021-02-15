@@ -21,7 +21,7 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 				if (chrome.runtime.lastError) {
 					console.log(chrome.runtime.lastError.message);
 				} else {
-					chrome.windows.remove(sender.tab.windowId);
+					//chrome.windows.remove(sender.tab.windowId);
 				}
 			});
 		}
@@ -215,7 +215,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 		} else {
 			if (tab.url.indexOf('https://studio.youtube.com/channel/') != -1 
 				&& tab.url.indexOf('/analytics/') === -1 
-				&& tab.url.indexOf('/videos') === -1)
+				&& tab.url.indexOf('/videos') != -1)
 			{
 				if(newTabId !== -10)
 				{	
