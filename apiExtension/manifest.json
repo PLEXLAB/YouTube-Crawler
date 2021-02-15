@@ -1,0 +1,46 @@
+{
+    "name": "Youtube reports extension",
+    "version": "0.1",
+    "manifest_version": 2,
+    "description": "An extension that will create Youtube analytics reports and routinely check those reports",
+
+    "browser_action": {
+        "default_popup": "src/browser_action/popup.html",
+        "scripts":[
+            "src/browser_action/jquery-3.4.1.min.js",
+            "src/browser_action/browser_action.js"
+        ]
+    },
+
+    "background":{
+        "scripts":[
+            "src/background/background.js",
+            "src/browser_action/jquery-3.4.1.min.js",
+            "src/background/reportIDs.js"
+        ]
+    },
+
+    "permissions": [
+        "alarms",
+        "storage",
+        "identity",
+        "identity.email",
+        "tabs",
+        "activeTab",
+        "background",
+        "https://www.googleapis.com/*",
+        "https://*.googleusercontent.com/*",
+        "https://youtubereporting.googleapis.com/*"
+    ],
+
+    "oauth2": {
+        "client_id": "Your client oAuth2 ID from google developers console",
+        "scopes": [
+            "profile",
+            "https://www.googleapis.com/auth/yt-analytics-monetary.readonly",
+            "https://www.googleapis.com/auth/yt-analytics.readonly",
+            "https://www.googleapis.com/auth/youtube.readonly"
+        ]
+    }
+    
+}
