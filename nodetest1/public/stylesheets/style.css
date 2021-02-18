@@ -1,0 +1,33 @@
+body {
+	padding: 50px;
+	font: 13px "Lucida Grande", Helvetica, Arial, sans-serif;
+	margin-left: 60px; margin-right: 60px;
+}
+p{text-align:justify;}
+a{color: #00B7FF;}
+table {
+	border-collapse: collapse;
+	border: 1px solid black;
+	text-align: left
+}
+td {	border: 1px solid black;}
+th{	background-color: #3a6070; 
+	border: 1px solid black;
+	color: #fff}
+footer {
+	position: fixed;
+	left: 50px;
+	right: 100px;
+	bottom: 50px; 
+	background-color: #777;
+	padding: 10px;
+	text-align: center;
+	color: black;
+}
+header {
+	background-color: #666;
+	padding: 15px;
+	text-align: center;
+	font-size: 24px;
+	color: white;
+}

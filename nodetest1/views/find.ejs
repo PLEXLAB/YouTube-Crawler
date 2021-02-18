@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel='stylesheet' href='/stylesheets/style.css' />
+		<script src="/javascripts/jquery-3.3.1.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		
+	</head>
+	<body>
+	<div>
+		<a style="position: sticky;" href="/home">Home</a>
+		<a style="position: sticky;" href="/searchBy">Search</a>
+		<a style="position: sticky; " href="/logout">Logout</a>
+		<a style="position: sticky;" href="/about">About</a>	
+		<div align="right"><a><%=welcome%></a></div>
+	</div>
+    <header>
+		<p><%= title %><br><br><strong>Search</strong></p>
+	</header>
+		<section class="get">
+		<div>
+		
+		<form action="/find" method="post" id="form01" onsubmit="return false;">
+			<div class="input">
+				<h3>Search By:</h3>
+				<!-- Search options-->
+				<input type="radio" checked="checked" name="radioField" value="vTitle">
+				<label class="container">Video Title
+					<span class="checkmark"></span>
+				</label>
+				<input type="radio" name="radioField" value="vVis">
+				<label class="container">Visibility
+					<span class="checkmark"></span>
+				</label>
+				<input type="text" value="<%=Value1%>" style="margin-left: 10px;" id="Value" placeholder="Value ..." name="Value">
+				<button type="submit" onclick="submitOnHit(0)"><i class="fa fa-search"></i>
+			</div>
+		</form>
+		</div>
+	<p>----------------------------------------------------------------------------------------------</p>
+	<h3>Search Results:</h3>	
+	</section>
+		<table id="dd">
+		<thead>
+			<tr>
+				<th><strong><center>Delete			</center></strong></th>
+				<th><strong><center>index			</center></strong></th>
+				<th><strong><center>Video Title		</center></strong></th>
+				<th><strong><center>Date			</center></strong></th>
+				<th><strong><center>Visibility		</center></strong></th>
+				<th><strong><center>Views count		</center></strong></th>
+				<th><strong><center>Comments count	</center></strong></th>
+				<th><strong><center>URL				</center></strong></th>
+			</tr>
+		</thead>
+		<tbody>
+			<%
+				var list = '';
+				for (i = 0; i < videosMetadata.length; i++) {
+					var index = i + 1;
+					list += ['<tr>',
+									'<td><button value='+(videosMetadata[i].vURL).toString()+' onclick="deleteRecords(this.value);"><i class="fa fa-trash"></i></button></td>',
+									'<td>' + index						+'</td>',
+									'<td>' + videosMetadata[i].vTitle	+'</td>',
+									'<td>' + videosMetadata[i].vDate	+'</td>',
+									'<td>' + videosMetadata[i].vVis		+'</td>',
+									'<td>' + videosMetadata[i].vView	+'</td>',
+									'<td>' + videosMetadata[i].vNoComm	+'</td>',
+									'<td><a href="'+videosMetadata[i].vURL+'">'+videosMetadata[i].vURL+'</a></td>',
+								'</tr>'].join('\n');
+					}	
+			%>
+			<%- list %>		
+		</tbody>	
+		</table>
+		<table>
+		<tbody> <tr> <div style="cursor:pointer; " id="pagination">
+			<a></a>
+		</div></tr>
+		</tbody>
+		</table>
+		<script>
+			// Delete record by clicking trash icon next to each row
+			var deleteRecords = function (vURL) {
+				console.log(vURL.substring(vURL.indexOf('=') + 1));
+				var txt;
+				var r = confirm("Are you sure you want stop sharing this record with PLEX lab team");
+				if (r == true) {
+					location.replace("/delete/"+vURL.substring(vURL.indexOf('=') + 1));
+				} 			
+			}
+			// Submit find form by hitting enter
+			function submitOnHit(e) {
+				if((e && e.keyCode == 13) || e == 0) {
+					document.forms.form01.submit();
+				}
+			}
+			// Call pagination function after getting search results
+			function pagination(){
+				var pageRowsCount	= 15;
+				var $tr				= jQuery('tbody tr');
+				var totalRowsCount	= $tr.length;
+				var pagesCount		= 0;
+				// Compute how many pages are required to show search results
+				if(totalRowsCount % pageRowsCount == 0) pagesCount = totalRowsCount / pageRowsCount;
+				else									pagesCount = 1 + Math.floor(totalRowsCount/pageRowsCount);
+				// Create pages number 
+				for(var i=1; i<=pagesCount; i++){
+					jQuery('#pagination').append("<a>"+i+"</a> ");
+				}
+				$tr.each(function(i){
+					jQuery(this).hide();
+					if(i+1 <= pageRowsCount){
+						$tr.eq(i).show();
+					}
+				});
+				// Create pages number url
+				jQuery('#pagination a').click(function(e){
+					e.preventDefault();
+					$tr.hide();
+					// Keep the underline on the selected page only
+					var $a	    = jQuery('#pagination a');
+					$a.css('text-decoration', 'none');
+					$(this).css('text-decoration', 'underline');
+					var page	= jQuery(this).text();
+					var temp 	= page - 1;
+					var start	= temp * pageRowsCount;
+					for(var i = 0; i < pageRowsCount; i++)	$tr.eq(start+i).show();
+				}); 
+			}// End of pagination function
+			// Apply pagination if document is ready
+			jQuery('document').ready(function(){
+				pagination();
+			});
+		</script>
+	</body>
+	<br>
+	<br>
+	<div class="footer">&copy; Created By PLEX Lab in New Mexico State University </div>
+</html>	

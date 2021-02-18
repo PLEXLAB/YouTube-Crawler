@@ -1,0 +1,486 @@
+    1  ip a
+    2  sudo apt update
+    3  sudo apt install openssh-server 
+    4  sudo systemctl status ssh
+    5  ifconfig
+    6  sudo apt install net-tools
+    7  ifconfig
+    8  sudo apt install xrdp
+    9  sudo systemctl enable xrdp
+   10  gedit
+   11  ls
+   12  cd Documents/
+   13  ls
+   14  cd saleem/
+   15  more test.txt 
+   16  ls
+   17  sudo reboot
+   18  ufw status
+   19  ufw enable
+   20  ufw allow 80/tcp
+   21  ufw status
+   22  ufw allow ssh
+   23  ufw status
+   24  ufw allow 443/tcp
+   25  ufw status
+   26  ufw reload
+   27  ls
+   28  cd Documents/
+   29  cd saleem/
+   30  ls
+   31  sudo -S
+   32  sudo -s
+   33  exit
+   34  openssl genrsa -des3 -out server.key 2048
+   35  ls
+   36  openssl rsa -in server.key -out server.key.insecure
+   37  ls
+   38  mv server.key server.key.secure
+   39  mv server.key.insecure server.key
+   40  ls
+   41  openssl req -new -key server.key -out server.csr
+   42  ls
+   43  sudo apt-get update
+   44  sudo apt-get install nginx
+   45  ls
+   46  cd Desktop/
+   47  ls
+   48  cd Doc
+   49  cd ..
+   50  cd Documents/
+   51  ls
+   52  cd saleem/
+   53  ls
+   54  cd ..
+   55  cd Pu
+   56  cd ..
+   57  cd Public/
+   58  ls
+   59  cd ..
+   60  ls
+   61  cd ..
+   62  ls
+   63  cd smasadeh/
+   64  ls
+   65  cd demoApp/
+   66  ls
+   67  npm install
+   68  sudo apt install npm
+   69  node bin/www
+   70  [code]
+   71  <h2 id="configuring-nginx">Configuring Nginx</h2>
+   72  <p>Now let's open up Nginx config file. As I am on Mac, I can just use nano to start editing the file:</p>
+   73  [code]
+   74  nano /usr/local/etc/nginx/nginx.conf
+   75  node bin/www 
+   76  npm install debug -g
+   77  npm i debug
+   78  node bin/www 
+   79  npm install express -g
+   80  sudo npm install express -g
+   81  node bin/www 
+   82  sudo npm install express-generator -g
+   83  node bin/www 
+   84  curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+   85  sudo apt-get install build-essential
+   86  npm install express -g
+   87  sudo npm install express -g
+   88  npm start
+   89  reboot
+   90  node bin/www 
+   91  sudo rebbot
+   92  sudo reboot
+   93  vi t
+   94  gedit x.txt
+   95  sudo gedit x.txt
+   96  sudo gedit nginx.conf 
+   97  sudo service nginx restart 
+   98  cd ..
+   99  ls
+  100  cd home
+  101  cd smasadeh/
+  102  sudo /etc/init.d/nginx restart
+  103  systemctl status nginx.servcie
+  104  journalctl -xe
+  105  cd demoApp/
+  106  node bin/www 
+  107  sudo npm install express 
+  108  npm audit fix
+  109  sudo npm audit fix
+  110  npm install
+  111  node bin/www 
+  112  sudo apt-get update
+  113  sudo apt-get install nginx
+  114  sudo apt autoremove
+  115  node bin/www 
+  116  ls
+  117  nano /usr/local/etc/nginx/nginx.conf
+  118  sudo apt-get install nginx
+  119  ls
+  120  cd bin/
+  121  ls
+  122  cd ..
+  123  cd /etc/
+  124  ls
+  125  sudo nano /nginx/nginx.config
+  126  cd nginx
+  127  ls
+  128  nanao nginx.conf 
+  129  more nginx.conf 
+  130  vi nginx.conf 
+  131  ls
+  132  more nginx.conf 
+  133  gedit
+  134  openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+  135  cd ..
+  136  ls
+  137  cd ..
+  138  ls
+  139  cd home/
+  140  ls
+  141  cd smasadeh/
+  142  ls
+  143  openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+  144  ls
+  145  sudo cp server.crt /etc/ssl/certs
+  146  ls
+  147  cd /etc/ssl/certs/
+  148  ls
+  149  cd..
+  150  cd ..
+  151  cd private/
+  152  ls
+  153  cd ..
+  154  cd /etc/ssl/private/
+  155  l;s
+  156  ls
+  157  cd ..
+  158  ls
+  159  cd ..
+  160  ls
+  161  cd home/
+  162  cd smasadeh/
+  163  ls
+  164  sudo cp server.key /etc/ssl/private
+  165  sudo gedit nginx.conf 
+  166  sudo gedit /var/www/public/stylesheets/style.css
+  167  cd /var/www/
+  168  ls
+  169  cd html
+  170  ls
+  171  cd ..
+  172  mkdir public
+  173  sudo mkdir public
+  174  ls
+  175  cd public/
+  176  sudo mkdir stylesheets
+  177  cd stylesheets/
+  178  sudo gedit style.css 
+  179  sudo gedit nginx.conf 
+  180  sudo service nginx restart
+  181  ps aux | grep nginx
+  182  sudo service nginx start
+  183  journalctl -xe > a.txt
+  184  more a.txt 
+  185  journalctl -xe > a.txt
+  186  sudo service nginx start
+  187  sudo systemctl status nginx.service
+  188  ps aux | grep nginx
+  189  ps aux | grep nginx :80
+  190  netstat -tulpn | grep :80
+  191  sudo netstat -tulpn | grep :80
+  192  sudo cd netstat -tulpn | grep :80
+  193  cd ..
+  194  ls
+  195  cd root
+  196  sudo cd root
+  197  sudo nginx -t
+  198  sudo service nginx start
+  199  sudo netstat -ntlp | grep LISTEN
+  200  sudo ufw app info 'Nginx Full'
+  201  sudo ufw allow 8080/tcp
+  202  sudo nginx -t
+  203  sudo service nginx restart
+  204  sudo gedit nginx.conf 
+  205  npm install
+  206  npm start
+  207  sudo nginx -t
+  208  sudo service nginx restart
+  209  sudo nginx -t
+  210  sudo service nginx restart
+  211  sudo nginx -t
+  212  sudo service nginx restart
+  213  sudo gedit nginx.conf 
+  214  sudo nginx -t
+  215  sudo service nginx start
+  216  sudo service nginx restart
+  217  sudo systemctl enable nginx
+  218  sudo firewall-cmd --add-service=http
+  219  sudo service nginx restart
+  220  sudo nginx -t
+  221  sudo service nginx restart
+  222  sudo nginx -t
+  223  sudo service nginx restart
+  224  npm start
+  225  sudo apt-get update
+  226  sudo apt-get install software-properties-common
+  227  sudo add-apt-repository universe
+  228  sudo add-apt-repository ppa:certbot/certbot
+  229  sudo apt-get update
+  230  sudo apt-get install certbot python-certbot-nginx
+  231  sudo certbot --nginx
+  232  sudo certbot renew --dry-run
+  233  sudo gedit nginx.conf 
+  234  sudo gedit default 
+  235  npm start
+  236  sudo service nginx restart
+  237  sudo service nginx status
+  238  sudo nginx -t
+  239  sudo service nginx restart
+  240  sudo nginx -t
+  241  sudo service nginx restart
+  242  mongodb-compass
+  243  sudo nginx t
+  244  sudo nginx -t
+  245  sudo service nginx restart
+  246  sudo nginx -t
+  247  sudo service nginx restart
+  248  sudo nginx -t
+  249  sudo service nginx restart
+  250  sudo nginx -t
+  251  sudo service nginx restart
+  252  sudo nginx -t
+  253  sudo service nginx restart
+  254  sudo certbot certonly --preferred-challenges http
+  255  sudo nginx -t
+  256  sudo service nginx restart
+  257  sudo nginx -t
+  258  sudo service nginx restart
+  259  sudo nginx -t
+  260  sudo service nginx restart
+  261  wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
+  262  sudo apt-get install gnupg
+  263  wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
+  264  echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+  265  sudo apt-get update
+  266  sudo apt-get install -y mongodb-org
+  267  echo "mongodb-org hold" | sudo dpkg --set-selections
+  268  echo "mongodb-org-server hold" | sudo dpkg --set-selections
+  269  echo "mongodb-org-shell hold" | sudo dpkg --set-selections
+  270  echo "mongodb-org-mongos hold" | sudo dpkg --set-selections
+  271  echo "mongodb-org-tools hold" | sudo dpkg --set-selections
+  272  sudo service mongod start
+  273  [initandlisten] waiting for connections on port 27017
+  274  mongo
+  275  sudo service mongod start
+  276  netstat -plnt | grep 80
+  277  netstat -plnt | grep 443
+  278  sudo ufw deny 8080
+  279  netstat -plnt | grep 80
+  280  sudo ufw status
+  281  sudo ufw deny 8080/tcp
+  282  sudo ufw status
+  283  sudo fuser -k 8080/tcp
+  284  sudo ufw status
+  285  sudo ufw allow 8080/tcp
+  286  sudo ufw status
+  287  sudo ufw allow 8080
+  288  netstat -plnt | grep 80
+  289  netstat -plnt | grep 443
+  290  sudo ufw allow 8080
+  291  netstat -plnt | grep 80
+  292  sudo ufw deny 8080/tcp
+  293  cd demoApp/
+  294  npm start
+  295  cd ..
+  296  ls
+  297  cd nodetest1/
+  298  npm start
+  299  sudo nginx -t
+  300  sudo service nginx restart
+  301  mo!
+  302  mongodb-compass
+  303  sudo apt update
+  304  apt list --upgradable
+  305  sudo apt upgrade
+  306  sudo lsof -i -P -n | grep LISTEN
+  307  sudo netstat -tulpn | grep LISTEN
+  308  vim /etc/mongod.conf
+  309  sudo apt install vim
+  310  vim /etc/mongod.conf
+  311  sudo vim /etc/mongod.conf
+  312  vim /etc/mongod.conf
+  313  sudo service mongod restart
+  314  iptables -A INPUT -p tcp --dport 27017 -j ACCEPT
+  315  sudo iptables -A INPUT -p tcp --dport 27017 -j ACCEPT
+  316  sudo vim /etc/iptables.firewall.rules
+  317  sudo netstat -tulpn | grep LISTEN
+  318  sudo apt update
+  319  sudo apt upgrade
+  320  cd nodetest1/
+  321  npm start
+  322  ls
+  323  sudo lsof -i -P -n | grep LISTEN
+  324  sudo service mongod restart
+  325  sudo service mongod sttus
+  326  sudo service mongod status
+  327  sudo apt update
+  328  sudo apt upgrade
+  329  exit
+  330  npm start
+  331  ls
+  332  cd nodetest1/
+  333  ls
+  334  npm start
+  335  sudo service mongod sttus
+  336  cd ..
+  337  sudo service mongod sttus
+  338  sudo service mongod status
+  339  sudo service mongod restart
+  340  sudo lsof -i -P -n | grep LISTEN
+  341  cd nodetest1/
+  342  npm start
+  343  sudo lsof -i:22
+  344  sudo lsof -i:80
+  345  sudo ufw allow http
+  346  sudo ufw allow https
+  347  sudo lsof -i:80
+  348  sudo lsof -i:8080
+  349  sudo ufw allow 80
+  350  sudo lsof -i:80
+  351  npm start
+  352  cd 
+  353  sudo ufw allow 80/tcp
+  354  sudo ufw allow 443/tcp
+  355  sudo lsof -i -P -n | grep LISTEN
+  356  sudo lsof -i:80
+  357  sudo lsof -i -P -n | grep LISTEN
+  358  sudo ufw allow 80/tcp
+  359  sudo lsof -i -P -n | grep LISTEN
+  360  sudo ufw deny 80/tcp
+  361  sudo lsof -i -P -n | grep LISTEN
+  362  sudo ufw allow 80/tcp
+  363  sudo lsof -i -P -n | grep LISTEN
+  364  firewall-cmd --zone=public --add-port=80/tcp --permenant
+  365  iptables -f
+  366  iptables -F
+  367  sudo iptables -F
+  368  npm start
+  369  cd nodetest1/
+  370  npm start
+  371  netstat -plnt | grep 80
+  372  sudo netstat -plnt | grep 80
+  373  sudo netstat -ano | grep 80 |grep listen
+  374  sudo netstat -ano | grep 80 |grep LISTEN
+  375  sudo netstat -ano | grep 80 |grep LISTEN apt up
+  376  sudo lsof -i :80
+  377  sudo netstat -lnp
+  378  sudo apt update
+  379  history
+  380  cd nodetest1/
+  381  npm start
+  382  cd nodetest1/
+  383  npm start
+  384  sudo apt update
+  385  sudo apt list --upgradable
+  386  sudo apt update
+  387  sudo apt list --upgradable
+  388  sudo apt upgrade
+  389  sudo netstat -lnp
+  390  sudo lsof -i :80
+  391  sudo ufw allow 80/tcp
+  392  npm start
+  393  netstat -plnt | grep 80
+  394  sudo netstat -plnt | grep 80
+  395  sudo ufw status
+  396  sudo ufw deny 8080
+  397  sudo ufw status
+  398  sudo ufw deny 8080/tcp
+  399  sudo ufw status
+  400  sudo fuser -k 8080/tcp
+  401  sudo ufw status
+  402  sudo service mongod start
+  403  sudo ufw deny  80/tcp
+  404  sudo ufw deny  80
+  405  sudo ufw deny 443
+  406  sudo ufw status
+  407  sudo ufw allow  80
+  408  sudo ufw allow  80/tcp
+  409  sudo ufw allow  8080
+  410  sudo ufw allow  8080/tcp
+  411  sudo ufw allow  443
+  412  sudo ufw allow  443/tcp
+  413  sudo ufw allow  80/tcp
+  414  npm start
+  415  sudo systemctl stop firewalld
+  416  sudo firewall-cmd --state
+  417  sudo systemctl status firewalld
+  418  sudo ufw status
+  419  sudo ufw disable
+  420  sudo systemctl disable ufw
+  421  sudo ufw status
+  422  npm start
+  423  sudo systemctl enable  ufw
+  424  sudo ufw enable
+  425  sudo ufw status
+  426  npm start
+  427  sudo ufw enable
+  428  sudo ufw status
+  429  npm start
+  430  sudo systemctl enable  ufw
+  431  sudo ufw status
+  432  sudo firewall-cmd --state
+  433  sudo ufw allow  80/tcp
+  434  ls
+  435  cd nodetest1/
+  436  ls
+  437  npm start
+  438  reboot
+  439  exit
+  440  cd nodetest1/
+  441  npm start
+  442  sudo ufw status
+  443  sudo ufw disable
+  444  sudo ufw status
+  445  sudo ufw enable
+  446  ls
+  447  cd nodetest1/
+  448  npm start
+  449  ls
+  450  cd nodetest1/
+  451  npm start
+  452  sudo ufw status
+  453  exit
+  454  logout
+  455  history
+  456  sudo apt update
+  457  apt list --upgradable
+  458  sudo apt upgrade
+  459  ls
+  460  cd nodetest1/
+  461  ls
+  462  sudo ufw status
+  463  sudo reboot
+  464  sudo ufw status
+  465  sudo ufw disable
+  466  sudo reboot
+  467  cd nodetest1/
+  468  npm start
+  469  sudo ufw status
+  470  sudo ufw enable
+  471  sudo reboot
+  472  sudo ufw status
+  473  cd nodetest1/
+  474  npm start
+  475  sudo firewall-cmd --state
+  476  history
+  477  sudo ufw 80 allow
+  478  sudo ufw allow 80
+  479  sudo ufw 22 allow
+  480  sudo ufw allow 22
+  481  sudo ufw status
+  482  sudo ufw allow 80
+  483  sudo ufw allow 8080
+  484  sudo ufw allow 443
+  485  sudo ufw status
+  486  history > a.txt
