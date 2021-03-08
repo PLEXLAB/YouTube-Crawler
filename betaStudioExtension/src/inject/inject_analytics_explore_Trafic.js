@@ -1,13 +1,16 @@
 // Clear and show an overlay
 removeOverlay();
 chrome.runtime.sendMessage("deleteVtab");
-displayOverlay("<h3 align='center'>Crawling your channel analytics</h3>");
+try{
+	displayOverlay("<h3 align='center'>Crawling: Videos, Videos-Analytics, Channel-Analytics, <u>Advanced-Channel-Analytics</u></h3><h5 align='center'><br>Please DO NOT close this window<br>This window will be closed automatically once the crawling is finished.</h5>");
+}
+catch{}
 
 var table_list				= [];
 var colsList				= [];
 var updateColsList			= [];
 var newTitles				= [];
-var readyStateChkInterval 	= setInterval(chkDocReady	, 3000);
+var readyStateChkInterval 	= setInterval(chkDocReady	, 5000);
 var tableHeadersInt			= 0;
 var	tableContentsInt		= 0;
 var numberOfCols			= 0;
@@ -64,6 +67,8 @@ function getVideTabBody(){
 			console.log((item.textContent).trim());
 		});
 		firstColFlag	=	true;
+		otherColsVals.push(firstColVals);
+		console.log(firstColVals);
 	}
 	updateColsList.push(colsList[0]);
 	for(var i = 0; i < numberOfCols - 1; i++){
@@ -122,7 +127,7 @@ function getVideTabBody(){
 		var chID   		= urlOFpopup.substring(lastIndex + 8);
 		chID			= chID.substring(0, chID.indexOf('/'));
 		saveChExpAnalytics("lifetime", "traficAna", chID, table_list);
-		setTimeout(function(){chrome.runtime.sendMessage({msg: "getAanalytics_explore_Geography", channelID: chID});}, 3000);
+		setTimeout(function(){chrome.runtime.sendMessage({msg: "getAanalytics_explore_Geography", channelID: chID});}, 5000);
 	}
 }
 console.log("in Explore");

@@ -16,15 +16,13 @@ function querycForms(chID) {
 					console.log(conFhttpReq.responseText);
 				} 
 				else {
-					//console.log(conFhttpReq.responseText);
+					console.log(conFhttpReq.responseText);
 					chrome.runtime.sendMessage({chIDFoundStatus:conFhttpReq.responseText, chIDString: chID});
 				}
 			}
 		}	
 	};
-	conFhttpReq.onerror = function(){
-			chrome.runtime.sendMessage("NetworkError");
-	};
+	//conFhttpReq.onerror = function(){		chrome.runtime.sendMessage("NetworkError");	};
 	conFhttpReq.open('GET', 'https://plexweb.cs.nmsu.edu/conFormMatch/'+chID, true); 
 	conFhttpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 	//conFhttpReq.send('chID='   + encodeURIComponent(chID));

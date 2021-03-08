@@ -1,15 +1,46 @@
 body {
-	padding: 10px 0px 20px 0px;
-	width: 400px;
+	padding: 7px 2px 2px 2px;
+	width: 490px;
+	text-align: center;
 	}
 h1{
-	text-align: center;
-}
-form{
 	text-align: center;
 }
 input[type="submit"]{
 	border: solid thin #000;
 	background: #000;
 	color: #fff;
+}
+
+.banner img{
+	width: 100%;
+	overflow: hidden;	
+}
+
+.extension-header {
+	text-align: center;
+}
+
+.carousel-item{
+	height: 325px;
+	width: 475px
+}
+.carousel-inner {
+	padding: 7px 7px;
+	min-height: 80px;
+	background-color:  rgba(184, 184, 184, 0.438);
+}
+
+.carousel-control-prev-icon, .carousel-control-next-icon {
+	height: 40px;
+}
+
+.footer {
+	color: #fff;
+	background-color: #8C0B42;
+}
+
+.footer img {
+	margin: 10px;
+	width: 8%;
 }

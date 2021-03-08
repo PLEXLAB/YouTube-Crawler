@@ -1,11 +1,60 @@
 <!doctype html>
 <html lang="en">
 <head>
+	<link rel="stylesheet" type="text/css" href="./bootstrap-4.6.0-dist/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="./popup.css">
+
+	<!--Bootstrap Scripts-->
+	<script src="./bootstrap-4.6.0-dist/jquery-3.3.1.min.js"></script>
+	<script src="./bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<h1 id="title">YouTube Channel Analytics</h1>
-	<h3 id="msg">This extension creates a popup window that opens your YouTube channel beta studio to be crawled</h3>	
+	<div class="banner">
+		<!-- add link -->
+		<a href="https://www.cs.nmsu.edu/plexlab/" target="_blank"><img  src="./images/PLEXLabDoorPlate.png" alt=""></a>
+	</div>
+
+	<!--Header-->
+	<div class="extension-header">
+		<h3>YouTube Channel Crawler</h3>
+	</div>
+
+	<!--Carousel-->
+	<div id="extension-steps" class="carousel slide" data-slide="false">
+		<div class="carousel-inner">
+			<div class="carousel-item active">
+				<h3>How to use</h3>
+				<iframe width="360" height="315" src="https://www.youtube.com/embed/JabGw5D71Ko" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+			</div>
+			<div class="carousel-item">
+				<h3>Where is my data?</h3>
+				<a href="https://plexweb.cs.nmsu.edu/">Follow this link</a>
+			</div>
+			<div class="carousel-item">
+				<h3>Questions?</h3>	
+				<p>Contact Dr. Hamilton</p>
+				<p><a href="https://www.cs.nmsu.edu/plexlab/" target="_blank">Plexlab Website</a></p>
+			</div>
+		</div>
+		<a class="carousel-control-prev" href="#extension-steps" role="button" data-slide="prev">
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			<span class="sr-only">Previous</span>
+		</a>
+		<a class="carousel-control-next" href="#extension-steps" role="button" data-slide="next">
+			<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
+	</div>
+	
+	<!--Timer tracker-->
+	<div>
+		<p id='AlarmRuntime'>Last Scan:</p>
+	</div>
+
+	<!--Footer-->
+	<div class="footer">
+		<a href="https://nmsu.edu/" target="_blank"><img src="./images/NMSULogoWhite.svg" alt=""></a> 
+	</div>
 	<script src="./popup.js"></script>
 </body>
 </html>

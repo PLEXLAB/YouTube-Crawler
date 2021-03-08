@@ -1,6 +1,9 @@
 var newTabId 	= -10;
 var windowId 	= -10;
 var vID 		= "" ;
+var todayDate = new Date();
+var start_time = todayDate.setHours(0,0,0,0);
+
 function callback() {
     if (chrome.runtime.lastError) {
         console.log(chrome.runtime.lastError.message);
@@ -9,6 +12,71 @@ function callback() {
     }
 }
 
+// Alarm starts here ... 1440
+chrome.alarms.create("PeriodicAlarm", {
+	when: Date.now(),
+	periodInMinutes: 5
+});
+
+chrome.alarms.onAlarm.addListener(function(alarm) {
+  if (alarm.name === "PeriodicAlarm") 
+  {
+	console.log("Alarm Excuted");
+	console.log(alarm.periodInMinutes);
+	
+	/*chrome.alarms.clear("PeriodicAlarm");
+	chrome.alarms.create("PeriodicAlarm"+Date(), {
+		when: Date.now(),
+		periodInMinutes: 10
+	});
+	*/
+	// Alarm reset here
+	//alarm.periodInMinutes = Math.floor(Math.random() * 180) + 1320;
+	console.log(alarm.periodInMinutes);
+		
+	chrome.browserAction.setBadgeText({text: ''});
+	// URL of the YoutTube beta studio to be first visited in the new popup window
+	const cURL = "https://studio.youtube.com/channel//videos/";
+	chrome.windows.getCurrent(currWin => {
+		// Sepecify the location of the new popup window
+		let newTop = currWin.top + currWin.height + 10000;
+		let newLeft = currWin.left + currWin.width - 10000;
+		// Create a minimized window next to the Windows button in the task bar
+		chrome.windows.create({
+				type    : 'normal',	state	: 'normal'	,
+				focused : false	,	width	: 5			,
+				height	: 10	,	top		: newTop	,
+				left	: newLeft,	url		: cURL		
+			}, function(currentWindow){
+				// Add the extension runtime to the storage
+				chrome.extension.onConnect.addListener(function(port) {
+						console.log("Connected .....");
+					port.onMessage.addListener(function(msg) {
+						console.log("message recieved from popup.js" + msg);
+						port.postMessage(Date.now());
+					});
+				});
+				// Numeric Message containing popup window id of the newly created window sent from popup script
+				windowId = currentWindow.id;
+				chrome.tabs.getAllInWindow(windowId, function(tabs)
+				{
+					if(tabs.length > 1){
+						newTabId = tabs[1].id;
+						console.log(tabs[1].windowType);
+						console.debug(tabs[1].url);
+					}
+					else{
+						newTabId = tabs[0].id;
+						console.debug(tabs[0].url);
+					}
+				});
+			}
+		);
+	});
+  }
+});
+
+// Alarm ends here
 //chrome.browserAction.onClicked.addListener(function(tab){}); for later use
 chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 	if(isNaN(response))
@@ -55,7 +123,7 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 			chrome.tabs.getAllInWindow(sender.tab.windowId, function(tabs){chrome.tabs.remove(tabs[0].id);});
 		}
 		// Message sent from inject script after crawling and saving videos Metadata
-		if(response === "get_single_video_Analytics_lifetime")
+		if(response === "get_Basic_video_Analytics_lifetime")
 		{
 			chrome.storage.sync.get(
 				{list:[]},
@@ -88,52 +156,6 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 				}
 			);
 		}
-		//===================not used
-		// Message sent from inject_analytics script that collects data from week range analytics 
-		if(response === "getAnalytics_4week")
-		{
-			chrome.tabs.create({windowId: windowId, url: 'https://studio.youtube.com/channel/*/analytics/./period-4_weeks'}, 
-				function(tab){
-					chrome.tabs.executeScript(tab.id, {file: "src/inject/jquery-3.3.1.min.js"});
-					chrome.tabs.executeScript(tab.id, {file: "src/inject/overlayScript.js"});
-					chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_chAnalytics_save.js"});
-					chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_analytics_4weeks.js"});
-			});
-		}
-		// Message sent from inject_analytics_4weeks script
-		if(response === "getAnalytics_quarter")
-		{
-			chrome.tabs.create({windowId: windowId, url: 'https://studio.youtube.com/channel/*/analytics/./period-quarter'}, 
-				function(tab){
-					chrome.tabs.executeScript(tab.id, {file: "src/inject/jquery-3.3.1.min.js"});
-					chrome.tabs.executeScript(tab.id, {file: "src/inject/overlayScript.js"});
-					chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_chAnalytics_save.js"});
-					chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_analytics_quarter.js"});
-			});
-		}
-		// Message sent from inject_analytics_quarter script
-		if(response === "getAnalytics_year")
-		{
-			chrome.tabs.create({windowId: windowId, url: 'https://studio.youtube.com/channel/*/analytics/./period-year'}, 
-				function(tab){
-					chrome.tabs.executeScript(tab.id, {file: "src/inject/jquery-3.3.1.min.js"});
-					chrome.tabs.executeScript(tab.id, {file: "src/inject/overlayScript.js"});
-					chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_chAnalytics_save.js"});
-					chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_analytics_year.js"});
-			});
-		}
-		// Message sent from inject_analytics_year script
-		if(response === "getAnalytics_lifetime")
-		{
-			chrome.tabs.create({windowId: windowId, url: 'https://studio.youtube.com/channel/*/analytics/./period-lifetime'}, 
-				function(tab){
-					chrome.tabs.executeScript(tab.id, {file: "src/inject/jquery-3.3.1.min.js"});
-					chrome.tabs.executeScript(tab.id, {file: "src/inject/overlayScript.js"});
-					chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_chAnalytics_save.js"});
-					chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_analytics_lifetime.js"});
-			});
-		}
-		//===================end of not used
 		// Message sent from inject/inject_analytics_lifetime
 		if(response.msg === "getAanalytics_explore_chVideo")
 		{
@@ -202,6 +224,10 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 			}
 			else{
 				newTabId = tabs[0].id;
+				console.log("Just Started");
+				console.log(response);
+				console.log(tabs[0].url);
+				console.log(newTabId);
 				console.debug(tabs[0].url);
 			}
 		});
@@ -215,9 +241,9 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 		} else {
 			if (tab.url.indexOf('https://studio.youtube.com/channel/') != -1 
 				&& tab.url.indexOf('/analytics/') === -1 
-				&& tab.url.indexOf('/videos') != -1)
+				&& tab.url.indexOf('/videos') === -1)
 			{
-				if(newTabId !== -10)
+				if(newTabId != -10)
 				{	
 					chrome.storage.sync.clear();
 					//location.reload();

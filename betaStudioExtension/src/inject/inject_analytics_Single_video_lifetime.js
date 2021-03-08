@@ -1,7 +1,10 @@
 // Clear and show an overlay
 removeOverlay();
 chrome.runtime.sendMessage("deleteVtab");
-displayOverlay("<h3 align='center'>Crawling your channel analytics</h3>");
+try{
+	displayOverlay("<h3 align='center'>Crawling: Videos, <u>Videos-Analytics</u>, Channel-Analytics, Advanced-Channel-Analytics</h3><h5 align='center'><br>Please DO NOT close this window<br>This window will be closed automatically once the crawling is finished.</h5>");
+}
+catch{}
 
 var overview_vAnalytics	= {};
 var reach_vAnalytics	= {};
@@ -187,6 +190,6 @@ function getAud(){
 		console.log(overview_vAnalytics);
 		saveVideoAnalytics(vID, overview_vAnalytics, reach_vAnalytics, eng_vAnalytics, audit_vAnalytics);
 		// msg to reinject the code other videos analytics using videosID
-		setTimeout(function(){chrome.runtime.sendMessage("get_single_video_Analytics_lifetime");}, 3000);
+		setTimeout(function(){chrome.runtime.sendMessage("get_Basic_video_Analytics_lifetime");}, 5000);
 	}
 }

@@ -6,18 +6,23 @@
 	are located in inject_videos_extract scripts
 */
 //=========================================================
-let lastPageFlag 	= false	; // flag used to mark reaching the last page of videos list, will be used to start crawling analytics page
-let conFormCheck	= true	;
+var lastPageFlag 	= false	; // flag used to mark reaching the last page of videos list, will be used to start crawling analytics page
+var conFormCheck	= true	;
 var chID		 	= ""	;
-var readyStateChkInterval 	= setInterval(chkDocReady	, 3000);
-var betaPageCformchk		= setInterval(chkBetaCform	, 3000);
-//var videoLinkChk 			= setInterval(chkVideoLink	, 3000);
-var nextBtnChkClk			= setInterval(chkClkNextBtn , 3000);
+var readyStateChkInterval 	= setInterval(chkDocReady	, 5000);
+try{
+	displayOverlay("<h3 align='center'>Crawling: <u>Videos</u>, Videos-Analytics, Channel_Analytics, Advanced-Channel_Analytics</h3><h5 align='center'><br>Please DO NOT close this window<br>This window will be closed automatically once the crawling is finished.</h5>");
+}
+catch{}
+
+var betaPageCformchk		= setInterval(chkBetaCform	, 5000);
+var videoLinkChk 			= setInterval(chkVideoLink	, 5000);
+var nextBtnChkClk			= setInterval(chkClkNextBtn , 5000);
 
 //=========================================================
 function chkDocReady(){
 	if (document.readyState === "complete") {
-		displayOverlay("<h2 align='center'>Crawling Your Channel</h2>");
+		console.log("Page ready");
 		clearInterval(readyStateChkInterval);
 	}
 }
@@ -46,8 +51,8 @@ function chkBetaCform(){
 //=========================================================
 function chkVideoLink(){
 	// Check if Videos tab does exist, then click the videos tab to access videos list
-	let videosBtn = document.querySelector("#menu-item-1 > paper-icon-item");
-	let videosBtnCaption = document.querySelector("#menu-item-1 > paper-icon-item > div.nav-item-text.style-scope.ytcp-navigation-drawer");
+	let videosBtn = document.querySelector("#menu-paper-icon-item-1");
+	let videosBtnCaption = document.querySelector("#menu-paper-icon-item-1 > div.nav-item-text.style-scope.ytcp-navigation-drawer");
 	videosBtnCaption = videosBtnCaption.innerText;
 	if (videosBtnCaption === "Content" || videosBtnCaption === "Videos")
 	{
@@ -58,29 +63,49 @@ function chkVideoLink(){
 //=========================================================
 function chkClkNextBtn(){
 	// Check the existance of "Next" button on videos page, and keep clicking it till crawling is done
-	removeOverlay();
-	displayOverlay("<h2 align='center'>Crawling Your Channel</h2><h5 align='center'><br>Please DO NOT close this window<br>This window will be closed automatically once the crawling is finished<br>Number of crawled videos: " + totalNoVideos + "</h5>");
-	let nextBtn 		= document.querySelector("#navigate-after");
-	let nextBtnStatus 	= document.querySelector("#navigate-after").getAttribute("aria-disabled");
-	console.log("0");
-	if (nextBtnStatus != "true"){
-		console.log("1");
-		setTimeout(function(){
-				saveMetaData (chID, getVideoTitles(), getVideUrls(), getDate(), getVisibility(), getVideoDescriptions(), getNoViews(), getNoComments(), getOuterHtml_Vis(), getOuterHtml_Mon(), getOuterHtml_Rist());
-				nextBtn.click();
-		}, Math.floor(Math.random() * 4000));
-		lastPageFlag = true;
-	}
-	else{
-		if (lastPageFlag === true || nextBtnStatus === "true"){
-			console.log("2");
-			saveMetaData (chID, getVideoTitles(), getVideUrls(), getDate(), getVisibility(), getVideoDescriptions(), getNoViews(), getNoComments(), getOuterHtml_Vis(), getOuterHtml_Mon(), getOuterHtml_Rist());
-			lastPageFlag = false;
-			// Send message to background to inject the scripit that will crawl the analytics page
-			removeOverlay();
-			//displayOverlay("<h2 align='center'>Crawling Your Channel</h2><h5 align='center'><br>Please DO NOT close this window<br>This window will be closed automatically once the crawling is finished<br>Number of crawled videos: " + totalNoVideos + "</h5>");
-			setTimeout(function(){chrome.runtime.sendMessage("get_single_video_Analytics_lifetime");}, 3000);
-			clearInterval(nextBtnChkClk);
+	let nextBtn 		= "";
+	let nextBtnStatus   = "";
+	try
+	{ 	
+		nextBtn 		= document.querySelector("#navigate-after");
+		nextBtnStatus = document.querySelector("#navigate-after").getAttribute("aria-disabled");
+	
+	
+		console.log("0");
+		if (nextBtnStatus != "true"){
+			console.log("1");
+			setTimeout(function(){
+					saveMetaData (chID, getVideoTitles(), getVideUrls(), getDate(), getVisibility(), getVideoDescriptions(), getNoViews(), getNoComments(), getOuterHtml_Vis(), getOuterHtml_Mon(), getOuterHtml_Rist());
+					//removeOverlay();
+					//displayOverlay("<h2 align='center'>Crawling: <u>Videos</u>, Analytics, Advanced-Analytics</h2><h5 align='center'><br>Please DO NOT close this window<br>This window will be closed automatically once the crawling is finished<br>Number of crawled videos: " + totalNoVideos + "</h5>");
+					nextBtn.click();
+			}, Math.floor(Math.random() * 4000));
+			lastPageFlag = true;
 		}
+		else{
+			if (lastPageFlag === false){ 
+				console.log("2");
+				saveMetaData (chID, getVideoTitles(), getVideUrls(), getDate(), getVisibility(), getVideoDescriptions(), getNoViews(), getNoComments(), getOuterHtml_Vis(), getOuterHtml_Mon(), getOuterHtml_Rist());
+				lastPageFlag = false;
+				// Send message to background to inject the scripit that will crawl the analytics page
+				//removeOverlay();
+				//displayOverlay("<h2 align='center'>Crawling: <u>Videos</u>, Analytics, Advanced-Analytics</h2><h5 align='center'><br>Please DO NOT close this window<br>This window will be closed automatically once the crawling is finished<br>Number of crawled videos: " + totalNoVideos + "</h5>");
+				setTimeout(function(){chrome.runtime.sendMessage("get_Basic_video_Analytics_lifetime");}, 5000);
+				clearInterval(nextBtnChkClk);
+			}else{
+				if (lastPageFlag === true || nextBtnStatus === "false"){
+					console.log("3");
+					saveMetaData (chID, getVideoTitles(), getVideUrls(), getDate(), getVisibility(), getVideoDescriptions(), getNoViews(), getNoComments(), getOuterHtml_Vis(), getOuterHtml_Mon(), getOuterHtml_Rist());
+					lastPageFlag = false;
+					// Send message to background to inject the scripit that will crawl the analytics page
+					//removeOverlay();
+					//displayOverlay("<h2 align='center'>Crawling: <u>Videos</u>, Analytics, Advanced-Analytics</h2><h5 align='center'><br>Please DO NOT close this window<br>This window will be closed automatically once the crawling is finished<br>Number of crawled videos: " + totalNoVideos + "</h5>");
+					setTimeout(function(){chrome.runtime.sendMessage("get_Basic_video_Analytics_lifetime");}, 5000);
+					clearInterval(nextBtnChkClk);
+				}
+			}
 	}
+	}// end of try
+	catch
+	{   console.log("next button is not available");}
 }

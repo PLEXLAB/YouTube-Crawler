@@ -56,6 +56,7 @@ function getVideUrls()
 	if(videoUrls.length > 0){
 		for (var i = 0; i < videoUrls.length; i++) {
 			var vurl = videoUrls[i].getAttribute("href");
+			vurl     = vurl.replace("/edit", "");
 			var temp = vurl.substring(7);
 			var slashIndex = temp.indexOf('/'); 
 			vurl = temp.substring(0, slashIndex != -1 ? slashIndex : temp.length);
@@ -74,6 +75,10 @@ function getDate()
 	if(videoDate.length > 0){
 		for (var i = 0; i < videoDate.length; i++) {
 			let vDate = videoDate[i].innerText;
+			var patt1 = /[0-9][0-9][0-9][0-9]/g;
+			var year  = vDate.match(patt1);
+			var extra = vDate.substring(vDate.indexOf(year)+4)
+			vDate     = vDate.replace(extra, "");
 			vDatesList.push(vDate);
 		}
 	}
@@ -88,7 +93,7 @@ function getVisibility()
 		for (var i = 0; i < videoVis.length; i++) {
 			var temp = videoVis[i].innerText;
 			vVisList.push(temp)
-			console.log(videoVis[i].innerText);
+			//console.log(videoVis[i].innerText);
 		}
 	}
 	return vVisList;
@@ -97,10 +102,12 @@ function getVisibility()
 function getVideoDescriptions()
 {
 	var vDescList = [];
-	let videoDescriptions = document.querySelectorAll("#video-info > div");
+	let videoDescriptions = document.querySelectorAll("#row-container > div.style-scope.ytcp-video-row.cell-body.tablecell-video.floating-column.last-floating-column > ytcp-video-list-cell-video > div.style-scope.ytcp-video-list-cell-video.right-section > div");
 	if(videoDescriptions.length > 0){
 		for (var i = 0; i < videoDescriptions.length; i++) {
-			vDescList.push(videoDescriptions[i].innerText);
+			var tempDesc = videoDescriptions[i].innerText
+			tempDesc     = tempDesc.replace("Add description", "")
+			vDescList.push(tempDesc);
 			//console.log(videoDescriptions[i].innerText);
 		}	
 	}

@@ -4,38 +4,30 @@
 */
 //========================================================================
 let totalNoVideos = 0;
+var vList         = [];
 function saveMetaData(chID, vTitles, vURLS, vDates, vViss, vDescs, vViews, vNoComms, visOuterH, monOuterH, ristOuterH) {
-	
+	console.log("Video save started");
 	var vCount = vTitles.length;
 	var httpReq = new Array(vCount);
 	for(var i = 0; i < vCount; ++i)
 	{		
 		var vVis		    = vViss[i];
-		console.log("*******************************");
-		console.log(vVis);
-		console.log("*******************************");
 		if(vVis == null) continue;	
 		if (!(vVis.indexOf('Public') > -1))	continue;
 		totalNoVideos += 1;
 		var vTitle 		    = vTitles[i];
 		var vURL   		    = vURLS[i];
 		var vID				= vURL.substring(vURL.indexOf("=") + 1);
-		chrome.storage.sync.get(
-			{list:[]},
-			function(data) {
-				console.log(data.list);
-				if(data.list.length > 0){
-					update(data.list, vID);
-				}
-				else{
-					var vList=[vID];
-					chrome.storage.sync.set(
-						{list:vList},
-						function(){console.log("Video ID added to vlist");}
-					);
-				}
-			}
-		);
+		console.log("*******************************");
+		console.log(vID);
+		console.log("*******************************");
+		if(!vList.includes(vID))
+		{
+			vList.push(vID);
+			chrome.storage.sync.set(
+				{'list' : vList}, 
+				function(){console.log("Video ID is added....");});
+		}
 		var vDateStatus     = vDates[i].split("\n");
 		var vDate           = vDateStatus[0];
 		var vStatus         = vDateStatus[1];
@@ -75,7 +67,7 @@ function saveMetaData(chID, vTitles, vURLS, vDates, vViss, vDescs, vViews, vNoCo
 		};*/
 		httpReq[i].open('POST', 'https://plexweb.cs.nmsu.edu/VideosSaveRoute', true);
 		httpReq[i].setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		httpReq[i].send('chID='     + encodeURIComponent(chID)    +
+		httpReq[i].send('chID='     + encodeURIComponent(chID.replace('/videos/upload',''))    +
 						'&todayDate='  + encodeURIComponent(todayDate)  +
 						'&vTitle='  + encodeURIComponent(vTitle)  +
 						'&vURL='    + encodeURIComponent(vURL)    +
@@ -90,18 +82,4 @@ function saveMetaData(chID, vTitles, vURLS, vDates, vViss, vDescs, vViews, vNoCo
 						'&vmonOuterH='   + encodeURIComponent(vmonOuterH)   +
 						'&vristOuterH=' + encodeURIComponent(vristOuterH));	
 	}
-}
-//========================================================================
-// Function to update videoIDs in chrome storage
-function update(vList, vID)
-{
-	if(!vList.includes(vID))
-	{
-		vList.push(vID);
-		chrome.storage.sync.set(
-			{list : vList}, 
-			function(){console.log("Video ID is added to videos list");});
-	}
-	else
-		console.log("A trail to save duplicate video IDs");
 }

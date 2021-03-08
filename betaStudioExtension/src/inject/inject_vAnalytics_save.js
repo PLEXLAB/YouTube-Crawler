@@ -3,6 +3,7 @@
 	The server is located at NMSU.
 */
 function saveVideoAnalytics(vID, overviewList, reachList, engList, audList){
+	var todayDate		= Date.now();
 	var VAhttpReq = new XMLHttpRequest();
 	VAhttpReq.onreadystatechange = function() {
 		if (typeof VAhttpReq !== 'undefined')
@@ -30,6 +31,7 @@ function saveVideoAnalytics(vID, overviewList, reachList, engList, audList){
 	VAhttpReq.open('POST', 'https://plexweb.cs.nmsu.edu/saveVanalytics', true);
 	VAhttpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 	VAhttpReq.send( 'vID='	        + encodeURIComponent(vID)		+
+					'&todayDate='   + encodeURIComponent(todayDate)  +
 					'&overviewAna='	+ JSON.stringify(overviewList)	+
 					'&reachAna='	+ JSON.stringify(reachList)		+
 					'&engAna='		+ JSON.stringify(engList)		+

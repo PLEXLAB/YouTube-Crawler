@@ -27,8 +27,12 @@
 		"tabs",
 		"activeTab",
 		"background", 
-		"storage"
+		"storage",
+		"notifications", 
+		"alarms" 
+
 	],
+	"web_accessible_resources": ["src/inject/NM_State_Mark.png", "src/inject/LightBanner.png"],
 	"content_scripts": [{
 		"matches": [
 			"https://studio.youtube.com/channel/*"

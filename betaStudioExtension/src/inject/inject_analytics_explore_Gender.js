@@ -1,13 +1,16 @@
 // Clear and show an overlay
 removeOverlay();
 chrome.runtime.sendMessage("deleteVtab");
-displayOverlay("<h3 align='center'>Crawling your channel analytics</h3>");
+try{
+	displayOverlay("<h3 align='center'>Crawling: Videos, Videos-Analytics, Channel-Analytics, <u>Advanced-Channel-Analytics</u></h3><h5 align='center'><br>Please DO NOT close this window<br>This window will be closed automatically once the crawling is finished.</h5>");
+}
+catch{}
 
 var table_list				= [];
 var colsList				= [];
 var updateColsList			= [];
 var newTitles				= [];
-var readyStateChkInterval 	= setInterval(chkDocReady	, 3000);
+var readyStateChkInterval 	= setInterval(chkDocReady	, 5000);
 var tableHeadersInt			= 0;
 var	tableContentsInt		= 0;
 var numberOfCols			= 0;
@@ -15,7 +18,7 @@ var numberOfCols			= 0;
 function chkDocReady(){
 	if (document.readyState === "complete") {
 		clearInterval(readyStateChkInterval);
-		tableHeadersInt	= setInterval(getVideoTabHeaders,	3000);
+		tableHeadersInt	= setInterval(getVideoTabHeaders,	5000);
 	}
 }
 
@@ -64,6 +67,7 @@ function getVideTabBody(){
 			console.log((item.textContent).trim());
 		});
 		firstColFlag	=	true;
+		otherColsVals.push(firstColVals);
 	}
 	updateColsList.push(colsList[0]);
 	otherColsVals.push(firstColVals);
@@ -124,8 +128,8 @@ function getVideTabBody(){
 		var chID   		= urlOFpopup.substring(lastIndex + 8);
 		chID			= chID.substring(0, chID.indexOf('/'));
 		saveChExpAnalytics("lifetime", "genderAna", chID, table_list);
-		//setTimeout(function(){chrome.runtime.sendMessage({msg: "channelCrawled", channelID: chID});}, 3000);
-		setTimeout(function(){chrome.runtime.sendMessage("channelCrawled");}, 3000);
+		//setTimeout(function(){chrome.runtime.sendMessage({msg: "channelCrawled", channelID: chID});}, 5000);
+		setTimeout(function(){chrome.runtime.sendMessage("channelCrawled");}, 5000);
 	}
 }
 console.log("in Explore");
