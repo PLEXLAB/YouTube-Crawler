@@ -43,7 +43,9 @@ function getVideoTitles()
 	let videoTitles = document.querySelectorAll("#video-title");
 	if(videoTitles.length > 0){
 		for (var i = 0; i < videoTitles.length; i++) {
-			vTitles.push(videoTitles[i].innerText);
+			if(videoTitles[i].offsetParent !== null){
+				vTitles.push(videoTitles[i].innerText);
+			}
 		}
 	}
 	return vTitles;
@@ -55,14 +57,16 @@ function getVideUrls()
 	let videoUrls = document.querySelectorAll("#video-title");
 	if(videoUrls.length > 0){
 		for (var i = 0; i < videoUrls.length; i++) {
-			var vurl = videoUrls[i].getAttribute("href");
-			vurl     = vurl.replace("/edit", "");
-			var temp = vurl.substring(7);
-			var slashIndex = temp.indexOf('/'); 
-			vurl = temp.substring(0, slashIndex != -1 ? slashIndex : temp.length);
-			vurl = "https://www.youtube.com/watch?v=" + vurl;
-			vURLS.push(vurl);
-			console.log(vurl);
+			if(videoUrls[i].offsetParent !== null){
+				var vurl = videoUrls[i].getAttribute("href");
+				vurl     = vurl.replace("/edit", "");
+				var temp = vurl.substring(7);
+				var slashIndex = temp.indexOf('/'); 
+				vurl = temp.substring(0, slashIndex != -1 ? slashIndex : temp.length);
+				vurl = "https://www.youtube.com/watch?v=" + vurl;
+				vURLS.push(vurl);
+				//console.log(vurl);
+			}
 		}	
 	}
 	return vURLS;
@@ -84,6 +88,23 @@ function getDate()
 	}
 	return vDatesList;
 }
+
+// Get upload status for all videos
+function getStatus()
+{
+	var vStatusList = [];
+	let vStatus = document.querySelectorAll("#row-container > div.style-scope.ytcp-video-row.cell-body.tablecell-date.sortable.column-sorted");
+	if(vStatus.length > 0){
+		for (var i = 0; i < vStatus.length; i++) {
+			let vDate = vStatus[i].innerText;
+			var patt1 = /[0-9][0-9][0-9][0-9]/g;
+			var year  = vDate.match(patt1);
+			var extra = vDate.substring(vDate.indexOf(year)+4)
+			vStatusList.push(extra.trim());
+		}
+	}
+	return vStatusList;
+}
 // Get the visisbility status for all videos such as Private, Public and Unlisted
 function getVisibility()
 {
@@ -98,6 +119,21 @@ function getVisibility()
 	}
 	return vVisList;
 }
+
+// Get the monitization status for all videos 
+function getMonStat()
+{
+	var vMonList = [];
+	let videoMon = document.querySelectorAll("#row-container > div.style-scope.ytcp-video-row.cell-body.tablecell-monetization")
+	if(videoMon.length > 0){
+		for (var i = 0; i < videoMon.length; i++) {
+			var temp = videoMon[i].innerText;
+			vMonList.push(temp)
+		}
+	}
+	return vMonList;
+}
+
 // Get videos descriptions written the by the creator
 function getVideoDescriptions()
 {

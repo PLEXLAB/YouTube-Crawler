@@ -3,6 +3,9 @@ var windowId 	= -10;
 var vID 		= "" ;
 var todayDate = new Date();
 var start_time = todayDate.setHours(0,0,0,0);
+var xBack = [];
+var xBackup = [];
+var prevSender = -1000;
 
 function callback() {
     if (chrome.runtime.lastError) {
@@ -15,7 +18,7 @@ function callback() {
 // Alarm starts here ... 1440
 chrome.alarms.create("PeriodicAlarm", {
 	when: Date.now(),
-	periodInMinutes: 5
+	periodInMinutes: 1440
 });
 
 chrome.alarms.onAlarm.addListener(function(alarm) {
@@ -48,6 +51,8 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
 				height	: 10	,	top		: newTop	,
 				left	: newLeft,	url		: cURL		
 			}, function(currentWindow){
+				//let e = chrome.runtime.lastError;
+				//if(e !== undefined){}
 				// Add the extension runtime to the storage
 				chrome.extension.onConnect.addListener(function(port) {
 						console.log("Connected .....");
@@ -81,6 +86,19 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
 chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 	if(isNaN(response))
 	{
+		console.log("==============");
+		if(response.vIDSave !== undefined)
+		{
+			var temp = response.vIDSave;
+			if(temp.length > 0)
+			{
+				if(!(xBack.includes(temp)))
+				{
+					xBack.push(temp);
+					console.log(xBack);
+				}
+			}
+		}
 		// Message sent from inject_video_save script to tell if the DB server is not available 
 		if(response === "NetworkError")
 		{
@@ -96,6 +114,8 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 		// Message sent from inject_analytics script
 		if(response === "channelCrawled")
 		{
+			xBack = [];
+			xBackup = [];
 			chrome.browserAction.setBadgeText({text: 'Done!'});
 						chrome.windows.get(sender.tab.windowId, function(){
 				if (chrome.runtime.lastError) {
@@ -125,37 +145,44 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 		// Message sent from inject script after crawling and saving videos Metadata
 		if(response === "get_Basic_video_Analytics_lifetime")
 		{
-			chrome.storage.sync.get(
-				{list:[]},
-				function(data) {
-					console.log(data.list);
-					vID = data.list.pop();
-					chrome.storage.sync.set(
-						{list : data.list}, 
-						function(){console.log("Video ID is added to videos list");}
-					);
-					if( vID !== undefined){
-						chrome.tabs.create({windowId: windowId, url: 'https://studio.youtube.com/video/' + vID + '/analytics/./period-lifetime'},
-							function(tab){
-								chrome.tabs.executeScript(tab.id, {file: "src/inject/jquery-3.3.1.min.js"});
-								chrome.tabs.executeScript(tab.id, {file: "src/inject/overlayScript.js"});
-								chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_vAnalytics_save.js"});
-								chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_analytics_Single_video_lifetime.js"});
-						});
-					}
-					else{
-						// Start getting channel analytics after finshing video analytics
-						chrome.tabs.create({windowId: windowId, url: 'https://studio.youtube.com/channel/*/analytics/./period-lifetime'}, 
-							function(tab){
-								chrome.tabs.executeScript(tab.id, {file: "src/inject/jquery-3.3.1.min.js"});
-								chrome.tabs.executeScript(tab.id, {file: "src/inject/overlayScript.js"});
-								chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_chAnalytics_save.js"});
-								chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_analytics_lifetime.js"});
-						});
-					}
+			if(sender.tab.id !== prevSender){
+				prevSender = sender.tab.id;
+				vID = xBack.pop();
+				console.log("Video ID is added to videos list");
+				console.log(!(xBackup.includes(vID)));
+				if( vID !== undefined && !(xBackup.includes(vID))){
+					xBackup.push(vID);
+					chrome.tabs.create({windowId: windowId, url: 'https://studio.youtube.com/video/' + vID + '/analytics/./period-lifetime'},
+						function(tab){
+							chrome.tabs.executeScript(tab.id, {file: "src/inject/jquery-3.3.1.min.js"});
+							chrome.tabs.executeScript(tab.id, {file: "src/inject/overlayScript.js"});
+							chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_vAnalytics_save.js"});
+							chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_analytics_Single_video_lifetime.js"});
+					});
 				}
-			);
+				else{
+					// Start getting channel analytics after finshing video analytics
+					chrome.tabs.create({windowId: windowId, url: 'https://studio.youtube.com/channel/*/analytics/./period-lifetime'}, 
+						function(tab){
+							chrome.tabs.executeScript(tab.id, {file: "src/inject/jquery-3.3.1.min.js"});
+							chrome.tabs.executeScript(tab.id, {file: "src/inject/overlayScript.js"});
+							chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_chAnalytics_save.js"});
+							chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_analytics_lifetime.js"});
+					});
+				}
+			}
 		}
+		// Message sent from inject to save videos from live tab ... need to be reviewed
+		/* if(response.msg === "get_Live_chVideo")
+		{
+			console.log("get_Live_chVideo");
+			chrome.tabs.create({windowId: windowId, url: 'https://studio.youtube.com/channel/' + response.channelID + '/videos/live'}, 												 
+				function(tab){
+					chrome.tabs.executeScript(tab.id, {file: "src/inject/jquery-3.3.1.min.js"});
+					chrome.tabs.executeScript(tab.id, {file: "src/inject/overlayScript.js"});
+					chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_inLive.js"}); 
+			});
+		}*/
 		// Message sent from inject/inject_analytics_lifetime
 		if(response.msg === "getAanalytics_explore_chVideo")
 		{

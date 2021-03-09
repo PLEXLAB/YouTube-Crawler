@@ -112,7 +112,7 @@ function getReach(){
 				{	watchTimeFromImp	= 	(watchTimeFromImp.textContent).trim();	reach_vAnalytics["watchTimeFromImp"]= watchTimeFromImp;	console.log(watchTimeFromImp);	}
 		}
 		clearInterval(reachMetricsInt);
-		engVistTabInt		= setInterval(engVisit		, 1000);
+		engVistTabInt		= setInterval(engVisit		, Math.floor(Math.random() * 15000 + 5000));
 	}
 }
 //Engagement Tab ==============================================================
@@ -121,7 +121,7 @@ function engVisit(){
 	if (engTab !== null){
 		engTab.click();
 		clearInterval(engVistTabInt);
-		engMetricsInt		= setInterval(getEng		, 1000);
+		engMetricsInt		= setInterval(getEng		, Math.floor(Math.random() * 15000 + 5000));
 	}
 }
 //Engagement Tab ==============================================================
@@ -147,7 +147,7 @@ function getEng(){
 				{	avgViewDurPrsnt	=	(reachMetricsPerc[1].textContent).trim();	console.log(avgViewDurPrsnt);	}
 		}
 		clearInterval(engMetricsInt);
-		audienceInt			= setInterval(audVisit		, 1000);
+		audienceInt			= setInterval(audVisit		, Math.floor(Math.random() * 15000 + 5000));
 	}
 }
 //Audeince Tab ==============================================================
@@ -157,7 +157,7 @@ function audVisit(){
 	{
 		audTab.click();
 		clearInterval(audienceInt);
-		audienceMetricsInt	= setInterval(getAud		, 1000);
+		audienceMetricsInt	= setInterval(getAud		, Math.floor(Math.random() * 15000 + 5000));
 	}
 }
 //Audeince Tab ==============================================================
@@ -190,6 +190,6 @@ function getAud(){
 		console.log(overview_vAnalytics);
 		saveVideoAnalytics(vID, overview_vAnalytics, reach_vAnalytics, eng_vAnalytics, audit_vAnalytics);
 		// msg to reinject the code other videos analytics using videosID
-		setTimeout(function(){chrome.runtime.sendMessage("get_Basic_video_Analytics_lifetime");}, 5000);
+		setTimeout(function(){chrome.runtime.sendMessage("get_Basic_video_Analytics_lifetime");}, Math.floor(Math.random() * 15000 + 5000));
 	}
 }

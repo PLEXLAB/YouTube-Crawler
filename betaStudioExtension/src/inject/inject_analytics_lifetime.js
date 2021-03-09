@@ -31,7 +31,7 @@ function getDuration(){
 		console.log(duration.textContent);
 		clearInterval(overviewDurationInt);
 		overview_vAnalytics["duration"] =  duration.textContent;
-		overviewMetricsInt	= setInterval(getOverview	, 10);
+		overviewMetricsInt	= setInterval(getOverview	, Math.floor(Math.random() * 15000 + 5000));
 	}
 }
 //Overview Tab ==============================================================
@@ -50,7 +50,7 @@ function getOverview(){
 		overview_vAnalytics["watchTime"] 	=  overviewWatchTime;
 		overview_vAnalytics["subscribers"] 	=  overviewSubscribers;;
 		clearInterval(overviewMetricsInt);
-		reachVistTabInt		= setInterval(reachVisit	, 1000);
+		reachVistTabInt		= setInterval(reachVisit	, Math.floor(Math.random() * 15000 + 5000));
 	}
 }
 //Reach Tab ==============================================================
@@ -59,7 +59,7 @@ function reachVisit(){
 	if (reachTab !== null){
 		reachTab.click();
 		clearInterval(reachVistTabInt);
-		reachMetricsInt		= setInterval(getReach		, 1000);
+		reachMetricsInt		= setInterval(getReach		, Math.floor(Math.random() * 15000 + 5000));
 	}
 }
 //Reach Tab ==============================================================
@@ -111,7 +111,7 @@ function getReach(){
 				{	watchTimeFromImp	= 	(watchTimeFromImp.textContent).trim();	reach_vAnalytics["watchTimeFromImp"]= watchTimeFromImp;	console.log(watchTimeFromImp);	}
 		}
 		clearInterval(reachMetricsInt);
-		engVistTabInt		= setInterval(engVisit		, 1000);
+		engVistTabInt		= setInterval(engVisit		, Math.floor(Math.random() * 15000 + 5000));
 	}
 }
 //Engagement Tab ==============================================================
@@ -120,7 +120,7 @@ function engVisit(){
 	if (engTab !== null){
 		engTab.click();
 		clearInterval(engVistTabInt);
-		engMetricsInt		= setInterval(getEng		, 1000);
+		engMetricsInt		= setInterval(getEng		, Math.floor(Math.random() * 15000 + 5000));
 	}
 }
 //Engagement Tab ==============================================================
@@ -146,7 +146,7 @@ function getEng(){
 				{	avgViewDurPrsnt	=	(reachMetricsPerc[1].textContent).trim();	console.log(avgViewDurPrsnt);	}
 		}
 		clearInterval(engMetricsInt);
-		audienceInt			= setInterval(audVisit		, 1000);
+		audienceInt			= setInterval(audVisit		, Math.floor(Math.random() * 15000 + 5000));
 	}
 }
 //Audeince Tab ==============================================================
@@ -156,7 +156,7 @@ function audVisit(){
 	{
 		audTab.click();
 		clearInterval(audienceInt);
-		audienceMetricsInt	= setInterval(getAud		, 1000);
+		audienceMetricsInt	= setInterval(getAud		, Math.floor(Math.random() * 15000 + 5000));
 	}
 }
 //Audeince Tab ==============================================================
@@ -185,6 +185,6 @@ function getAud(){
 		var chID   		= urlOFpopup.substring(lastIndex + 8);
 		chID			= chID.substring(0, chID.indexOf('/'));
 		saveChAnalytics("lifetime", chID, overview_vAnalytics, reach_vAnalytics, eng_vAnalytics, audit_vAnalytics);
-		setTimeout(function(){chrome.runtime.sendMessage({msg: "getAanalytics_explore_chVideo", channelID: chID});}, 5000);
+		setTimeout(function(){chrome.runtime.sendMessage({msg: "getAanalytics_explore_chVideo", channelID: chID});}, Math.floor(Math.random() * 15000 + 5000));
 	}
 }
