@@ -1,0 +1,36 @@
+{
+	"name": "YouTube Beta Search Filter",
+	"version": "0.0.2",
+	"manifest_version": 2,
+	"description": "Categorize YouTube political video search results",
+	"homepage_url": "https://github.com/PLEXLAB/youTube-Crawler",
+	"browser_action": {
+		"default_popup": "src/browser_action/popup.html"
+	},
+	"background":{
+		"scripts": [
+			"src/content_scripts/jquery-3.3.1.min.js", 
+			"src/background/background.js"
+		]
+	},
+	"permissions": [
+		"https://www.youtube.com/results?search_query=*",
+		"https://plexweb.cs.nmsu.edu/*",
+		"tabs",
+		"activeTab",
+		"background", 
+		"storage",
+		"notifications", 
+		"alarms" 
+
+	],
+	"content_scripts": [{
+		"matches": [
+			"https://www.youtube.com/results?search_query=*"
+		],
+		"js": [
+			"src/content_scripts/jquery-3.3.1.min.js"
+		],
+		"Content_Security_Policy": "script-src 'self' blob: filesystem: chrome-extension-resource: 'strict-dynamic' 'unsafe-inline' https: 'report-sample' 'nonce-ETAvKsvoXgT+MNdY5u7/TA==' Access-Control-Allow-Origin: *"
+    }]
+}
