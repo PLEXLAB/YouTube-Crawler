@@ -17,6 +17,8 @@ hide(ch_sub_sections);
 var books = document.querySelectorAll("#contents > ytd-video-renderer");
 hide(books);
 
+var content = document.querySelector("#contents");
+content.hidden = true;
 //Create Three lists
 $('<style>															\
 		table{width:100%; border-collapse: collapse; border-style: hidden; z-index:1;}	\
