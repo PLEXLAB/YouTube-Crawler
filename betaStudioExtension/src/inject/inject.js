@@ -11,7 +11,7 @@ var conFormCheck	= true	;
 var chID		 	= ""	;
 var readyStateChkInterval 	= setInterval(chkDocReady	, Math.floor(Math.random() * 15000 + 5000));
 try{
-	displayOverlay("<h3 align='center'>Crawling: <u>Videos</u>, Videos-Analytics, Channel_Analytics, Advanced-Channel_Analytics</h3><h5 align='center'><br>Please DO NOT close this window<br>This window will be closed automatically once the crawling is finished.</h5>");
+	displayOverlay("<h3 align='center'>Crawling: <u>Videos</u>, Videos-Analytics, Channel_Analytics, Advanced-Channel-Analytics, Advanced-Video-Analytics</h3><h5 align='center'><br>Please DO NOT close this window<br>This window will be closed automatically once the crawling is finished.</h5>");
 }
 catch{}
 

@@ -2,7 +2,7 @@
 removeOverlay();
 chrome.runtime.sendMessage("deleteVtab");
 try{
-	displayOverlay("<h3 align='center'>Crawling: Videos, Videos-Analytics, Channel-Analytics, <u>Advanced-Channel-Analytics</u></h3><h5 align='center'><br>Please DO NOT close this window<br>This window will be closed automatically once the crawling is finished.</h5>");
+	displayOverlay("<h3 align='center'>Crawling: Videos, Videos-Analytics, Channel-Analytics, Advanced-Channel-Analytics, <u>Advanced-Video-Analytics</u></h3><h5 align='center'><br>Please DO NOT close this window<br>This window will be closed automatically once the crawling is finished.</h5>");
 }
 catch{}
 
