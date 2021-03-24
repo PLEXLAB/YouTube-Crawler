@@ -5,9 +5,29 @@ var port = chrome.extension.connect({
 port.postMessage("Hi BackGround");
 port.onMessage.addListener(function(msg) {
 	console.log("message recieved" + msg);
-	var d = new Date(msg);
-	var dT= d.toLocaleString();
-	document.getElementById('AlarmRuntime').innerHTML = 'Last Scan: ' + dT;
+	var d 	= new Date(msg);
+	var dT	= d.toLocaleString();
+	var d_Next	= new Date(msg + (24*60*60*1000))
+	var dT_Next	= d_Next.toLocaleString();
+	//document.getElementById('AlarmRuntime').innerHTML = 'Last Scan: ' + dT + '  |  ' + 'Next Scan: ' + dT_Next;
+	
+	let scan = "Last Scan: "
+	let lastScanElement = document.createElement("p");
+	lastScanElement.textContent = '' ;
+	let LastScanTitle = document.createElement("b");
+	LastScanTitle.textContent = scan;
+	lastScanElement.appendChild(LastScanTitle);
+	lastScanElement.appendChild(document.createTextNode(dT));
+	
+	let scan2 = "Next Scan: "
+	let nextScanElement = document.createElement("p");
+	nextScanElement.textContent = '' ;
+	let nextScanTitle = document.createElement("b");
+	nextScanTitle.textContent = scan2;
+	nextScanElement.appendChild(nextScanTitle);
+	nextScanElement.appendChild(document.createTextNode(dT_Next));
+	document.getElementById("AlarmRuntime").appendChild(lastScanElement);
+	document.getElementById("AlarmRuntime").appendChild(nextScanElement);
 });
 
 /*

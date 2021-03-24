@@ -5,8 +5,10 @@ var todayDate = new Date();
 var start_time = todayDate.setHours(0,0,0,0);
 var xBack = [];
 var xBackup = [];
+var xBackup2= [];
+var lastCrawledVid = "";
 var prevSender = -1000;
-
+var lastrunTime = "";
 function callback() {
     if (chrome.runtime.lastError) {
         console.log(chrome.runtime.lastError.message);
@@ -26,7 +28,7 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
   {
 	console.log("Alarm Excuted");
 	console.log(alarm.periodInMinutes);
-	
+	lastrunTime
 	/*chrome.alarms.clear("PeriodicAlarm");
 	chrome.alarms.create("PeriodicAlarm"+Date(), {
 		when: Date.now(),
@@ -39,7 +41,7 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
 		
 	chrome.browserAction.setBadgeText({text: ''});
 	// URL of the YoutTube beta studio to be first visited in the new popup window
-	const cURL = "https://studio.youtube.com/channel//videos/";
+	const cURL = "https://studio.youtube.com/channel/";
 	chrome.windows.getCurrent(currWin => {
 		// Sepecify the location of the new popup window
 		let newTop = currWin.top + currWin.height + 10000;
@@ -58,7 +60,8 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
 						console.log("Connected .....");
 					port.onMessage.addListener(function(msg) {
 						console.log("message recieved from popup.js" + msg);
-						port.postMessage(Date.now());
+						//chrome.alarms.get("PeriodicAlarm", function(a) { console.log("ALARM " + a.scheduledTime); });
+						port.postMessage(alarm.scheduledTime);
 					});
 				});
 				// Numeric Message containing popup window id of the newly created window sent from popup script
@@ -116,6 +119,7 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 		{
 			xBack = [];
 			xBackup = [];
+			xBackup2 = [];
 			chrome.browserAction.setBadgeText({text: 'Done!'});
 						chrome.windows.get(sender.tab.windowId, function(){
 				if (chrome.runtime.lastError) {
@@ -172,8 +176,39 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 				}
 			}
 		}
+		// Message sent from gender channel analytics script
+		if(response === "get_advanced_video_Analytics_lifetime" || response.msg === "get_advanced_video_Analytics_lifetime")
+		{
+			if(sender.tab.id !== prevSender){
+				prevSender = sender.tab.id;
+				vID = xBackup.pop();
+				console.log("Video ID is added to videos list");
+				console.log(!(xBackup2.includes(vID)));
+				if( vID !== undefined && !(xBackup2.includes(vID))){
+					xBackup2.push(vID);
+					lastCrawledVid = vID;
+					chrome.tabs.create({windowId: windowId, url: 'https://studio.youtube.com/video/' + vID + '/analytics/tab-overview/period-default/explore?entity_type=VIDEO&entity_id=gwj0O2owEd8&time_period=lifetime&explore_type=TABLE_AND_CHART&metric=VIEWS&granularity=DAY&t_metrics=VIEWS&t_metrics=WATCH_TIME&t_metrics=AVERAGE_WATCH_TIME&t_metrics=VIDEO_THUMBNAIL_IMPRESSIONS&t_metrics=VIDEO_THUMBNAIL_IMPRESSIONS_VTR&dimension=TRAFFIC_SOURCE_TYPE&o_column=VIEWS&o_direction=ANALYTICS_ORDER_DIRECTION_DESC'},
+						function(tab){
+							chrome.tabs.executeScript(tab.id, {file: "src/inject/jquery-3.3.1.min.js"});
+							chrome.tabs.executeScript(tab.id, {file: "src/inject/overlayScript.js"});
+							chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_vAnalytics_save.js"});
+							chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_Vanalytics_explore_Trafic.js"});
+					});
+				}
+				else{
+					console.log("Finished crawling channel");
+					// Start getting channel analytics after finshing video analytics
+					chrome.tabs.create({windowId: windowId, url: 'https://studio.youtube.com/video/' + lastCrawledVid + '/analytics/tab-overview/period-default/explore?entity_type=VIDEO&entity_id=gwj0O2owEd8&time_period=lifetime&explore_type=TABLE_AND_CHART&metric=VIEWS&granularity=DAY&t_metrics=VIEWS&t_metrics=WATCH_TIME&t_metrics=AVERAGE_WATCH_TIME&dimension=COUNTRY&o_column=VIEWS&o_direction=ANALYTICS_ORDER_DIRECTION_DESC'},
+						function(tab){
+							chrome.tabs.executeScript(tab.id, {file: "src/inject/jquery-3.3.1.min.js"});
+							chrome.tabs.executeScript(tab.id, {file: "src/inject/overlayScript.js"});
+							chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_Vanalytics_finish.js"});
+					});
+				}
+			}
+		}
 		// Message sent from inject to save videos from live tab ... need to be reviewed
-		/* if(response.msg === "get_Live_chVideo")
+		if(response === "get_Live_chVideo")
 		{
 			console.log("get_Live_chVideo");
 			chrome.tabs.create({windowId: windowId, url: 'https://studio.youtube.com/channel/' + response.channelID + '/videos/live'}, 												 
@@ -182,7 +217,7 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 					chrome.tabs.executeScript(tab.id, {file: "src/inject/overlayScript.js"});
 					chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_inLive.js"}); 
 			});
-		}*/
+		}
 		// Message sent from inject/inject_analytics_lifetime
 		if(response.msg === "getAanalytics_explore_chVideo")
 		{

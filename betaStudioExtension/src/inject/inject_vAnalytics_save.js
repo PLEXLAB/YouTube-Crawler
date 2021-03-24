@@ -1,5 +1,5 @@
 /* 
-	This function send a POST request to the db_portal server to save the crawled video's analytics.
+	This function send a POST request to the db_portal server to save the crawled video's basic analytics.
 	The server is located at NMSU.
 */
 function saveVideoAnalytics(vID, overviewList, reachList, engList, audList){
@@ -36,5 +36,40 @@ function saveVideoAnalytics(vID, overviewList, reachList, engList, audList){
 					'&reachAna='	+ JSON.stringify(reachList)		+
 					'&engAna='		+ JSON.stringify(engList)		+
 					'&audAna='		+ JSON.stringify(audList)		
+	);	
+}
+// Save Advanced Analytics
+function saveV_adv_trafficAnalytics(anaCategory, vID, trafficList){
+	var todayDate		= Date.now();
+	var VAdvhttpReq = new XMLHttpRequest();
+	VAdvhttpReq.onreadystatechange = function() {
+		if (typeof VAdvhttpReq !== 'undefined')
+		{		
+			console.log(VAdvhttpReq.responseText);
+			if (VAdvhttpReq.readyState === XMLHttpRequest.DONE) {
+				if (VAdvhttpReq.status == 201) {
+					console.log('successful');
+				} 
+				else {
+					console.log("ERROR: status " + VAdvhttpReq.status);
+				}
+			}
+		}	
+	}; 
+	// Check if the server is not reachable
+	VAdvhttpReq.onerror = function(){
+		chrome.runtime.sendMessage("NetworkError");
+	};
+	VAdvhttpReq.timedout = 10000;
+	VAdvhttpReq.ontimeout = function(e){
+		console.log("XMLHttpRequest is timedout");
+		chrome.runtime.sendMessage("NetworkError");
+	};
+	VAdvhttpReq.open('POST', 'https://plexweb.cs.nmsu.edu/saveVadvAnalytics', true);
+	VAdvhttpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	VAdvhttpReq.send( 'vID='	        + encodeURIComponent(vID)		+
+					'&todayDate='   + encodeURIComponent(todayDate)  +
+					'&anaCategory='   + encodeURIComponent(anaCategory)  +
+					'&trafficList='	+ JSON.stringify(trafficList)		
 	);	
 }

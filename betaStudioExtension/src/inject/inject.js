@@ -65,6 +65,7 @@ function chkClkNextBtn(){
 	// Check the existance of "Next" button on videos page, and keep clicking it till crawling is done
 	let nextBtn 		= "";
 	let nextBtnStatus   = "";
+	let liveBtn			= "";
 	try
 	{ 	
 		nextBtn 		= document.querySelector("#navigate-after");
@@ -90,7 +91,13 @@ function chkClkNextBtn(){
 					// Send message to background to inject the scripit that will crawl the analytics page
 					setTimeout(function(){
 						saveMetaData (chID, getVideoTitles(), getVideUrls(), getDate(), getStatus(), getVisibility(), getMonStat(), getVideoDescriptions(), getNoViews(), getNoComments(), getOuterHtml_Vis(), getOuterHtml_Mon(), getOuterHtml_Rist());
-						chrome.runtime.sendMessage("get_Basic_video_Analytics_lifetime");
+						try
+						{ 	
+							//liveBtn = document.querySelector("#video-list-live-tab")
+							//liveBtn.click();
+						}
+						catch{   console.log("live button is not available");}
+						chrome.runtime.sendMessage("get_Live_chVideo");
 					}, Math.floor(Math.random() * 15000 + 5000));
 					clearInterval(nextBtnChkClk);
 				}
