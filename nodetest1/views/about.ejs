@@ -1,45 +1,141 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<link rel='stylesheet' href='/stylesheets/style.css' />
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	</head>
-	<body>
-	<div>
-		<a style="position: sticky;" href="/home">Home</a>
-		<a style="position: sticky;" 	href="/searchBy">Search</a>
-		<a style="position: sticky;  text-transform: capitalize;" href="/<%=loginStat%>"><%=loginStat%></a>
-		<a style="position: sticky;" href="/about">About</a>
-		<div align="right"><a><%=welcome%></a></div>
+<html lang="en">
+
+<head>
+
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title></title>
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+	<link rel='stylesheet' href='/stylesheets/about.css' />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+	<div class="body-container">
+		<%- include partials/top-nav.ejs %>
+		<div class="body-content">
+			<header class="header">
+				<navbar class="navbar-container">
+					<div class="navbar-leftPane">
+						<ul class="lists-aboutPage">
+							<li class="close-icon" id="close-icon">
+								<i class="fa fa-close"></i>
+							</li>
+							<li><a href="/home">Home</a></li>
+							<li><a href="/searchBy">Search</a></li>
+							<li><a href="/<%=loginStat%>"><%=loginStat%></a> </li>
+							<li class="is-active"><a href="/about">About</a></li>
+						</ul>
+					</div>
+					<div class="navbar-rightPane">
+						<span class="welcome-msg"><%=welcome%></span>
+						<span class="collapsable-icon" id='collapsable-icon'>
+							<i class="fa fa-bars"></i>
+						</span>
+					</div>
+				</navbar>
+			</header>
+
+			<div class="main-content">
+
+				<section class="get">
+				</section>
+				<br>
+				This portal is developed by PLEX lab team. If you want to stop your participation and have all your
+				videos
+				metadata deleted, or if you have any question, please contact:
+
+				<div class="contact-container">
+
+					<div class="left-section">
+
+						<ul>
+							<li>
+								<span class="profile-image">
+									<img src="images/william-image.png" alt="William's Profile image"></span>
+
+								<span class="profile-details">
+									Dr. William Hamilton<br>
+									<span class="profile-details-subcontainer">
+										Assistant Professor<br>
+										Computer Science<br>
+										New Mexico State University<br>
+
+									</span>
+							</li>
+						</ul>
+
+
+					</div>
+
+
+					<div class="right-section">
+
+
+						<ul>
+							<li>
+								<span class="profile-image">
+									<img src="images/saleem-image.png" alt="Saleem's Profile image"></span>
+
+								<span class="profile-details">
+									Saleem Masadeh<br>
+									<span class="profile-details-subcontainer">
+										Graduate Student<br>
+										Computer Science<br>
+										New Mexico State University<br>
+									</span>
+								</span>
+							</li>
+						</ul>
+
+					</div>
+			</div>
+			<div class="email-container">
+				<div class="email-info">
+
+					<h2>Contact Us</h2>
+					<h4>youtubestudy@plexlab.net</h4>
+				</div>
+
+			</div>
+
+		</div>
+		</div>
 	</div>
-    <header>
-		<p><%= title %><br><br><strong>About</strong></p>
-	</header>
-	<section class="get">
-	</section>
-	<br>
-	This portal is developed by PLEX lab team. If you want to stop your participation and have all your videos metadata deleted, or if you have any question, please contact:
-	<ul>
-		<li>
-			Dr. William Hamilton<br>
-			Assistant Professor, <br>
-			Department of Computer Science New Mexico State University<br>
-			<a href="mailto:bill@cs.nmsu.edu">bill@cs.nmsu.edu</a>
-		</li>
-		<br>
-		<li>
-			Saleem Masadeh<br>
-			Graduate Student, <br>
-			Department of Computer Science New Mexico State University<br>
-			New Mexico State University<br>
-			<a href="mailto:saleem@nmsu.edu">saleem@nmsu.edu</a><br>
-		</li>
-	</ul>
-	</body>
-	<br>
-	<br>
-	<div class="footer">&copy; Created By PLEX Lab in New Mexico State University </div>
-	<script>
+	<%- include partials/footer.ejs %>
+
+	<script src="/javascripts/index.js">
+					  
+		   
+	 
+																																										  
+	 
+	  
+						   
+							
+																 
+														 
+	   
+	  
+	  
+					 
+						 
+																 
+								  
+														   
+	   
+	  
 		
+	 
+	 
+																					 
+		 
+  
 	</script>
+</body>
+<script>
+
+</script>
+
 </html>

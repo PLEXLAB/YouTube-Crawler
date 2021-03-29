@@ -3,14 +3,11 @@ var router 		= express.Router();
 var mailer		= require('nodemailer');
 var transporter = mailer.createTransport({
 	host: 'smtp.dreamhost.com',
-	//service: 'gmail',
 	port: 465,
 	secure: true, 
 	auth: {
 		user: 'youtubestudy@plexlab.net',
 		pass: '.Tc:,7?sp,X9Qh:]#fR_'
-		//adamsosaadam@gmail.com',
-		//pass: 'meelaS236868782'
 	}
 });
 
@@ -268,11 +265,11 @@ router.post('/find', function(req, res, next) {
 		var field = req.body.radioField.toString();
 		if(field.indexOf('vTitle') > -1)
 			qcollection.find({chID: req.session.chID, vTitle:  {$regex: ".*"+req.body.Value+".*", $options:"i"}}, {}, function(e, docs) {
-				res.render('find', {title: 'YouTube Crawler Extension: Database Portal' ,"videosMetadata": docs, Value1: "", welcome: req.session.username});
+				res.render('find', {title: 'YouTube Crawler Extension: Database Portal' ,"videosMetadata": docs, Value1: "Welcome", welcome: "Welcome "+ req.session.username});
 			});
 		if(field.indexOf('vVis') > -1)
 			qcollection.find({chID: req.session.chID, vVis:  {$regex: ".*"+req.body.Value+".*", $options:"i"}}, {}, function(e, docs) {
-				res.render('find', {title: 'YouTube Crawler Extension: Database Portal' ,"videosMetadata": docs, Value1: "", welcome: req.session.username});
+				res.render('find', {title: 'YouTube Crawler Extension: Database Portal' ,"videosMetadata": docs, Value1: "Welcome", welcome: "Welcome "+ req.session.username});
 			});	
 		//res.render('index', { title: 'YouTube Crawler Extension: Database Portal' });
 	}
@@ -315,11 +312,13 @@ router.get('/conFormMatch/:chID', function(req, res){
 		if (cformOBJ.length === 0)
 		{	
 			console.log(cformOBJ);
+			console.log("not found");
 			res.status(201).send("not found");
 		}
 		else
 		{	
 			console.log(cformOBJ);
+			console.log("found");
 			res.status(201).send("found");
 		}
 	});
@@ -453,6 +452,7 @@ router.post('/VideosSaveRoute', function(req, res){
 		vDate: 	req.body.vDate,
 		vStatus:req.body.vStatus,
 		vVis: 	req.body.vVis,
+		vMon: 	req.body.vMon,
 		vDesc: 	req.body.vDesc,
 		vView: 	req.body.vView,
 		vNoComm:req.body.vNoComm,
@@ -461,7 +461,7 @@ router.post('/VideosSaveRoute', function(req, res){
 		vristOuterH: req.body.vristOuterH       
 	};
 	// Search if the video record does exist before adding it to the videos collection
-	vcollection.find({chID: req.body.chID, vID: req.body.vID, vDate: req.body.vDate, vStatus:req.body.vStatus, vView: req.body.vView, vNoComm: req.body.vNoComm, vvisOuterH: req.body.vvisOuterH,	vmonOuterH: req.body.vmonOuterH, vristOuterH: req.body.vristOuterH}).then(function(v){
+	vcollection.find({chID: req.body.chID, vID: req.body.vID, vDate: req.body.vDate, vMon: req.body.vMon, vStatus:req.body.vStatus, vView: req.body.vView, vNoComm: req.body.vNoComm}).then(function(v){
   if(v.length !== 0)
 		{	
 			//console.log(v);
@@ -484,6 +484,7 @@ router.post('/saveVanalytics', function(req, res){
 	var va_collection = va_db.get('videos_analytics');
 	var va_Rec = {
 		vID: 			req.body.vID,
+		todayDate: Date(req.body.todayDate),
 		overviewAna: 	req.body.overviewAna,
 		reachAna: 		req.body.reachAna,
 		engAna: 		req.body.engAna,

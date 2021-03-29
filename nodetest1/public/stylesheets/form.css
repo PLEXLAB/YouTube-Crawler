@@ -1,0 +1,73 @@
+
+.login-form {
+    text-align: center;
+    padding-top: 30px;
+
+}
+
+.login-form input{
+    border: none;
+    outline: none;
+    background-color: #222430;
+    width: 100%;
+    border-bottom: 1px solid white;
+    line-height: 55px;
+    color: white !important;
+    padding: 0 20px;
+        
+}
+
+.signin-button{
+    background-color: #292d3e;
+    color: white;
+    margin-top: 10%;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    outline:none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.account-related{
+    width: 100%;
+    padding: 20px;
+    font-size: 0.7em;
+    padding-bottom: 20px;
+}
+
+.links-restoreAccount {
+    width: 100%;
+    padding: 25px;
+    font-size: 0.7em;
+    padding-bottom: 20px;
+    margin: auto;
+    text-align: center;
+}
+
+.create-account{
+    float: left;
+}
+
+.restore-account{
+    float: right;
+}
+
+.form-container{
+    padding: 15px;
+}
+
+
+.loginForm-parent {
+    margin: 0 auto;
+    border-radius: 5px;
+    border: 1px solid #e5e2e2;
+}
+
+h3{
+    text-align: center;
+}
+
+.account-related-links .login{
+    
+}

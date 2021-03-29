@@ -11,6 +11,21 @@ var indexRouter 	= require('./routes/index');
 var usersRouter 	= require('./routes/users');
 var app = express();
 //=================================================
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+//Whenever someone connects this gets executed
+io.on('connection', function(socket) {
+   console.log('A user connected');
+
+   //Whenever someone disconnects this piece of code executed
+   socket.on('disconnect', function () {
+      console.log('A user disconnected');
+   });
+});
+http.listen(3000, function() {
+   console.log('listening on *:3000');
+});
+// End of socet io
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // view engine setup
@@ -23,7 +38,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({secret:"secSaleem", resave: false, saveUninitialized: true}));
 app.use(express.static(path.join(__dirname, 'public')));
-
+// to solve an issue with CROS
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
 // Make our db accessible to our router
 app.use(function(req,res,next){
 	req.db = db;

@@ -1,39 +1,89 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<link rel='stylesheet' href='/stylesheets/style.css' />
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	</head>
-	<body>
-		<div>
-			<a style="position: sticky;" 	href="/home">Home</a>
-			<a style="position: sticky;" 	href="/searchBy">Search</a>
-			<a style="position: sticky;  text-transform: capitalize;" href="/<%=loginStat%>"><%=loginStat%></a>
-			<a style="position: sticky;" 	href="/about">About</a>	
-			<div align="right"><a><%=welcome%></a></div>
+<html lang="en">
+
+<head>
+	
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title></title>
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+	<link rel='stylesheet' href='/stylesheets/index.css' />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+	<div class="body-container">
+		<%- include partials/top-nav.ejs %>
+		<div class="body-content">
+			<header class="header">
+				<navbar class="navbar-container">
+					<div class="navbar-leftPane">
+						<ul class="lists">
+							<li class="close-icon" id="close-icon">
+								<i class="fa fa-close"></i>
+							</li>
+							<li class="is-active"><a href="/home">Home</a></li>
+							<li><a href="/searchBy">Search</a></li>
+							<li><a href="/<%=loginStat%>"><%=loginStat%></a> </li>
+							<li><a href="/about">About</a></li>
+						</ul>
+					</div>
+					<div class="navbar-rightPane">
+
+						<!-- <div align="right"><a><%=welcome%></a></div> -->
+
+						<span class="welcome-msg"><%=welcome%></span>
+						<span class="collapsable-icon" id='collapsable-icon'>
+							<i class="fa fa-bars"></i>
+						</span>
+					</div>
+				</navbar>
+			</header>
+
+
+			<div class="main-content">
+				<div class="main-container">
+					<div class="video-container">
+							<iframe class="index-video" src="https://www.youtube.com/embed/JabGw5D71Ko" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+						</iframe>
+					</div>
+
+					<div class="paragraph-container">
+						<section class="get">
+							<div class="paragraph-content">
+								<p>
+									This Database portal has been developed at PLEX lab in NMSU.The main goal of the
+									portal is to
+									achieve high level of transparency between YouTube creators
+									and PLEX lab research team. It allows the creators to interact with the data crawled
+									from their
+									channels by performing two types of operations, Search and Delete.
+									Creators can access the metadata of their channels by loging to the portal using the
+									ID sent to
+									them after filling the consent form.
+									Search operation can be performed one of the video attributes, video title or video
+									visibility such as public or private.
+									If the creator decides not to share any video metadat, he can use Delete operation.
+									It
+									can be done by clicking a trash symbol next to any video record.
+								</p>
+							</div>
+							</br>
+							<div class="consent-form">
+								<a href="files/consent_form.pdf" target="_blank" class="">Consent form</a>
+							</div>
+						</section>
+					</div>
+
+				</div>
+			</div>
 		</div>
-		<header>
-			<p><%= title %><br><br><strong>Home</strong></p>
-		</header>
-		<section class="get">
-			<p> 
-				This Database portal has been developed at PLEX lab in NMSU. 
-				The main goal of the portal is to achieve high level of transparency between YouTube creators 
-				and PLEX lab research team. It allows the creators to interact with the data 
-				crawled from their channels by performing two types of operations, Search and Delete.
-				Creators can access the metadata of their channels by loging to the portal using the 
-				ID sent to them after filling the consent form.
-			</p>
-			<p>
-				Search operation can be performed one of the video attributes, video title or video 
-				visibility such as public or private.
-				If the creator decides not to share any video metadat, he can use Delete operation. It 
-				can be done by clicking a trash symbol next to any video record.
-			</p>
-			<br>
-		</section>
-	</body>
-	<br>
-	<br>
-	<div class="footer">&copy; Created By PLEX Lab in New Mexico State University </div>
+	</div>
+	<%- include partials/footer.ejs %>
+
+	<script src="/javascripts/index.js"></script>
+	<script src = "/javascripts/socket.io.js"></script>
+	<script> var socket = io(); </script>
+</body>
+
 </html>

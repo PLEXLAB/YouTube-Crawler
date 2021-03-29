@@ -1,0 +1,30 @@
+
+.get {
+    margin: 0 5%;
+    text-align: justify;
+    padding-bottom: 25px;
+}
+
+.welcome-msg {
+    padding: 20px;
+}
+
+.index-video{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 90%;
+    height: 90%;
+    margin: 0 5%; 
+    margin-top: 3%;
+}
+
+.index-video:focus{
+    outline: none;
+}
+
+.video-container{
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+}
