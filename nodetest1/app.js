@@ -11,21 +11,7 @@ var indexRouter 	= require('./routes/index');
 var usersRouter 	= require('./routes/users');
 var app = express();
 //=================================================
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-//Whenever someone connects this gets executed
-io.on('connection', function(socket) {
-   console.log('A user connected');
 
-   //Whenever someone disconnects this piece of code executed
-   socket.on('disconnect', function () {
-      console.log('A user disconnected');
-   });
-});
-http.listen(3000, function() {
-   console.log('listening on *:3000');
-});
-// End of socet io
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // view engine setup
