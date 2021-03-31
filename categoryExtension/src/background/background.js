@@ -6,4 +6,4 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 	{
 		chrome.tabs.executeScript({file: "src/content_scripts/inject_search_results.js"});
 	}
-})
+});
