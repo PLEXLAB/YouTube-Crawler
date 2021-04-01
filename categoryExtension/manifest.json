@@ -24,12 +24,14 @@
 		"alarms" 
 
 	],
+	"web_accessible_resources": ["src/content_scripts/chClass.json"],
 	"content_scripts": [{
 		"matches": [
 			"https://www.youtube.com/results*"
 		],
 		"js": [
-			"src/content_scripts/jquery-3.3.1.min.js"
+			"src/content_scripts/jquery-3.3.1.min.js",
+			"src/content_scripts/helper.js"
 		],
 		"Content_Security_Policy": "script-src 'self' blob: filesystem: chrome-extension-resource: 'strict-dynamic' 'unsafe-inline' https: 'report-sample' 'nonce-ETAvKsvoXgT+MNdY5u7/TA==' Access-Control-Allow-Origin: *"
     }]

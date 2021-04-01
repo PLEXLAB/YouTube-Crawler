@@ -11,6 +11,7 @@ var indexRouter 	= require('./routes/index');
 var usersRouter 	= require('./routes/users');
 var app = express();
 //=================================================
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // view engine setup
@@ -23,7 +24,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({secret:"secSaleem", resave: false, saveUninitialized: true}));
 app.use(express.static(path.join(__dirname, 'public')));
-
+// to solve an issue with CROS
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
 // Make our db accessible to our router
 app.use(function(req,res,next){
 	req.db = db;

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 	<head>
 		<link rel='stylesheet' href='/stylesheets/style.css' />
@@ -35,4 +35,107 @@
 	<br>
 	<br>
 	<div class="footer">&copy; Created By PLEX Lab in New Mexico State University </div>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title></title>
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+	<link rel='stylesheet' href='/stylesheets/form.css' />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+	<div class="body-container">
+		<%- include partials/top-nav.ejs %>
+		<div class="body-content">
+			<header class="header">
+				<navbar class="navbar-container">
+					<div class="navbar-leftPane">
+						<ul class="lists-aboutPage">
+							<li class="close-icon" id="close-icon">
+								<i class="fa fa-close"></i>
+							</li>
+							<li><a href="/home">Home</a></li>
+							<li><a href="/searchBy">Search</a></li>
+							<li class="is-active"><a href="/<%=loginStat%>"><%=loginStat%></a> </li>
+							<li><a href="/about">About</a></li>
+						</ul>
+					</div>
+					<div class="navbar-rightPane">
+						<span class="welcome-msg">Welcome</span>
+						<span class="collapsable-icon" id='collapsable-icon'>
+							<i class="fa fa-bars"></i>
+						</span>
+					</div>
+				</navbar>
+			</header>
+
+			<div class="main-content">
+				</br></br>
+				<section class="get">
+					<div class="loginForm-parent">
+
+						<div class="form-container">
+
+							<h3>Restore Account</h3>
+
+							<div class="error-message">
+								<div class="message-content"><%=error1%> </div>
+							</div>
+							<div class="success-message">
+								<div class="message-content"><%=success%> </div>
+							</div>
+
+							<div class="form-fields">
+								<form action="/restore" method="get" class="login-form" enctype="multipart/form-data">
+
+									<div class="form-element">
+										<input type="text" id="username" name="username" placeholder="Username"
+											autocomplete="off" required>
+									</div>
+									</br>
+									<div class="form-element">
+										<input type="text" id="email" name="email" placeholder="Email"
+											autocomplete="off" required>
+									</div>
+
+									<div class="form-element">
+										<button type="submit" value="Submit" class="signin-button">Reset
+											Password</button>
+									</div>
+								</form>
+							</div>
+
+
+							<div class="links-restoreAccount">
+								<span class="login">
+									<a href="/login">Back to Login?</a>
+								</span>
+
+							</div>
+
+						</div>
+
+
+				</section>
+
+				</br>
+				</br>
+
+			</div>
+		</div>
+	</div>
+	<%- include partials/footer.ejs %>
+	<!-- <footer class="footer">&copy; Created By PLEX Lab in New Mexico State University </footer> -->
+	<script src="/javascripts/index.js">
+	</script>
+</body>
+
 </html>

@@ -1,0 +1,13 @@
+[{
+  "_id": {
+    "$oid": "605cb0ca5d2639d653155777"
+  },
+  "ChName": "cnn",
+  "ChType": "Authoritative"
+},{
+  "_id": {
+    "$oid": "605cb10b5d2639d653155778"
+  },
+  "ChName": "fox",
+  "ChType": "other"
+}]

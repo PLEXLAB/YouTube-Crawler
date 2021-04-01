@@ -43,43 +43,50 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
 	// URL of the YoutTube beta studio to be first visited in the new popup window
 	const cURL = "https://studio.youtube.com/channel/";
 	chrome.windows.getCurrent(currWin => {
-		// Sepecify the location of the new popup window
-		let newTop = currWin.top + currWin.height + 10000;
-		let newLeft = currWin.left + currWin.width - 10000;
-		// Create a minimized window next to the Windows button in the task bar
-		chrome.windows.create({
-				type    : 'normal',	state	: 'normal'	,
-				focused : false	,	width	: 5			,
-				height	: 10	,	top		: newTop	,
-				left	: newLeft,	url		: cURL		
-			}, function(currentWindow){
-				//let e = chrome.runtime.lastError;
-				//if(e !== undefined){}
-				// Add the extension runtime to the storage
-				chrome.extension.onConnect.addListener(function(port) {
-						console.log("Connected .....");
-					port.onMessage.addListener(function(msg) {
-						console.log("message recieved from popup.js" + msg);
-						//chrome.alarms.get("PeriodicAlarm", function(a) { console.log("ALARM " + a.scheduledTime); });
-						port.postMessage(alarm.scheduledTime);
+		if(chrome.runtime.lastError) {
+			// Something went wrong
+			console.log("Whoops.. " + chrome.runtime.lastError.message);
+		}
+		else{
+			
+			// Sepecify the location of the new popup window
+			let newTop = currWin.top + currWin.height + 10000;
+			let newLeft = currWin.left + currWin.width - 10000;
+			// Create a minimized window next to the Windows button in the task bar
+			chrome.windows.create({
+					type    : 'normal',	state	: 'normal'	,
+					focused : false	,	width	: 5			,
+					height	: 10	,	top		: newTop	,
+					left	: newLeft,	url		: cURL		
+				}, function(currentWindow){
+					//let e = chrome.runtime.lastError;
+					//if(e !== undefined){}
+					// Add the extension runtime to the storage
+					chrome.extension.onConnect.addListener(function(port) {
+							console.log("Connected .....");
+						port.onMessage.addListener(function(msg) {
+							console.log("message recieved from popup.js" + msg);
+							//chrome.alarms.get("PeriodicAlarm", function(a) { console.log("ALARM " + a.scheduledTime); });
+							port.postMessage(alarm.scheduledTime);
+						});
 					});
-				});
-				// Numeric Message containing popup window id of the newly created window sent from popup script
-				windowId = currentWindow.id;
-				chrome.tabs.getAllInWindow(windowId, function(tabs)
-				{
-					if(tabs.length > 1){
-						newTabId = tabs[1].id;
-						console.log(tabs[1].windowType);
-						console.debug(tabs[1].url);
-					}
-					else{
-						newTabId = tabs[0].id;
-						console.debug(tabs[0].url);
-					}
-				});
-			}
-		);
+					// Numeric Message containing popup window id of the newly created window sent from popup script
+					windowId = currentWindow.id;
+					chrome.tabs.getAllInWindow(windowId, function(tabs)
+					{
+						if(tabs.length > 1){
+							newTabId = tabs[1].id;
+							console.log(tabs[1].windowType);
+							console.debug(tabs[1].url);
+						}
+						else{
+							newTabId = tabs[0].id;
+							console.debug(tabs[0].url);
+						}
+					});
+				}
+			);
+		}	
 	});
   }
 });
