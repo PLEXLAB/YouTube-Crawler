@@ -10,7 +10,7 @@ $("<div id='overlay'><h1>Filtering...</h1></div>").css({
 	"text-align": "left",
 	"background-color": "rgba(128,128,128, 0.5)",
 	"color": "#E8E8E8"
-}).appendTo("#header-container")
+}).appendTo("#page-manager")
 
 var scrollInterval = setInterval(function () {
 

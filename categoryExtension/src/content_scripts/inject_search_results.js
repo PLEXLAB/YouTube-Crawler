@@ -29,7 +29,7 @@ fetch(url)
 		content.hidden = true;
 
 		//remove the "filtering..." overlay
-		$("overlay").remove();
+		$("#overlay").remove();
 
 		//Create Three lists
 		$('<style>															\
