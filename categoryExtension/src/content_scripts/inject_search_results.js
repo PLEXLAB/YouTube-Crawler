@@ -1,4 +1,4 @@
-var h = new HashTable({})
+let h = new HashTable({})
 
 const url = chrome.runtime.getURL('src/content_scripts/chClass.json');
 fetch(url)
@@ -11,25 +11,22 @@ fetch(url)
 		var class3 = "Others";
 
 		var videos_g1 = document.querySelectorAll("#items > ytd-video-renderer");
-		hide(videos_g1)
+		//hide(videos_g1)
 
 		var videos_g2 = document.querySelectorAll("#dismissible");
-		hide(videos_g2);
+		//hide(videos_g2);
 
 		var ch_sub_sections = document.querySelectorAll("#content-section");
-		hide(ch_sub_sections);
+		//hide(ch_sub_sections);
 
 		var playList_sections = document.querySelectorAll("#contents > ytd-playlist-renderer");
-		hide(ch_sub_sections);
+		//hide(ch_sub_sections);
 
 		var books = document.querySelectorAll("#contents > ytd-video-renderer");
-		hide(books);
+		//hide(books);
 
 		var content = document.querySelector("#contents");
-		content.hidden = true;
-
-		//remove the "filtering..." overlay
-		$("#overlay").remove();
+		//content.hidden = true;
 
 		//Create Three lists
 		$('<style>															\
@@ -42,7 +39,7 @@ fetch(url)
 			'<col width="33%"/><col width="33%"/><col width="33%"/>' +
 			'<tr><th>' + class1 + '</th><th>' + class2 + '</th><th>' + class3 + '</th></tr>' +
 			'<tr><td><div class = "' + class1 + '"></div></td><td><div class = "' + class2 + '"></div></td><td><div class = "' + class3 + '"></div></td></tr>' +
-			+'</table>').appendTo("#header-container");
+			+'</table>').appendTo("#overlay");
 
 		//Add one video to each list... needs a loop over the list of collected videos
 		for (i = 0; i < 4; i++) {

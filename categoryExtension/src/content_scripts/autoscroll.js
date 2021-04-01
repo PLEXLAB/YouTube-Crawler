@@ -1,19 +1,7 @@
 var notChangedStepsCount = 0;
-
-$("<div id='overlay'><h1>Filtering...</h1></div>").css({
-	"position": "fixed",
-	"width": "100%",
-	"height": "100%",
-	"align": "center",
-	"z-index": 10000,
-	"vertical-align": "middle",
-	"text-align": "left",
-	"background-color": "rgba(128,128,128, 0.5)",
-	"color": "#E8E8E8"
-}).appendTo("#page-manager")
-
+displayOverlay("Filtering...");
+var v_list = [];
 var scrollInterval = setInterval(function () {
-
 	var element = document.querySelector(".element-selector");
 	if (element) {
 		// element found
@@ -32,7 +20,10 @@ var scrollInterval = setInterval(function () {
 		// waiting for possible extension (autoload) of the page
 		notChangedStepsCount++;
 	}
-}, 100);
+	
+}, 3000);
+
+
 
 
 

@@ -27,7 +27,7 @@
 	"web_accessible_resources": ["src/content_scripts/chClass.json"],
 	"content_scripts": [{
 		"matches": [
-			"https://www.youtube.com/results*"
+			"https://www.youtube.com/results?search_query=*"
 		],
 		"js": [
 			"src/content_scripts/jquery-3.3.1.min.js",

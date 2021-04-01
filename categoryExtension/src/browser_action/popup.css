@@ -1,6 +1,6 @@
 body {
 	padding: 7px 2px 2px 2px;
-	width: 490px;
+	width: 300px;
 	text-align: center;
 	}
 h1{
@@ -23,15 +23,21 @@ p{
 .extension-header {
 	text-align: center;
 }
-
+.extension-header > h3 {
+	font-size:20px;
+}
+}
 .carousel-item{
-	height: 315px;
-	width: 475px
+	height: 250px;
+	width: 150px
 }
 .carousel-inner {
-	padding: 7px 7px;
-	min-height: 90px;
+	padding: 5px 7px;
+	min-height: 150px;
 	background-color:  rgba(184, 184, 184, 0.438);
+}
+.carousel-inner > h3 {
+  margin: 0 auto;
 }
 
 .carousel-control-prev-icon, .carousel-control-next-icon {
@@ -44,6 +50,6 @@ p{
 }
 
 .footer img {
-	margin: 10px;
-	width: 8%;
+	margin: 0px;
+	width: 15%;
 }
