@@ -1,12 +1,57 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./bootstrap-4.6.0-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="./popup.css">
+
+    <!--Bootstrap Scripts-->
+    <script src="./bootstrap-4.6.0-dist/jquery-3.3.1.min.js"></script>
+    <script src="./bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
 </head>
+
 <body>
-    <h1>YouTube Filter Search</h1>
+    <div class="banner">
+        <!-- add link -->
+        <a href="https://www.cs.nmsu.edu/plexlab/" target="_blank"><img src="./images/PLEXLabDoorPlate.png" alt=""></a>
+    </div>
+
+    <!--Header-->
+    <div class="extension-header">
+        <h3>YouTube Search Term Filter</h3>
+    </div>
+
+    <!--Carousel-->
+    <div id="extension-steps" class="carousel slide" data-slide="false">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <h3>How to use</h3>
+                <p>Navigate to YouTube, search for a term, run this extension</p>
+            </div>
+            <div class="carousel-item">
+                <h3>Questions?</h3>
+                <p>Contact Dr. Hamilton</p>
+                <p><a href="https://www.cs.nmsu.edu/plexlab/" target="_blank">Plexlab Website</a></p>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#extension-steps" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#extension-steps" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+
+    <!--Timer tracker-->
+    <div id='AlarmRuntime' style="font-size:'3px';"></div>
+
+    <!--Footer-->
+    <div class="footer">
+        <a href="https://nmsu.edu/" target="_blank"><img src="./images/NMSULogoWhite.svg" alt=""></a>
+    </div>
     <script src="./popup.js"></script>
 </body>
+
 </html>

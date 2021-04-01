@@ -26,7 +26,7 @@
 	],
 	"content_scripts": [{
 		"matches": [
-			"https://www.youtube.com/results?search_query=*"
+			"https://www.youtube.com/results*"
 		],
 		"js": [
 			"src/content_scripts/jquery-3.3.1.min.js"
