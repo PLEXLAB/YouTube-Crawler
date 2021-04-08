@@ -1,0 +1,67 @@
+[{
+  "_id": {
+    "$oid": "6065770230c83ff9b74a9713"
+  },
+  "day": "day1",
+  "positive": "30",
+  "negative": "20",
+  "neutral": "50",
+  "media": "100",
+  "political": "50",
+  "controversial": "70"
+},{
+  "_id": {
+    "$oid": "6065770230c83ff9b74a9714"
+  },
+  "day": "day2",
+  "positive": "40",
+  "negative": "10",
+  "neutral": "40",
+  "media": "80",
+  "political": "60",
+  "controversial": "80"
+},{
+  "_id": {
+    "$oid": "6065770230c83ff9b74a9715"
+  },
+  "day": "day3",
+  "positive": "35",
+  "negative": "25",
+  "neutral": "60",
+  "media": "60",
+  "political": "55",
+  "controversial": "65"
+},{
+  "_id": {
+    "$oid": "6065770230c83ff9b74a9716"
+  },
+  "day": "day4",
+  "positive": "20",
+  "negative": "15",
+  "neutral": "70",
+  "media": "50",
+  "political": "45",
+  "controversial": "80"
+},{
+  "_id": {
+    "$oid": "6065770230c83ff9b74a9718"
+  },
+  "day": "day6",
+  "positive": "25",
+  "negative": "45",
+  "neutral": "65",
+  "media": "100",
+  "political": "70",
+  "controversial": "85"
+},{
+  "_id": {
+    "$oid": "6065770230c83ff9b74a9719"
+  },
+  "day": "day7",
+  "positive": "65",
+  "negative": "20",
+  "neutral": "20",
+  "media": "90",
+  "political": "60",
+  "controversial": "55"
+}]

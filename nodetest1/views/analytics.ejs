@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/analytics.css' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <div class="body-container">
+        <%- include partials/top-nav.ejs %>
+        <div class="body-content">
+            <header class="header">
+                <navbar class="navbar-container">
+                    <div class="navbar-leftPane">
+                        <ul class="lists-aboutPage">
+                            <li class="close-icon" id="close-icon">
+                                <i class="fa fa-close"></i>
+                            </li>
+                            <li><a href="/home">Home</a></li>
+                            <li><a href="/searchBy">Search</a></li>
+                            <li><a href="/<%=loginStat%>"><%=loginStat%></a> </li>
+                            <li class="is-active"><a href="/analytics">Analytics</a></li>
+                            <li><a href="/about">About</a></li>
+                        </ul>
+                    </div>
+                    <div class="navbar-rightPane">
+                        <span class="welcome-msg">Welcome</span>
+                        <span class="collapsable-icon" id='collapsable-icon'>
+                            <i class="fa fa-bars"></i>
+                        </span>
+                    </div>
+                </navbar>
+            </header>
+
+            <div class="main-content">
+
+                <section class="get">
+                </section>
+                <br>
+
+                <div class="analytics-container">
+
+                    <div class="left-section">
+
+                        <ul>
+                            <li>
+                                <span class="chart">
+                                    <h4>Watched Videos Sentiment Distribution</h4>
+                                    <br>
+                                    <%  
+                                    var data1 = '' 
+                                    data1 = '<label id ="plotdata" hidden=true>'+JSON.stringify(data)+'</label>'                                  
+                                    %>    
+                                <%- data1 %> 
+                                    <div id="my_dataviz1">   
+                                    </div>
+                                </span>
+                                </span>
+                            </li>
+                        </ul>
+
+
+                    </div>
+
+
+                    <div class="right-section">
+
+
+
+                        <ul>
+                            <li>
+                                <span class="chart">
+                                    <h4>No. of Videos Watched From Every Source Type</h4>
+                                    <br>
+                                    <!-- Initialize a select button -->
+                                    <select id="selectButton"></select>
+                                    <div id="my_dataviz2">   
+                                    </div>
+                                </span>
+                                </span>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+                <div class="analytics-container">
+
+                    <div class="left-section">
+
+                        <ul>
+                            <li>
+                                <span class="chart">
+                                    <h4>Playback Source Distribution</h4>
+                                    <br>
+                                    <div id="my_dataviz3">   
+                                    </div>
+                                </span>
+                                </span>
+                            </li>
+                        </ul>
+
+
+                    </div>
+
+
+                    <div class="right-section">
+
+
+
+                        <ul>
+                            <li>
+                                <span class="chart">
+                                    <h4>Top 5 Videos Watched</h4>
+                                    <br>
+                                    <div id="my_dataviz4">   
+                                    </div>
+                                </span>
+                                </span>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+                <div class="analytics-container">
+
+                    <div class="left-section">
+
+                        <ul>
+                            <li>
+                                <span class="chart">
+                                    <h4>Percentage of Sentiment Per Day in the Past Week</h4>
+                                    <br>
+                                </span>
+                                </span>
+                            </li>
+                        </ul>
+
+
+                    </div>
+
+
+                    <div class="right-section">
+
+
+
+                        <ul>
+                            <li>
+                                <span class="chart">
+                                    <h4>Percentage of Source Type Per Day in the Past Week</h4>
+                                    <br>
+                                </span>
+                                </span>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+    </div>
+    <%- include partials/footer.ejs %>
+    <!-- <footer class="footer">&copy; Created By PLEX Lab in New Mexico State University </footer> -->
+    <script src="/javascripts/index.js"></script>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="/javascripts/analytics.js" type="text/javascript"></script>
+    <script>
+        
+        window.onload= ()=>{
+            var data = document.getElementById('plotdata');
+            generateChart(data.innerHTML);
+        }
+      </script>
+</body>
+
+</html>

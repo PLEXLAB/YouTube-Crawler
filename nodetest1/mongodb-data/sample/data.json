@@ -1,0 +1,36 @@
+[{
+  "_id": {
+    "$oid": "6064c33d30c83ff9b74a970e"
+  },
+  "video_id": "1",
+  "views": 100,
+  "rating": "positive"
+},{
+  "_id": {
+    "$oid": "6064c3a230c83ff9b74a970f"
+  },
+  "video_id": "2",
+  "views": 200,
+  "rating": "negative"
+},{
+  "_id": {
+    "$oid": "6064c3bb30c83ff9b74a9710"
+  },
+  "video_id": "3",
+  "views": 300,
+  "rating": "neutral"
+},{
+  "_id": {
+    "$oid": "6064c3d130c83ff9b74a9711"
+  },
+  "video_id": "4",
+  "views": 400,
+  "rating": "positive"
+},{
+  "_id": {
+    "$oid": "6064c40c30c83ff9b74a9712"
+  },
+  "video_id": "5",
+  "views": 500,
+  "rating": "neutral"
+}]
