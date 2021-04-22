@@ -14,7 +14,8 @@ function saveMetaData(chID, vTitles, vURLS, vDates, vStatuss, vViss, vMons, vDes
 		if(vVis == null) continue;	
 		if (vVis.indexOf('Private') > -1){continue;}
 		if (vVis.indexOf('Unlisted') > -1){continue;} 
-
+		if (vVis.indexOf('Removed') > -1){continue;}
+		
 		totalNoVideos += 1;
 		var vTitle 		    = vTitles[i];
 		var vURL   		    = vURLS[i];
