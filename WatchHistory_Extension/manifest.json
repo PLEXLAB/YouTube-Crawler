@@ -1,0 +1,58 @@
+{
+	"name": "YouTube: Watch History Crawler",
+	"version": "0.0.2",
+	"manifest_version": 2,
+	"description": "Automate crawling youtube watch history",
+	"homepage_url": "https://github.com/PLEXLAB/....",
+	"icons": {
+		"16": "icons/plex16.png",
+		"19": "icons/plex19.png",
+		"48": "icons/plex48.png",
+		"128": "icons/plex128.png"
+	},
+	"browser_action": {
+		"default_icon": "icons/plex19.png",
+		"default_popup": "src/browser_action/popup.html"
+	},
+	"background":{
+		"scripts": [
+			"src/inject/jquery-3.3.1.min.js",
+			"src/background/background.js"
+		],
+	  "persistent": false
+
+	},
+	"permissions": [
+		"https://www.youtube.com/feed/history",
+		"https://plexweb.cs.nmsu.edu/*",
+		"https://www.youtube.com/watch?v=*",
+		"*://*/src/background/surveyCode.html",
+		"tabs",
+		"activeTab",
+		"background", 
+		"storage",
+		"identity", 
+		"identity.email",
+		"management"
+	],
+	"web_accessible_resources": [
+		"src/background/surveyCode.html"
+	],
+	"content_scripts": [{
+		"matches": [
+			"https://www.youtube.com/feed/history"
+		],
+		"js": [
+			"src/inject/jquery-3.3.1.min.js",
+			"src/inject/overlayScript.js",
+			"src/inject/inject_urls_save.js",
+			"src/inject/inject.js"
+		],
+		"Content_Security_Policy": "script-src 'self' blob: filesystem: chrome-extension-resource: 'strict-dynamic' 'unsafe-inline' https: 'report-sample' 'nonce-ETAvKsvoXgT+MNdY5u7/TA=='"
+    },
+	{
+		"js": ["src/inject/jquery-3.3.1.min.js", "src/inject/overlayScript.js", "src/inject/inject_urls_save.js"],
+		"matches": ["https://www.youtube.com/watch?v=*"]
+	}]
+}
+
