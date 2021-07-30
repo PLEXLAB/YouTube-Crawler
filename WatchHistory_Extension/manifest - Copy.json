@@ -1,0 +1,44 @@
+{
+	"name": "YouTube Beta Studio Crawler",
+	"version": "0.0.2",
+	"manifest_version": 2,
+	"description": "Automate crawling youtube channel crawling",
+	"homepage_url": "https://github.com/PLEXLAB/youTube-Crawler",
+	"icons": {
+		"16": "icons/plex16.png",
+		"19": "icons/plex19.png",
+		"48": "icons/plex48.png",
+		"128": "icons/plex128.png"
+	},
+	"browser_action": {
+		"default_icon": "icons/plex19.png",
+		"default_popup": "src/browser_action/popup.html"
+	},
+	"background":{
+		"scripts": [
+			"src/inject/jquery-3.3.1.min.js", 
+			"src/background/background.js"
+		]
+	},
+	"permissions": [
+		"https://studio.youtube.com/*",
+		"https://plexweb.cs.nmsu.edu/*",
+		"tabs",
+		"activeTab",
+		"background", 
+		"storage"
+	],
+	"content_scripts": [{
+		"matches": [
+			"https://studio.youtube.com/channel/*"
+		],
+		"js": [
+			"src/inject/jquery-3.3.1.min.js", 
+			"src/inject/inject_videos_extract.js", 
+			"src/inject/inject_videos_save.js", 
+			"src/inject/overlayScript.js",
+			"src/inject/querycForm.js"
+		],
+		"Content_Security_Policy": "script-src 'self' blob: filesystem: chrome-extension-resource: 'strict-dynamic' 'unsafe-inline' https: 'report-sample' 'nonce-ETAvKsvoXgT+MNdY5u7/TA=='"
+    }]
+}

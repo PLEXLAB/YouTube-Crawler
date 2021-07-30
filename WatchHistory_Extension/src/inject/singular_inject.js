@@ -6,6 +6,10 @@
 	are located in inject_videos_extract scripts
 */
 //=========================================================
+chrome.runtime.sendMessage('identity', function(response) {
+		logged_in_user = response.email;
+		console.log("Got user:", logged_in_user);
+		});
 var rec_list_chk        = setInterval(rec_list_chkReady, 3000);
 var videoRecLinksChkInterval 	= setInterval(videoRecLinksChk	, 3000);
 //var getNextVChkInterval = setInterval(getNextVChk	, 3000);
@@ -45,7 +49,7 @@ function videoRecLinksChk(){
 	rec_url_5  	= rec_urls[4].getAttribute("href");
 
 	//saveUrlData(window.location.href, video_title, video_views, time[0].innerText, rec_url_1, rec_url_2, rec_url_3, rec_url_4, rec_url_5)
-	saveUrlData(video_url, rec_url_1, rec_url_2, rec_url_3, rec_url_4, rec_url_5)
+	saveUrlData(logged_in_user, video_url, rec_url_1, rec_url_2, rec_url_3, rec_url_4, rec_url_5)
 	setTimeout(function(){ chrome.runtime.sendMessage({msg:'watch'}); }, 15000);
 	// we need to save the seed time, url, viws, and rec urls. later we get transcript and other components for the rec.
 	clearInterval(rec_list_chk);
