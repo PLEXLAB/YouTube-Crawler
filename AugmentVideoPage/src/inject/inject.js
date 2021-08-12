@@ -6,7 +6,22 @@
 var socket = io.connect('http://localhost:3002');
 
 var vID = window.location.toString()
-vID = vID.split('=').pop();
+
+if (vID.includes('&list')){
+  vID = vID.split('&list');
+  vID = vID[0];
+}
+
+vID = vID.split('=');
+
+if (vID[1].includes('&t'))
+{
+    vID = vID[1].replace('&t', '');
+}
+else {
+  vID = vID[1];
+}
+
 
 socket.on('connect', function() {
   //Send the video Id to get the list of demonteized keywords
@@ -31,22 +46,33 @@ dMonImage.src 		= imgURL;
 var dMonImageDim 	= 25;
 dMonImage.width 	= dMonImageDim;
 dMonImage.height 	= dMonImageDim;
-dMonImage.style.padding = "0px 0px 0px 10px";
-
-$('#container > h1').append($(dMonImage));
-
+dMonImage.style.marginLeft = '10px';
+dMonImage.style.marginBottom = '-5px';
 //===============================================
 // Add video keywords element
 
 socket.on('demonetized_keywords', function(data) {
-  console.log(data)
-  var keywordsTag = document.createElement('a');
-  keywordsTag.innerText = 'Demonetized Keywords: '+data;
-  keywordsTag.style.position 	= 'relative';
-  keywordsTag.style.right 	= '-50px';
-  keywordsTag.style.color 	= 'white';
-  keywordsTag.style.backgroundColor = "red";
-  $('#container > h1').append($(keywordsTag));
+
+
+  //Do a check whether there are demonetized keywords
+  if (data != "Not available"){
+    $('#container > h1').append(dMonImage);
+  }
+
+  var keywordsTag = document.createElement('div');
+  var headerDiv = document.createElement('div');
+  var header = document.createElement('span');
+  header.innerText = 'DEMONETIZED KEYWORDS';
+  var words = document.createElement('div');
+  data = data.replace(/,/g, ', ')
+  words.innerText = data
+  words.style.cssText = "padding:5px; overflow-wrap:break-word;text-align:center"
+  keywordsTag.style.cssText = "font-size:15px; padding:2em;1px solid #e5e5e5;background:red;color:white;"
+  headerDiv.style.cssText = "text-align:center;"
+  $(headerDiv).append(header)
+  $(keywordsTag).append(headerDiv)
+  $(keywordsTag).append(words)
+  $('#offer-module').append($(keywordsTag));
 })
 
 
