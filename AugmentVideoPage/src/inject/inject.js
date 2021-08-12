@@ -2,8 +2,17 @@
 	This script .....
 	    
 */
+/* Connects to the socket server */
+var socket = io.connect('http://localhost:3002');
+
 var vID = window.location.toString()
 vID = vID.split('=').pop();
+
+socket.on('connect', function() {
+  //Send the video Id to get the list of demonteized keywords
+  socket.emit('video_id', vID)
+});
+
 
 //===============================================
 // Highlight sentiment bar
@@ -28,13 +37,18 @@ $('#container > h1').append($(dMonImage));
 
 //===============================================
 // Add video keywords element
-var keywordsTag = document.createElement('a');
-keywordsTag.innerText = 'Demonetized Keywords: ';
-keywordsTag.style.position 	= 'relative';
-keywordsTag.style.right 	= '-50px';
-keywordsTag.style.color 	= 'white';
-keywordsTag.style.backgroundColor = "red";
-$('#container > h1').append($(keywordsTag));
+
+socket.on('demonetized_keywords', function(data) {
+  console.log(data)
+  var keywordsTag = document.createElement('a');
+  keywordsTag.innerText = 'Demonetized Keywords: '+data;
+  keywordsTag.style.position 	= 'relative';
+  keywordsTag.style.right 	= '-50px';
+  keywordsTag.style.color 	= 'white';
+  keywordsTag.style.backgroundColor = "red";
+  $('#container > h1').append($(keywordsTag));
+})
+
 
 //===============================================
 // Add number of views per 1st day/latest 7days/and when was the peak so far.

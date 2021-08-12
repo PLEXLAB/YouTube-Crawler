@@ -83,6 +83,7 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 								chrome.tabs.executeScript(tab.id, {file: "src/inject/overlayScript.js"});
 								chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_chAnalytics_save.js"});
 								chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_analytics_lifetime.js"});
+
 						});
 					}
 				}
@@ -131,6 +132,7 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 					chrome.tabs.executeScript(tab.id, {file: "src/inject/overlayScript.js"});
 					chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_chAnalytics_save.js"});
 					chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_analytics_lifetime.js"});
+					chrome.tabs.executeScript(tab.id, {file: "src/inject/socket.io.js"});
 			});
 		}
 		//===================end of not used
@@ -187,7 +189,7 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 					chrome.tabs.executeScript(tab.id, {file: "src/inject/overlayScript.js"});
 					chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_chExpAnalytics_save.js"});
 					chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_analytics_explore_Gender.js"});
-			});
+				});
 		}
 	}
 	else{
