@@ -16,6 +16,7 @@ try:
     transcriptsVideo = []
     for obj in transcripts:
         text = obj['text'].lower()
+        # text = text+ obj['text'].lower()
         transcriptsVideo.extend(text.split(" "))
 
 
@@ -26,7 +27,7 @@ try:
     # Case 1
     # No key words, then return "No demonetized keywords"
     if len(wordsFound) == 0:
-        output ="No Demonetized Keywords available"
+        output ="Not available"
 
     # Case 2
     # If there are more than 10 words, then pick top 10
@@ -42,6 +43,6 @@ try:
             temp.append(key)
         output= ",".join(temp)
 except:
-    output = "No Demonetized keywords available"
+    output = "Not available"
 
 print(output)

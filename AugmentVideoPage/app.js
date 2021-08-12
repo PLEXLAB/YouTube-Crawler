@@ -1,17 +1,22 @@
 var express = require('express');
 var app = express();
-
+var cors = require('cors');
+const { request } = require('http');
 
 // Socket connection
 
 /* Creates new HTTP server for socket */
 var socketServer = require('http').createServer(app);
-var io = require('socket.io')(socketServer, {
+var io = require('socket.io')(socketServer, 
+    {
     cors: {
-        origin: "*",
-        methods: ["GET", "POST"]
+        origin: ["https://www.youtube.com"]
     }
-});
+}
+);
+
+// io.set('origins', 'https://www.youtube.com');
+
 
 /* Listen for socket connection on port 3002 */
 socketServer.listen(3002, function () {
@@ -23,6 +28,7 @@ socketServer.listen(3002, function () {
 io.on('connection', function (socket) {
 
     console.log("A client connected")
+    console.log(request.url)
 
     //Get the video id
     socket.on('video_id', function(id){
