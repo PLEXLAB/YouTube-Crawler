@@ -1,6 +1,6 @@
 {
 	"name": "YouTube: Watch History Crawler",
-	"version": "0.0.2",
+	"version": "0.0.5",
 	"manifest_version": 2,
 	"description": "Automate crawling youtube watch history",
 	"homepage_url": "https://github.com/PLEXLAB/....",

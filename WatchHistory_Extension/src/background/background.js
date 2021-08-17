@@ -35,7 +35,7 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 					flag = true;
 				}
 				current_url = urlss[counter];
-				if(counter < 5)
+				if(counter < 25)
 				{
 					chrome.tabs.update(newTabId, {url: current_url}, function(temp){counter = counter + 1; console.log(counter);});
 				}
