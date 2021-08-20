@@ -11,6 +11,7 @@ demonetized_keywords_set = {'bastinado', 'orchestra', 'wuhan', 'alaska', 'rimmin
 # Get the video id here - Try/Except to check whether the video has any transcript
 video_id = sys.argv[1]
 
+
 try:
     transcripts = YouTubeTranscriptApi.get_transcript(video_id)
     transcriptsVideo = []
