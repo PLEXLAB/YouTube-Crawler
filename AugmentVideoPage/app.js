@@ -42,7 +42,9 @@ io.on('connection', function (socket) {
     // with arguments and send this data to res object
     process.stdout.on('data', function(data) {
         
-        //Once the data is ready and consoled by the python program
+        if (data.toString().trim() == 'Not available'){
+            data = "";
+        }
         socket.emit('demonetized_keywords', data.toString())
 
     })

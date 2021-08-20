@@ -35,8 +35,6 @@ var x = document.querySelector("#movie_player > div.ytp-chrome-bottom");
 
 $('.ytp-gradient-bottom').css('background-color', 'gray');
 $('.ytp-gradient-bottom').css('opacity', '0.5');
-//$('.ytp-gradient-bottom').css('width', 	x.offsetWidth );
-//$('.ytp-gradient-bottom').css('left', 	x.offsetLeft  );
 
 //===============================================
 // Add demontization image element
@@ -53,26 +51,55 @@ dMonImage.style.marginBottom = '-5px';
 
 socket.on('demonetized_keywords', function(data) {
 
-
   //Do a check whether there are demonetized keywords
-  if (data != "Not available"){
-    $('#container > h1').append(dMonImage);
+
+  console.log(data)
+
+  if (data != ""){
+    // $('#container > h1').append(dMonImage); -> v1
+    // var keywordsTag = document.createElement('div');
+    // var headerDiv = document.createElement('div');
+    // var header = document.createElement('span');
+    // header.innerText = 'DEMONETIZED KEYWORDS';
+    // var words = document.createElement('div');
+    // data = data.replace(/,/g, ', ')
+    // words.innerText = data
+    // words.style.cssText = "padding:5px; overflow-wrap:break-word;text-align:center"
+    // keywordsTag.style.cssText = "font-size:15px; padding:2em;1px solid #e5e5e5;background:red;color:white;"
+    // headerDiv.style.cssText = "text-align:center;"
+    // $(headerDiv).append(header)
+    // $(keywordsTag).append(headerDiv)
+    // $(keywordsTag).append(words)
+    // $('#offer-module').append($(keywordsTag));
+
+    //version 2
+    var demonIdentifier =  document.createElement('span');
+    demonIdentifier.innerText = '(Video Demonetized)';
+    demonIdentifier.style.cssText = "font-size:smaller;padding: 0 5px;font-style:italic;font-weight:600;"
+    $('#container > h1').append(demonIdentifier);
+
+    
+    //Version 2
+    // var demonKeywordsDiv = document.createElement('div');
+    // demonKeywordsDiv.innerText = 'DEMONETIZED KEYWORDS - ';
+    // demonKeywordsDiv.style.cssText = 'background:#c00;color:#fff;font-size:14px;padding:10px;letter-spacing: 0.15px;'
+    // var keywords = document.createElement('span');
+    // data = data.replace(/,/g, ', ')
+    // keywords.innerText = data
+    // $(demonKeywordsDiv).append(keywords)
+    // $('#container h1').after(demonKeywordsDiv) 
+
+    //Version 3
+    var demonKeywordsDiv = document.createElement('div');
+    demonKeywordsDiv.innerText = 'DEMONETIZED KEYWORDS - ';
+    demonKeywordsDiv.style.cssText = 'font-size:14px;padding:10px;letter-spacing: 0.15px;z-index:24;opacity:0.7;position:relative;background-color:gray;text-align:center;'
+    var keywords = document.createElement('span');
+    data = data.replace(/,/g, ', ')
+    keywords.innerText = data
+    $(demonKeywordsDiv).append(keywords)
+    $('#movie_player').append(demonKeywordsDiv) 
   }
 
-  var keywordsTag = document.createElement('div');
-  var headerDiv = document.createElement('div');
-  var header = document.createElement('span');
-  header.innerText = 'DEMONETIZED KEYWORDS';
-  var words = document.createElement('div');
-  data = data.replace(/,/g, ', ')
-  words.innerText = data
-  words.style.cssText = "padding:5px; overflow-wrap:break-word;text-align:center"
-  keywordsTag.style.cssText = "font-size:15px; padding:2em;1px solid #e5e5e5;background:red;color:white;"
-  headerDiv.style.cssText = "text-align:center;"
-  $(headerDiv).append(header)
-  $(keywordsTag).append(headerDiv)
-  $(keywordsTag).append(words)
-  $('#offer-module').append($(keywordsTag));
 })
 
 
