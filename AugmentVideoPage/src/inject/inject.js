@@ -1,94 +1,114 @@
 /*
-	This script .....
-	    
+  This script .....
+      
 */
 /* Connects to the socket server */
 var socket = io.connect('http://localhost:3002');
 
-var vID = window.location.toString()
+//Send the video Id to get the list of demonteized keywords
 
-if (vID.includes('&list')){
-  vID = vID.split('&list');
-  vID = vID[0];
-}
+function processVID(vID) {
 
-vID = vID.split('=');
+  if (vID.includes('&list')) {
+    vID = vID.split('&list');
+    vID = vID[0];
+  }
 
-if (vID[1].includes('&t'))
-{
+  vID = vID.split('=');
+
+  if (vID[1].includes('&t')) {
     vID = vID[1].replace('&t', '');
-}
-else {
-  vID = vID[1];
+  }
+  else {
+    vID = vID[1];
+  }
+  return vID;
 }
 
+vID = processVID(window.location.toString())
 
-socket.on('connect', function() {
-  //Send the video Id to get the list of demonteized keywords
+socket.on('connect', function () {
   socket.emit('video_id', vID)
 });
+
+chrome.runtime.onMessage.addListener(
+  function (request, sender, sendResponse) {
+    // listen for messages sent from background.js
+    if (request.message === 'hello!') {
+      vID = processVID(request.url);
+      console.log("VID:" + vID)
+      socket.emit('video_id', vID);
+    }
+  });
+
 
 
 //===============================================
 // Highlight sentiment bar
-var x = document.querySelector("#movie_player > div.ytp-chrome-bottom");
+// var x = document.querySelector("#movie_player > div.ytp-chrome-bottom");
 
-$('.ytp-gradient-bottom').css('background-color', 'gray');
-$('.ytp-gradient-bottom').css('opacity', '0.5');
-//$('.ytp-gradient-bottom').css('width', 	x.offsetWidth );
-//$('.ytp-gradient-bottom').css('left', 	x.offsetLeft  );
+// $('.ytp-gradient-bottom').css('background-color', 'gray');
+// $('.ytp-gradient-bottom').css('opacity', '0.5');
 
 //===============================================
 // Add demontization image element
-var dMonImage 		= document.createElement('img');
-var imgURL 			= chrome.extension.getURL("src/inject/images/demonitizationSymbol.jpg");
-dMonImage.src 		= imgURL;
-var dMonImageDim 	= 25;
-dMonImage.width 	= dMonImageDim;
-dMonImage.height 	= dMonImageDim;
+var dMonImage = document.createElement('img');
+var imgURL = chrome.extension.getURL("src/inject/images/demonitizationSymbol.jpg");
+dMonImage.src = imgURL;
+var dMonImageDim = 25;
+dMonImage.width = dMonImageDim;
+dMonImage.height = dMonImageDim;
 dMonImage.style.marginLeft = '10px';
 dMonImage.style.marginBottom = '-5px';
 //===============================================
 // Add video keywords element
 
-socket.on('demonetized_keywords', function(data) {
-
+socket.on('demonetized_keywords', function (data) {
 
   //Do a check whether there are demonetized keywords
-  if (data != "Not available"){
-    $('#container > h1').append(dMonImage);
+
+  var check = document.getElementById("demonClass")
+  console.log("Elemnent:"+check)
+  if (check != null) {
+    check.remove()
   }
 
-  var keywordsTag = document.createElement('div');
-  var headerDiv = document.createElement('div');
-  var header = document.createElement('span');
-  header.innerText = 'DEMONETIZED KEYWORDS';
-  var words = document.createElement('div');
-  data = data.replace(/,/g, ', ')
-  words.innerText = data
-  words.style.cssText = "padding:5px; overflow-wrap:break-word;text-align:center"
-  keywordsTag.style.cssText = "font-size:15px; padding:2em;1px solid #e5e5e5;background:red;color:white;"
-  headerDiv.style.cssText = "text-align:center;"
-  $(headerDiv).append(header)
-  $(keywordsTag).append(headerDiv)
-  $(keywordsTag).append(words)
-  $('#offer-module').append($(keywordsTag));
+  if (data != "") {
+    //Version 3
+    var demonKeywordsDiv = document.createElement('div');
+    demonKeywordsDiv.setAttribute("id", "demonClass");
+    var demonIdentifier = document.createElement('div');
+    demonIdentifier.style = 'font-size:18px;padding:10px;border-bottom:1px solid darkgray;color: #c00;font-weight:600;'
+    demonKeywordsDiv.style = 'background-color:gray;z-index:24;opacity:0.7;position:relative;text-align:center';
+    demonIdentifier.innerText = 'VIDEO DEMONETIZED';
+    var demonKeywords = document.createElement('div');
+    demonKeywords.innerText = 'DEMONETIZED KEYWORDS FOUND IN TRANSCRIPT - ';
+    demonKeywords.style.cssText = 'font-size:16px;padding:10px;letter-spacing: 0.15px;padding:10px;color:white'
+    var keywords = document.createElement('span');
+    data = data.replace(/,/g, ', ')
+    keywords.innerText = data
+    $(demonKeywords).append(keywords)
+    $(demonKeywordsDiv).append(demonIdentifier)
+    $(demonKeywordsDiv).append(demonKeywords)
+    $('#movie_player').append(demonKeywordsDiv)
+  }
+
 })
 
 
 //===============================================
 // Add number of views per 1st day/latest 7days/and when was the peak so far.
-var viewsTag = document.createElement('a');
-viewsTag.innerText 		= ' | 1st Day: 12345 views | Latest 7 Days: 12345 views | Peak on: Mar 30, 2019';
-viewsTag.style.fontWeight = "900";
-$('#info > #info-text').append($(viewsTag));
+// var viewsTag = document.createElement('a');
+// viewsTag.innerText 		= ' | 1st Day: 12345 views | Latest 7 Days: 12345 views | Peak on: Mar 30, 2019';
+// viewsTag.style.fontWeight = "900";
+// $('#info > #info-text').append($(viewsTag));
 
 //===============================================
 // Create and add a Dropdown list for the recommendation algortihms and it header
 var RecommSection = document.createElement('div');
 var RecommHeader = document.createElement('div');
 RecommHeader.innerText = 'Recommendation Algorithm:';
-RecommHeader.style.color 	= 'white';
+RecommHeader.style.color = 'white';
 RecommHeader.style.backgroundColor = "red";
 RecommHeader.style.fontSize = "large";
 $(RecommSection).append($(RecommHeader));
@@ -104,7 +124,7 @@ var selectValues = {
 };
 var $mySelect = $('<select></select>');
 $mySelect.width = 400;
-$.each(selectValues, function(key, value) {
+$.each(selectValues, function (key, value) {
   var $option = $("<option/>", {
     value: key,
     text: value
@@ -112,7 +132,7 @@ $.each(selectValues, function(key, value) {
   $mySelect.append($option);
 });
 $(RecommList).append($mySelect);
-RecommSection.style.width 	= 400;
+RecommSection.style.width = 400;
 $(RecommSection).append($(RecommList));
 
 $('#items > ytd-compact-autoplay-renderer').append($(RecommSection));
