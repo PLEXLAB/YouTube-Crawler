@@ -13,6 +13,37 @@ def CountFrequency(my_list):
     sort_dict = sorted(dict.items(), key=lambda x: x[1], reverse=True)
     return sort_dict
 
+def getPossibleWords(possible, transcriptsVideo_Set, transcriptsVideo, k):
+
+    wordsPossible = list(possible & transcriptsVideo_Set)
+    length = len(wordsPossible)
+
+    # Base Case (length == 0)    
+    if length == 0:   
+        return []
+
+    #Case 1 - PossibleWords < required(k)
+    if length <=k:
+        return wordsPossible
+    
+    #Case 2 - PossibleWords > required(k)  # possible = 7, required = 3, possible = 10, required = 10
+    else:
+        temp = []
+        countTranscripts = CountFrequency(transcriptsVideo)
+        counter = 0
+
+        #Get the top 10 from the transcripts
+        for key, val in countTranscripts:
+            if key in possible:
+                temp.append(key)
+                counter +=1
+            
+            if counter==k:
+                break
+        output = temp
+
+    return output
+
 #Store the list of possible words
 
 possible = set()
@@ -69,63 +100,42 @@ try:
         text = obj['text'].lower()
         # text = text+ obj['text'].lower()
         transcriptsVideo.extend(text.split(" "))
-
-    #get the frequency of items in the list
-
     
     transcriptsVideo_Set = set(transcriptsVideo)
+    wordsLikely = list(likely & transcriptsVideo_Set)
 
-    wordsFound = list(likely & transcriptsVideo_Set)
-
-    print(wordsFound)
-
-    # Case 1
+    # Case 1 - less than 10 words
     # No key words, then return "No demonetized keywords"
-    if len(wordsFound) == 0:
+    if len(wordsLikely) < 10:
         
-        #Check again in the possible set
-        wordsPossible = list(possible & transcriptsVideo_Set)
-        
-        # Subcase 1
-        if len(wordsPossible) == 0:   
-            output ="Not available"
+        k = 10 - len(wordsLikely)
 
-        #subcase 2
-        elif len(wordsPossible)<=10:
-            output=",".join(wordsPossible)
-        
-        #subcase 3
-        else:
-            temp = []
-            counter = collections.Counter(wordsPossible)
-            for key, value in counter.most_common(10):
-                temp.append(key)
-            output= ",".join(temp)
+        #Check again in the possible set of words
+        wordsPossible = getPossibleWords(possible, transcriptsVideo_Set, transcriptsVideo, k)
+        totalWords = wordsLikely + wordsPossible
+        output = ",".join(sorted(totalWords))
 
-    # Case 2
-    # If there are more than 10 words, then pick top 10
-    elif len(wordsFound) <=10:
-        print("came")
-        output= ",".join(wordsFound)
+    # Case 2- rare case
+    # exactly 10 demonetized keywords
+    elif len(wordsLikely) == 10:
+        output = ",".join(sorted(wordsLikely))
 
-    # Case 3
-    # 1 to 10 demonetized keywords
+    #Case 3 - more than 10 words in likeley list
+    # Pick top 10 words from the transcript video
     else:
         temp = []
-
         countTranscripts = CountFrequency(transcriptsVideo)
         counter = 0
 
-        print(countTranscripts)
-
-        for key,val in countTranscripts:
-            if val in wordsFound:
-                temp.append(val)
+        #Get the top 10 from the transcripts
+        for key, val in countTranscripts:
+            if key in likely:
+                temp.append(key)
                 counter +=1
             
             if counter==10:
                 break
-        output= ",".join(temp)
+        output= ",".join(sorted(temp))
 except:
     output = "Not available"
 
