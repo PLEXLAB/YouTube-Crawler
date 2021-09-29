@@ -102,7 +102,8 @@ function readFile(json)
 function placeVideoinList(videoElement, vClass)
 {
 	$(videoElement).appendTo("."+vClass+"");
-	$('<hr style="height:2px;border-width:0;color:white;background-color:white">').appendTo("."+vClass+"");
+	//$('<hr style="height:2px;border-width:0;color:black;background-color:black">').appendTo("."+vClass+"");
+
 }
 //======================
 function displayOverlay(text) {
@@ -111,14 +112,21 @@ function displayOverlay(text) {
 		"width": "100%",
 		"height": "100%",
 		"align": "center",
+		"overflow":"scroll",
+		"overflow-x":"hidden",
 		"z-index": 10000,
 		"vertical-align": "middle",
 		"text-align": "left",
-		"background-color": "rgba(128,128,128, 0.5)",
-		"color": "#E8E8E8"
+		"background-color": "rgba(248, 247, 216, 0.8)",
+		"color": "black"
 	}).appendTo("#page-manager");
 }
 
 function removeOverlay() {
     $("#overlay").remove();
 }
+
+function showSurvey() {
+  document.getElementById("survey").style.visibility = "visible";
+}
+setTimeout("showSurvey()", 30000); // after 5 secs

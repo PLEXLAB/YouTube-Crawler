@@ -6,20 +6,20 @@ chrome.storage.local.get('video1', function(result) {
 
 	if(result.video1 === "")
 	{
-		displayOverlay(' <br> <label>Please look at the filtered results and answer the related questions in the surevy, the <i>Next</i> button will appear here shortly: </label> <a id="next" target="_Blank" style="font-size:18px;" hidden href="https://www.youtube.com/results?search_query=hurracine+ida">Next</a><br><br>Definitions of the channels categories:<br> <i><ul> <li>- Mainstream News Media: Large mass news media.</li>  <li>- Local News: Servicing local area.</li>  <li>- Government Funded: Government institution or media outlets.</li>  <li>- Politician: Someone who has held office or is running for office.</li>  <li>- Private Non-news Company: Reporting different activities or views of the company.</li>  <li>- Online News Organization: A professional group of multiple news and politics creators such as journalists and commentators, primarily publishing online.</li>  <li>- Individual YouTube Creator: Individual creator who might be a professional or associated with a large media corporation.</li> </ul></i>  <br> <br><br>');
+		displayOverlay('<br> <label>Please look at the filtered results and answer the related questions in the surevy, the <i>Next</i> button will appear here shortly: </label>  <a id="next" style="font-size:18px;" target="_Blank" hidden href="https://www.youtube.com/results?search_query=covid19">Next</a><br><br>Definitions of the channels categories:<br> <i><ul> <li>- Mainstream News Media: Large mass news media.</li>  <li>- Local News: Servicing local area.</li>  <li>- Government Funded: Government institution or media outlets.</li>  <li>- Politician: Someone who has held office or is running for office.</li>  <li>- Private Non-news Company: Reporting different activities or views of the company.</li>  <li>- Online News Organization: A professional group of multiple news and politics creators such as journalists and commentators, primarily publishing online.</li>  <li>- Individual YouTube Creator: Individual creator who might be a professional or associated with a large media corporation.</li> </ul></i>  <br> <br><br>');
 		var removeContent = document.getElementsByClassName("style-scope ytd-page-manager")[0];
 		removeContent.hidden = true;
-		chrome.storage.local.set({video1: "Biden"}, function() {
-			console.log('Value is set to ' + "Biden");
+		chrome.storage.local.set({video1: "afghanistan"}, function() {
+			console.log('Value is set to ' + "afghanistan");
 		});
 	}
-	if(result.video1 === "ida")
+	if(result.video1 === "covid")
 	{
-		displayOverlay('<br> <label>Please look at the filtered results and answer the related questions in the surevy, the <i>Next</i> button will appear here shortly: </label> <a id="next" style="font-size:18px;" target="_Blank" hidden href="https://plexweb.cs.nmsu.edu/searchSurvey">Next</a><br><br>Definitions of the channels categories:<br> <i><ul> <li>- Mainstream News Media: Large mass news media.</li>  <li>- Local News: Servicing local area.</li>  <li>- Government Funded: Government institution or media outlets.</li>  <li>- Politician: Someone who has held office or is running for office.</li>  <li>- Private Non-news Company: Reporting different activities or views of the company.</li>  <li>- Online News Organization: A professional group of multiple news and politics creators such as journalists and commentators, primarily publishing online.</li>  <li>- Individual YouTube Creator: Individual creator who might be a professional or associated with a large media corporation.</li> </ul></i>  <br> <br><br>');
+		displayOverlay('<br> <label>PPlease look at the filtered results and answer the related questions in the surevy, the <i>Next</i> button will appear here shortly: </label> <a id="next" style="font-size:18px;" target="_Blank" hidden href="https://plexweb.cs.nmsu.edu/searchSurvey">Next</a><br><br>Definitions of the channels categories:<br> <i><ul> <li>- Mainstream News Media: Large mass news media.</li>  <li>- Local News: Servicing local area.</li>  <li>- Government Funded: Government institution or media outlets.</li>  <li>- Politician: Someone who has held office or is running for office.</li>  <li>- Private Non-news Company: Reporting different activities or views of the company.</li>  <li>- Online News Organization: A professional group of multiple news and politics creators such as journalists and commentators, primarily publishing online.</li>  <li>- Individual YouTube Creator: Individual creator who might be a professional or associated with a large media corporation.</li> </ul></i>  <br> <br><br>');
 		var removeContent = document.getElementsByClassName("style-scope ytd-page-manager")[0];
 		removeContent.hidden = true;
 		chrome.storage.local.set({video1: ""}, function() {
-			console.log('Value is set to ' + "");
+		  console.log('Value is set to ' + "");
 		});
 	}
 		
@@ -31,8 +31,7 @@ fetch(url)
 	.then((response) => response.json()) //assuming file contains json
 	.then((json) => {
 		readFile(json);
-		
-
+	
 		var class1 = "Mainstream News Media";
 		var class2 = "Online News Organization";
 		var class3 = "Individual YouTube Creator";
@@ -182,9 +181,7 @@ fetch(url)
 				
 			}
 		}
-		setTimeout(function () {document.getElementById('next').hidden = false; }, 15000);
-
-
+		setTimeout(function () {document.getElementById('next').hidden = false;}, 15000);
 		/*
 		scrollOnce();
 		var videos_g3 = document.querySelectorAll("#items > ytd-video-renderer");

@@ -1,9 +1,15 @@
 {
 	"name": "YouTube Beta Search Filter",
-	"version": "0.0.2",
+	"version": "0.0.8",
 	"manifest_version": 2,
 	"description": "Categorize YouTube political video search results",
 	"homepage_url": "https://github.com/PLEXLAB/youTube-Crawler",
+	"icons": {
+		"16": "icons/plex16.png",
+		"19": "icons/plex19.png",
+		"48": "icons/plex48.png",
+		"128": "icons/plex128.png"
+	},
 	"browser_action": {
 		"default_popup": "src/browser_action/popup.html"
 	},
@@ -15,24 +21,59 @@
 	},
 	"permissions": [
 		"https://www.youtube.com/results?search_query=*",
-		"https://plexweb.cs.nmsu.edu/*",
 		"tabs",
 		"activeTab",
-		"background", 
-		"storage",
-		"notifications", 
-		"alarms" 
-
+		"background",
+		"storage"
 	],
 	"web_accessible_resources": ["src/content_scripts/chClass.json"],
 	"content_scripts": [{
 		"matches": [
-			"https://www.youtube.com/results?search_query=*"
+			"https://www.youtube.com/results?search_query=Biden"
 		],
 		"js": [
 			"src/content_scripts/jquery-3.3.1.min.js",
-			"src/content_scripts/helper.js"
+			"src/content_scripts/jshashtable-2.1.js",
+			"src/content_scripts/helper.js",
+			"src/content_scripts/autoscroll.js"
 		],
 		"Content_Security_Policy": "script-src 'self' blob: filesystem: chrome-extension-resource: 'strict-dynamic' 'unsafe-inline' https: 'report-sample' 'nonce-ETAvKsvoXgT+MNdY5u7/TA==' Access-Control-Allow-Origin: *"
-    }]
+    },
+	{
+		"matches": [
+			"https://www.youtube.com/results?search_query=hurracine+ida"
+		],
+		"js": [
+			"src/content_scripts/jquery-3.3.1.min.js",
+			"src/content_scripts/jshashtable-2.1.js",
+			"src/content_scripts/helper.js",
+			"src/content_scripts/autoscroll2.js"
+		],
+		"Content_Security_Policy": "script-src 'self' blob: filesystem: chrome-extension-resource: 'strict-dynamic' 'unsafe-inline' https: 'report-sample' 'nonce-ETAvKsvoXgT+MNdY5u7/TA==' Access-Control-Allow-Origin: *"
+    },
+	{
+		"matches": [
+			"https://www.youtube.com/results?search_query=covid19"
+		],
+		"js": [
+			"src/content_scripts/jquery-3.3.1.min.js",
+			"src/content_scripts/jshashtable-2.1.js",
+			"src/content_scripts/helper.js",
+			"src/content_scripts/autoscroll3.js"
+		],
+		"Content_Security_Policy": "script-src 'self' blob: filesystem: chrome-extension-resource: 'strict-dynamic' 'unsafe-inline' https: 'report-sample' 'nonce-ETAvKsvoXgT+MNdY5u7/TA==' Access-Control-Allow-Origin: *"
+    },
+	{
+		"matches": [
+			"https://www.youtube.com/results?search_query=afghanistan"
+		],
+		"js": [
+			"src/content_scripts/jquery-3.3.1.min.js",
+			"src/content_scripts/jshashtable-2.1.js",
+			"src/content_scripts/helper.js",
+			"src/content_scripts/autoscroll4.js"
+		],
+		"Content_Security_Policy": "script-src 'self' blob: filesystem: chrome-extension-resource: 'strict-dynamic' 'unsafe-inline' https: 'report-sample' 'nonce-ETAvKsvoXgT+MNdY5u7/TA==' Access-Control-Allow-Origin: *"
+    }
+	]
 }

@@ -4,7 +4,7 @@ var scrollInterval = setInterval(function() {
     var element = document.querySelector("#message");
     if (element.innerText == 'No more results') { 
         // element found
-		chrome.runtime.sendMessage("Start");
+		chrome.runtime.sendMessage("third");
         clearInterval(scrollInterval);
         element.scrollIntoView();
     } else if((document.documentElement.scrollTop + window.innerHeight) != document.documentElement.scrollHeight) { 
@@ -13,11 +13,10 @@ var scrollInterval = setInterval(function() {
         document.documentElement.scrollTop = document.documentElement.scrollHeight;
     } else if (notChangedStepsCount > 100) { 
         // no more space to scroll
-		chrome.runtime.sendMessage("Start");
+		chrome.runtime.sendMessage("third");
         clearInterval(scrollInterval);
     } else {
         // waiting for possible extension (autoload) of the page
-		
         notChangedStepsCount++;
     }
 }, 200);
