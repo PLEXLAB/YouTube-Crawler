@@ -40,8 +40,17 @@ io.on('connection', function (socket) {
   
     // Takes stdout data from script which executed
     // with arguments and send this data to res object
+    
+    // To handle error case
+    process.stderr.on('data', function(data) {
+        console.log("error" + data.toString())
+    }) 
+
+    // To handle output data
     process.stdout.on('data', function(data) {
         
+        console.log("Data" + data.toString())
+
         if (data.toString().trim() == 'Not available'){
             data = "";
         }

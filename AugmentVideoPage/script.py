@@ -3,9 +3,9 @@ import collections
 import sys
 import httplib2
 import os
+import inflect # To find the plural word
 
 from apiclient import discovery
-
 
 def CountFrequency(my_list):     
    # Creating an empty dictionary
@@ -13,10 +13,36 @@ def CountFrequency(my_list):
     sort_dict = sorted(dict.items(), key=lambda x: x[1], reverse=True)
     return sort_dict
 
+
+def readStopWords():
+    # Read from the file
+    data = []
+    try:
+        with open("stop_words_english.txt", 'r') as file:
+            for line in file:
+                data.append(line.rstrip('\n'))
+
+    except:
+        print("Error reading file")
+
+    return data
+
 def getPossibleWords(possible, transcriptsVideo_Set, transcriptsVideo, k):
 
     wordsPossible = list(possible & transcriptsVideo_Set)
     length = len(wordsPossible)
+
+    wordsPossibleSet = set(wordsPossible)
+
+    # Sort the list of possible words
+    wordsPossible.sort()
+
+    #filter the plural words in the wordsPossible list
+    p = inflect.engine()
+
+    for word in wordsPossible:
+        if p.plural(word) in wordsPossibleSet:
+            wordsPossible.remove(p.plural(word))
 
     # Base Case (length == 0)    
     if length == 0:   
@@ -46,97 +72,126 @@ def getPossibleWords(possible, transcriptsVideo_Set, transcriptsVideo, k):
 
 #Store the list of possible words
 
-possible = set()
-likely   = set()
+def main(id):
 
-discoveryUrl = ('https://sheets.googleapis.com/$discovery/rest?'
-                'version=v4')
-service = discovery.build(
-    'sheets',
-    'v4',
-    http=httplib2.Http(),
-    discoveryServiceUrl=discoveryUrl,
-    developerKey='AIzaSyBSKi8lpsiRnEMCr4wtS7QuM6BX7nPtshg')
+    possible = set()
+    likely   = set()
 
-spreadsheetId = '1ozg1Cnm6SdtM4M5rATkANAi07xAzYWaKL7HKxyvoHzk'
-rangeName = 'Demonetized Words!A4:A2991'
+    discoveryUrl = ('https://sheets.googleapis.com/$discovery/rest?'
+                    'version=v4')
+    service = discovery.build(
+        'sheets',
+        'v4',
+        http=httplib2.Http(),
+        discoveryServiceUrl=discoveryUrl,
+        developerKey='AIzaSyBSKi8lpsiRnEMCr4wtS7QuM6BX7nPtshg')
 
-try:
+    spreadsheetId = '1ozg1Cnm6SdtM4M5rATkANAi07xAzYWaKL7HKxyvoHzk'
+    rangeName = 'Demonetized Words!A4:A2991'
 
-    result = service.spreadsheets().values().get(
-    spreadsheetId=spreadsheetId, range=rangeName).execute()
-    words = result.get('values', [])
+    try:
 
-    include_grid_data = True
-    request = service.spreadsheets().get(spreadsheetId=spreadsheetId, ranges=rangeName, includeGridData=include_grid_data)
-    response = request.execute()
-    colors = response['sheets'][0]['data'][0]['rowData']
+        result = service.spreadsheets().values().get(
+        spreadsheetId=spreadsheetId, range=rangeName).execute()
+        words = result.get('values', [])
 
-    red_base = 1 
-    green_base = 0.9490196 
-    blue_base = 0.8
+        include_grid_data = True
+        request = service.spreadsheets().get(spreadsheetId=spreadsheetId, ranges=rangeName, includeGridData=include_grid_data)
+        response = request.execute()
+        colors = response['sheets'][0]['data'][0]['rowData']
 
-    all_colors = []
-    for val, word in zip(colors, words):
-        red = val['values'][0]['userEnteredFormat']['backgroundColor']['red']
-        green = val['values'][0]['userEnteredFormat']['backgroundColor']['green']
-        blue = val['values'][0]['userEnteredFormat']['backgroundColor']['blue']
-        if red == red_base and green == green_base and blue == blue_base:
-            possible.add(word[0].lower())
-        else:
-            likely.add(word[0].lower())
-    
-except:
-    print("Not available")
-    sys.exit()
+        red_base = 1 
+        green_base = 0.9490196 
+        blue_base = 0.8
 
-# Get the video id here - Try/Except to check whether the video has any transcript
-video_id = sys.argv[1]
-
-try:
-    transcripts = YouTubeTranscriptApi.get_transcript(video_id)
-    transcriptsVideo = []
-    for obj in transcripts:
-        text = obj['text'].lower()
-        # text = text+ obj['text'].lower()
-        transcriptsVideo.extend(text.split(" "))
-    
-    transcriptsVideo_Set = set(transcriptsVideo)
-    wordsLikely = list(likely & transcriptsVideo_Set)
-
-    # Case 1 - less than 10 words
-    # No key words, then return "No demonetized keywords"
-    if len(wordsLikely) < 10:
+        all_colors = []
+        for val, word in zip(colors, words):
+            red = val['values'][0]['userEnteredFormat']['backgroundColor']['red']
+            green = val['values'][0]['userEnteredFormat']['backgroundColor']['green']
+            blue = val['values'][0]['userEnteredFormat']['backgroundColor']['blue']
+            if red == red_base and green == green_base and blue == blue_base:
+                possible.add(word[0].lower())
+            else:
+                likely.add(word[0].lower())
         
-        k = 10 - len(wordsLikely)
+    except:
+        print("Not available")
+        sys.exit()
 
-        #Check again in the possible set of words
-        wordsPossible = getPossibleWords(possible, transcriptsVideo_Set, transcriptsVideo, k)
-        totalWords = wordsLikely + wordsPossible
-        output = ",".join(sorted(totalWords))
+    # Get the video id here - Try/Except to check whether the video has any transcript
+    video_id = id
 
-    # Case 2- rare case
-    # exactly 10 demonetized keywords
-    elif len(wordsLikely) == 10:
-        output = ",".join(sorted(wordsLikely))
+    stopWords = readStopWords()
+    # Edge Case - Check whether it has stopwords and reads it successfully
+    if len(stopWords) == 0:
+        return "Error reading StopWords File"
+    
+    #create a stopwords set
+    stopWordsSet = set(stopWords)
 
-    #Case 3 - more than 10 words in likeley list
-    # Pick top 10 words from the transcript video
-    else:
-        temp = []
-        countTranscripts = CountFrequency(transcriptsVideo)
-        counter = 0
+    try:
+        transcripts = YouTubeTranscriptApi.get_transcript(video_id)
+        transcriptsVideo = []
+        for obj in transcripts:
+            text = obj['text'].lower()
+            # text = text+ obj['text'].lower()
+            newWordList = text.split(" ")
 
-        #Get the top 10 from the transcripts
-        for key, val in countTranscripts:
-            if key in likely:
-                temp.append(key)
-                counter +=1
+            #filter the stop words
+            for word in newWordList:
+                if word not in stopWordsSet:
+                    transcriptsVideo.append(word)
+
+        transcriptsVideo_Set = set(transcriptsVideo)
+        wordsLikely = list(likely & transcriptsVideo_Set)
+
+        wordsLikelySet = set(wordsLikely)
+        wordsLikely.sort()
+
+        #filter the plural words in the wordsLikely list
+        p = inflect.engine()
+
+        for word in wordsLikely:
+            if p.plural(word) in wordsLikelySet:
+                wordsLikely.remove(p.plural(word))
+
+
+        # Case 1 - less than 10 words
+        # No key words, then return "No demonetized keywords"
+        if len(wordsLikely) < 10:
             
-            if counter==10:
-                break
-        output= ",".join(sorted(temp))
-except:
-    output = "Not available"
+            k = 10 - len(wordsLikely)
 
-print(output)
+            #Check again in the possible set of words
+            wordsPossible = getPossibleWords(possible, transcriptsVideo_Set, transcriptsVideo, k)
+            totalWords = wordsLikely + wordsPossible
+            output = ",".join(sorted(totalWords))
+
+        # Case 2- rare case
+        # exactly 10 demonetized keywords
+        elif len(wordsLikely) == 10:
+            output = ",".join(sorted(wordsLikely))
+
+        #Case 3 - more than 10 words in likeley list
+        # Pick top 10 words from the transcript video
+        else:
+            temp = []
+            countTranscripts = CountFrequency(transcriptsVideo)
+            counter = 0
+
+            #Get the top 10 from the transcripts
+            for key, val in countTranscripts:
+                if key in likely:
+                    temp.append(key)
+                    counter +=1
+                
+                if counter==10:
+                    break
+            output= ",".join(sorted(temp))
+    except:
+        output = "Not available"
+
+    print(output)
+
+#call the main function
+main(sys.argv[1])
