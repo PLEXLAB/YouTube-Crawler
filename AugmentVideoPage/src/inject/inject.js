@@ -75,6 +75,8 @@ socket.on('demonetized_keywords', function (data) {
 
   if (data != "") {
     //Version 3
+    // var dataArr = data.replace("\n", "").split(",")
+
     var demonKeywordsDiv = document.createElement('div');
     demonKeywordsDiv.setAttribute("id", "demonClass");
     var demonIdentifier = document.createElement('div');
@@ -91,8 +93,39 @@ socket.on('demonetized_keywords', function (data) {
     $(demonKeywordsDiv).append(demonIdentifier)
     $(demonKeywordsDiv).append(demonKeywords)
     $('#movie_player').append(demonKeywordsDiv)
-  }
 
+    
+    //Store the string into array
+    // dataArr at the top
+
+    var dataArr = ["demonetized"];
+
+    //Make the youtube title customized
+    var title = $("h1 .ytd-video-primary-info-renderer");
+    var titletext = title[0].innerText
+    var titleArr = titletext.split(" ")
+    // Set it to empty initially
+    title[0].innerText = ""
+
+    //Create a set
+    dataSet = new Set(dataArr)
+    output = ""
+
+    for (var i = 0; i< titleArr.length; i++){
+      // Check the word in the set
+      let originalWord = titleArr[i]
+      let lowerCaseWord = originalWord.toLowerCase();
+      
+      let spanElement = document.createElement("span");
+      spanElement.innerText = originalWord + " "
+      title.append(spanElement)
+
+      if (dataSet.has(lowerCaseWord)){
+        // Highlight the word in red
+        spanElement.style.cssText = 'background-color:rgb(204, 0, 0);'
+      }
+    }
+  }
 })
 
 
