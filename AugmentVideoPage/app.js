@@ -50,8 +50,11 @@ io.on('connection', function (socket) {
     process.stdout.on('data', function(data) {
         
         console.log("Data" + data.toString())
+        
+        wordsFound = data.toString().split("__")
+        top_words = wordsFound[0]
 
-        if (data.toString().trim() == 'Not available'){
+        if (top_words.trim() == ""){
             data = "";
         }
         socket.emit('demonetized_keywords', data.toString())

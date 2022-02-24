@@ -45,7 +45,7 @@ def getPossibleWords(possible, transcriptsVideo_Set, transcriptsVideo, k):
             wordsPossible.remove(p.plural(word))
 
     # Base Case (length == 0)    
-    if length == 0:   
+    if length == 0:
         return []
 
     #Case 1 - PossibleWords < required(k)
@@ -129,6 +129,10 @@ def main(id):
     #create a stopwords set
     stopWordsSet = set(stopWords)
 
+    # create demonetized words output
+    demonetized_output = set()
+    demonetized_res = [[""]]
+
     try:
         transcripts = YouTubeTranscriptApi.get_transcript(video_id)
         transcriptsVideo = []
@@ -144,6 +148,10 @@ def main(id):
 
         transcriptsVideo_Set = set(transcriptsVideo)
         wordsLikely = list(likely & transcriptsVideo_Set)
+        demonetized_output.update(likely & transcriptsVideo_Set)
+        demonetized_output.update(possible & transcriptsVideo_Set)
+        demonetized_res[0] = list(demonetized_output)
+
 
         wordsLikelySet = set(wordsLikely)
         wordsLikely.sort()
@@ -189,9 +197,9 @@ def main(id):
                     break
             output= ",".join(sorted(temp))
     except:
-        output = "Not available"
+        output = ""
 
-    print(output)
+    print(output + "__" + ",".join(demonetized_res[0]))
 
 #call the main function
 main(sys.argv[1])

@@ -4,6 +4,8 @@
 */
 /* Connects to the socket server */
 var socket = io.connect('http://localhost:3002');
+var btn = $("#menu-container > #menu > ytd-menu-renderer > yt-icon-button > #button");
+
 
 //Send the video Id to get the list of demonteized keywords
 
@@ -63,6 +65,33 @@ dMonImage.style.marginBottom = '-5px';
 //===============================================
 // Add video keywords element
 
+function demonetizedWords(isAvailable, data) {
+  var demonKeywordsDiv = document.createElement('div');
+  demonKeywordsDiv.setAttribute("id", "demonClass");
+  var demonIdentifier = document.createElement('div');
+  demonIdentifier.style = 'font-size:18px;padding:10px;border-bottom:1px solid darkgray;color: #c00;font-weight:600;'
+  demonKeywordsDiv.style = 'background-color:gray;z-index:24;opacity:0.7;position:relative;text-align:center';
+  if (isAvailable) {
+    demonIdentifier.innerText = 'VIDEO DEMONETIZED';
+    var demonKeywords = document.createElement('div');
+    demonKeywords.innerText = 'DEMONETIZED KEYWORDS FOUND IN TRANSCRIPT - ';
+    demonKeywords.style.cssText = 'font-size:16px;padding:10px;letter-spacing: 0.15px;padding:10px;color:white'
+    var keywords = document.createElement('span');
+    data = data.replace(/,/g, ', ')
+    keywords.innerText = data
+    $(demonKeywords).append(keywords)
+  }
+  else {
+    demonIdentifier.innerText = 'VIDEO NOT DEMONETIZED';
+    var demonKeywords = document.createElement('div');
+    demonKeywords.innerText = 'NO KEYWORDS FOUND IN TRANSCRIPT ';
+    demonKeywords.style.cssText = 'font-size:16px;padding:10px;letter-spacing: 0.15px;padding:10px;color:white;text-align:center;'   
+  }
+  $(demonKeywordsDiv).append(demonIdentifier)
+  $(demonKeywordsDiv).append(demonKeywords)
+  $('#movie_player').append(demonKeywordsDiv)
+}
+
 socket.on('demonetized_keywords', function (data) {
 
   //Do a check whether there are demonetized keywords
@@ -75,40 +104,25 @@ socket.on('demonetized_keywords', function (data) {
 
   if (data != "") {
     //Version 3
-    // var dataArr = data.replace("\n", "").split(",")
+    console.log("data: " + data);
+    var words = data.split("__");
+    var data = words[0];
+    var dataArr = words[1].replace("\n", "").split(","); 
 
-    var demonKeywordsDiv = document.createElement('div');
-    demonKeywordsDiv.setAttribute("id", "demonClass");
-    var demonIdentifier = document.createElement('div');
-    demonIdentifier.style = 'font-size:18px;padding:10px;border-bottom:1px solid darkgray;color: #c00;font-weight:600;'
-    demonKeywordsDiv.style = 'background-color:gray;z-index:24;opacity:0.7;position:relative;text-align:center';
-    demonIdentifier.innerText = 'VIDEO DEMONETIZED';
-    var demonKeywords = document.createElement('div');
-    demonKeywords.innerText = 'DEMONETIZED KEYWORDS FOUND IN TRANSCRIPT - ';
-    demonKeywords.style.cssText = 'font-size:16px;padding:10px;letter-spacing: 0.15px;padding:10px;color:white'
-    var keywords = document.createElement('span');
-    data = data.replace(/,/g, ', ')
-    keywords.innerText = data
-    $(demonKeywords).append(keywords)
-    $(demonKeywordsDiv).append(demonIdentifier)
-    $(demonKeywordsDiv).append(demonKeywords)
-    $('#movie_player').append(demonKeywordsDiv)
-
+    // Popup words
+    demonetizedWords(true, data);
     
-    //Store the string into array
-    // dataArr at the top
-
-    var dataArr = ["demonetized"];
-
     //Make the youtube title customized
     var title = $("h1 .ytd-video-primary-info-renderer");
     var titletext = title[0].innerText
     var titleArr = titletext.split(" ")
     // Set it to empty initially
-    title[0].innerText = ""
+    title[0].innerText = "";
 
     //Create a set
-    dataSet = new Set(dataArr)
+    dataSet = new Set(dataArr);
+
+
     output = ""
 
     for (var i = 0; i< titleArr.length; i++){
@@ -125,6 +139,9 @@ socket.on('demonetized_keywords', function (data) {
         spanElement.style.cssText = 'background-color:rgb(204, 0, 0);'
       }
     }
+  }
+  else {
+    demonetizedWords(false, data);
   }
 })
 
@@ -179,4 +196,39 @@ fundSource.style.fontWeight = "900";
 fundSource.style.padding = "0px 0px 0px 10px";
 $('#channel-name').append($(fundSource));
 
+function updateTranscripts(){
+  let transcriptsDiv = $("#content > ytd-transcript-renderer > #body > ytd-transcript-body-renderer")
+  for (var i =0 ; i< (transcriptsDiv[0].children.length - 1); i++) {
+    j = i+1
+    let cmd = $("#content > ytd-transcript-renderer > #body > ytd-transcript-body-renderer > div:nth-child" + "(" +j+ ") > div:nth-child(2) > div");
+    // get the current text and store in array
+    let currentTranscript = cmd[0].innerText;
 
+    // Set it to empty initially
+    cmd[0].innerText = "";
+    currentText = currentTranscript.split(" ");
+    
+    for (let val of currentText){
+      
+      let originalWord = val
+      let lowerCaseWord = originalWord.toLowerCase();
+      let spanElement = document.createElement("span");
+      spanElement.innerText = originalWord + " "
+      cmd.append(spanElement)            
+
+      if (dataSet.has(lowerCaseWord)){
+        // Highlight the word in red
+        spanElement.style.cssText = 'background-color:rgb(204, 0, 0);'
+      }
+    }        
+}
+}
+
+//Open Transcript Event
+$(document).on ('click', '#contentWrapper > ytd-menu-popup-renderer > tp-yt-paper-listbox > ytd-menu-service-item-renderer:nth-child(2)', function(event) {
+  if (event) {
+  // Get the transcripts children
+  // Set a timeout here
+  setTimeout( updateTranscripts , 3000);
+  }
+})
