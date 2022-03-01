@@ -15,7 +15,7 @@ var io = require('socket.io')(socketServer,
 }
 );
 
-// io.set('origins', 'https://www.youtube.com');
+//io.set('origins', 'https://www.youtube.com');
 
 
 /* Listen for socket connection on port 3002 */

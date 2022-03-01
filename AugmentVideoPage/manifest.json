@@ -31,6 +31,9 @@
 			"src/inject/socket.io.js", 
 			"src/inject/jquery-3.3.1.min.js", 
 			"src/inject/inject.js"			
+		],
+		"css": [
+			"src/inject/css/src.css"
 		]
     }]
 }

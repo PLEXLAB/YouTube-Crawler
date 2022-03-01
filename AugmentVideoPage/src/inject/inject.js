@@ -3,7 +3,7 @@
       
 */
 /* Connects to the socket server */
-var socket = io.connect('http://localhost:3002');
+var socket = io.connect('http://www.demonetize.plexlab.net:3002');
 var btn = $("#menu-container > #menu > ytd-menu-renderer > yt-icon-button > #button");
 
 
@@ -66,6 +66,7 @@ dMonImage.style.marginBottom = '-5px';
 // Add video keywords element
 
 function demonetizedWords(isAvailable, data) {
+
   var demonKeywordsDiv = document.createElement('div');
   demonKeywordsDiv.setAttribute("id", "demonClass");
   var demonIdentifier = document.createElement('div');
@@ -104,6 +105,16 @@ socket.on('demonetized_keywords', function (data) {
 
   if (data != "") {
     //Version 3
+
+    //Get the device theme
+    // var html = document.getElementsByTagName("html")[0];
+    // var css = 'color:black;';
+
+    // if ( !html.hasAttribute("dark")){
+    //   console.log("came")
+    //   css = 'color:white;';
+    // }
+
     console.log("data: " + data);
     var words = data.split("__");
     var data = words[0];
@@ -128,7 +139,8 @@ socket.on('demonetized_keywords', function (data) {
     for (var i = 0; i< titleArr.length; i++){
       // Check the word in the set
       let originalWord = titleArr[i]
-      let lowerCaseWord = originalWord.toLowerCase();
+      let refactoredWord = originalWord.replace(/[^a-zA-Z ]/g, "");
+      let lowerCaseWord = refactoredWord.toLowerCase();
       
       let spanElement = document.createElement("span");
       spanElement.innerText = originalWord + " "
@@ -136,7 +148,9 @@ socket.on('demonetized_keywords', function (data) {
 
       if (dataSet.has(lowerCaseWord)){
         // Highlight the word in red
-        spanElement.style.cssText = 'background-color:rgb(204, 0, 0);'
+        spanElement.style.cssText = 'background-color:rgb(204, 0, 0);color:white';
+        spanElement.className = 'demonetized_words';
+        spanElement.innerText += " ";
       }
     }
   }
@@ -204,23 +218,31 @@ function updateTranscripts(){
     // get the current text and store in array
     let currentTranscript = cmd[0].innerText;
 
+    //get the offset value
     // Set it to empty initially
     cmd[0].innerText = "";
     currentText = currentTranscript.split(" ");
-    
+    let attr = cmd[0].attributes;
+    var className = attr[0].value;
+    var tabIndex = attr[2].value;
+    var offset = attr[3].value;
+
+    let text = "";           
     for (let val of currentText){
       
       let originalWord = val
-      let lowerCaseWord = originalWord.toLowerCase();
-      let spanElement = document.createElement("span");
-      spanElement.innerText = originalWord + " "
-      cmd.append(spanElement)            
+      let refactoredWord = originalWord.replace(/[^a-zA-Z ]/g, "");
+      let lowerCaseWord = refactoredWord.toLowerCase(); 
 
       if (dataSet.has(lowerCaseWord)){
-        // Highlight the word in red
-        spanElement.style.cssText = 'background-color:rgb(204, 0, 0);'
+        text += '<div class = "demonetized_words cue style-scope ytd-transcript-body-renderer" role ="button" tabindex='+tabIndex +' start-offset='+offset +'>' + originalWord + " " + '</div>' + " ";
       }
-    }        
+      else {
+        text += originalWord + " ";
+      }
+    }  
+    console.log(text)
+    cmd[0].innerHTML = text;      
 }
 }
 
@@ -229,6 +251,6 @@ $(document).on ('click', '#contentWrapper > ytd-menu-popup-renderer > tp-yt-pape
   if (event) {
   // Get the transcripts children
   // Set a timeout here
-  setTimeout( updateTranscripts , 3000);
+  setTimeout( updateTranscripts , 1000);
   }
 })
