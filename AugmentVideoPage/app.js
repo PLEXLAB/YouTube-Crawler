@@ -7,32 +7,11 @@ const { request } = require('http');
 
 /* Creates new HTTP server for socket */
 var socketServer = require('http').createServer(app);
-var io = require('socket.io')(socketServer, 
-    {
-    cors: {
-        origin: ["https://www.youtube.com"]
-    }
-}
-);
 
-// io.set('origins', 'https://www.youtube.com');
+app.get("/videoData/:video_id", function(req,res){
+    var id = req.params.video_id;
 
-
-/* Listen for socket connection on port 3002 */
-socketServer.listen(3002, function () {
-    console.log('Socket server listening on : 3002');
-});
-
-
-/* This event will emit when client connects to the socket server */
-io.on('connection', function (socket) {
-
-    console.log("A client connected")
-    console.log(request.url)
-
-    //Get the video id
-    socket.on('video_id', function(id){
-        console.log(id)
+    console.log(id)
 
     var spawn = require("child_process").spawn;
     var process = spawn('python3',[ "./script.py",
@@ -40,14 +19,48 @@ io.on('connection', function (socket) {
   
     // Takes stdout data from script which executed
     // with arguments and send this data to res object
+    
+    var errorData = "";
+
+    // To handle error case
+    process.stderr.on('data', function(data) {
+        errorData += data.toString();
+    }) 
+
+    var stdData = "";
+
+    // To handle output data
     process.stdout.on('data', function(data) {
-        
-        if (data.toString().trim() == 'Not available'){
-            data = "";
-        }
-        socket.emit('demonetized_keywords', data.toString())
-
+        stdData += data.toString();
     })
-})
 
+    process.on("close", function() {
+        if(errorData.length > 0)
+        {
+            res.status(500).send(errorData);
+        }
+        else
+        {
+            console.log("Data: " + stdData.toString())
+            
+            wordsFound = stdData.toString().split("__")
+            top_words = wordsFound[0]
+
+            if (top_words.trim() == "Keywords Sheet Not Available" || top_words.trim() == "Not Available"){
+                stdData = top_words.trim();
+            }
+
+            res.send(stdData.toString());       
+        }
+    });
+    
+});
+
+
+// io.set('origins', 'https://www.youtube.com');
+
+
+/* Listen for socket connection on port 443 */
+socketServer.listen(443, function () {
+    console.log('Socket server listening on : 443');
 });

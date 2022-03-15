@@ -1,0 +1,8 @@
+.demonetized_words {
+    background-color:rgb(204, 0, 0);
+    letter-spacing: 0.55px;
+    padding: 3px;
+    padding-right: 0px;
+    color: white !important;
+    font-weight : 300 !important;
+}
