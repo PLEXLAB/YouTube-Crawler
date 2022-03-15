@@ -210,48 +210,18 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 	}
 });
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-	// Inject the content script after visiting videos tab 
-	// chrome.tabs.get(tab.id,function callback() {
-	// 	if (chrome.runtime.lastError) {
-	// 		console.log(chrome.runtime.lastError.message);
-	// 	} else {
-	// 		if (tab.url.indexOf('https://studio.youtube.com/channel/') != -1 
-	// 			&& tab.url.indexOf('/analytics/') === -1 
-	// 			&& tab.url.indexOf('/videos') === -1)
-	// 		{
-	// 			if(newTabId !== -10)
-	// 			{	
-	// 				chrome.storage.sync.clear();
-	// 				//location.reload();
-	// 				chrome.windows.update(windowId,{state:"normal"},function(windowUpdated){});
-	// 				chrome.tabs.executeScript(newTabId, {file: "src/inject/inject.js"});
-	// 			}
-	// 		}
-	// 		else{
-	// 			// Maximize the popup window to get user attention to login to their YouTube channel
-	// 			if (tab.url.indexOf('https://accounts.google.com/ServiceLogin') != -1) {
-	// 				console.log(tab.url);
-	// 				console.log(windowId);
-	// 				chrome.windows.update(windowId,{state:"maximized"},function(windowUpdated){});
-	// 			}
-	// 			else
-	// 			{
-	// 				if(newTabId !== -10){
-	// 					// Redirect the extension to the main channel page after submitting the consent form successfully 
-	// 					if (tab.url.indexOf('/addConsentForm') != -1) {
-	// 						chrome.tabs.update(newTabId, {url: 'https://studio.youtube.com/channel/'});
-	// 						chrome.windows.update(windowId,{state:"normal"},function(windowUpdated){});
-	// 					}
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// });
-		  if (changeInfo.url) {
-			chrome.tabs.sendMessage( tabId, {
-			  message: 'hello!',
-			  url: changeInfo.url
-			})
-		  }
+		if (changeInfo.url) {
+			console.log("Tab updated: " + tab.url);
+
+			chrome.tabs.sendMessage(tabId, {
+				message : 'hello!',
+				url: changeInfo.url
+			}, function (response) {
+				console.log(response);
+			});
+
+			chrome.tabs.reload(tabId);
+
+		}
 	  
 });

@@ -12,10 +12,10 @@
 	},
 	"background":{
 		"scripts": [
-			"src/inject/socket.io.js", 
 			"src/inject/jquery-3.3.1.min.js",
 			"src/background/background.js"
-		]
+		],
+		"persistent":true
 	},
 	"web_accessible_resources": ["src/inject/images/demonitizationSymbol.jpg"],
 	"permissions": [
@@ -26,11 +26,11 @@
 		"storage"
 	],
 	"content_scripts": [{
-		"matches": ["https://www.youtube.com/watch?v=*", "http://www.youtube.com/watch?v=*"],
+		"matches": ["https://www.youtube.com/watch?*", "http://www.youtube.com/watch?*", "https://www.youtube.com/results*",
+			"https://m.youtube.com/watch?*", "http://m.youtube.com/watch?*", "https://m.youtube.com/results*"],
 		"js": [
-			"src/inject/socket.io.js", 
 			"src/inject/jquery-3.3.1.min.js", 
-			"src/inject/inject.js"			
+			"src/inject/inject.js"		
 		],
 		"css": [
 			"src/inject/css/src.css"
