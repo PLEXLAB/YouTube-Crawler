@@ -210,7 +210,14 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 	}
 });
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-		if (changeInfo.url) {
+
+		/*
+		["https://www.youtube.com/watch?*", "http://www.youtube.com/watch?*", "https://www.youtube.com/results*",
+			"https://m.youtube.com/watch?*", "http://m.youtube.com/watch?*", "https://m.youtube.com/results*"]
+		Reference - https://regexr.com/
+		*/
+		let regex = /((https|http):\/\/(www|m).youtube.com\/(watch|results).*)$/g
+		if (changeInfo.url.match(regex)) {
 			console.log("Tab updated: " + tab.url);
 
 			chrome.tabs.sendMessage(tabId, {

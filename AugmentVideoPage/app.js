@@ -5,6 +5,8 @@ const { request } = require('http');
 
 // Socket connection
 
+// app.use(cors())
+
 /* Creates new HTTP server for socket */
 var socketServer = require('http').createServer(app);
 
