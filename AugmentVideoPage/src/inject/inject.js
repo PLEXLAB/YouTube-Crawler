@@ -29,6 +29,8 @@ function processVID(vID) {
 }
 
 
+// https://www.demonetize.plexlab.net
+
 function requestData() {
   fetch('https://www.demonetize.plexlab.net/videoData/'+vID).then(response => response.text())
   .then(text => handleData(text)); 
@@ -57,14 +59,14 @@ function demonetizedWords(isAvailable, data) {
   if (! found) {
   var demonKeywordsDiv = document.createElement('div');
   demonKeywordsDiv.setAttribute("id", "demonClass");
-  var demonIdentifier = document.createElement('div');
+  // var demonIdentifier = document.createElement('div');
   demonKeywordsDiv.style = 'background-color:gray;z-index:24;opacity:0.7;position:relative;text-align:center';
   if(isAvailable) {
-    demonIdentifier.innerText = 'VIDEO DEMONETIZED';
+    // demonIdentifier.innerText = 'VIDEO DEMONETIZED';
     var demonKeywords = document.createElement('div');
     demonKeywords.innerText = 'DEMONETIZED KEYWORDS FOUND IN TRANSCRIPT - ';
     demonKeywords.style.cssText = 'font-size:16px;padding:10px;letter-spacing: 0.15px;padding:10px;color:white'
-    demonIdentifier.style.cssText = 'font-size:18px;padding:10px;border-bottom:1px solid darkgray;color: #c00;font-weight:600;'
+    // demonIdentifier.style.cssText = 'font-size:18px;padding:10px;border-bottom:1px solid darkgray;color: #c00;font-weight:600;'
     var keywords = document.createElement('span');
     data = data.replace(/,/g, ', ')
     keywords.innerText = data
@@ -77,13 +79,14 @@ function demonetizedWords(isAvailable, data) {
     demonKeywords.style.cssText = 'font-size:16px;padding:10px;letter-spacing: 0.15px;padding:10px;color:white;text-align:center;'   
   }
 
-  $(demonKeywordsDiv).append(demonIdentifier)
+  // $(demonKeywordsDiv).append(demonIdentifier)
   $(demonKeywordsDiv).append(demonKeywords)
   $('#movie_player').append(demonKeywordsDiv)
 }
 }
 
 function handleData(data) {
+  console.log("Reached")
   var dataArr = [];
   var isFound = false;
 
@@ -151,21 +154,22 @@ function handleData(data) {
 
 
 function updateTranscripts(){
-  let transcriptsDiv = $("#content > ytd-transcript-renderer > #body > ytd-transcript-body-renderer")
+  let transcriptsDiv = $("ytd-transcript-search-panel-renderer #body > ytd-transcript-segment-list-renderer")[0].children
   for (var i =0 ; i< (transcriptsDiv[0].children.length - 1); i++) {
     j = i+1
-    let cmd = $("#content > ytd-transcript-renderer > #body > ytd-transcript-body-renderer > div:nth-child" + "(" +j+ ") > div:nth-child(2) > div");
+    let cmd = $("ytd-transcript-search-panel-renderer #body > ytd-transcript-segment-list-renderer > #segments-container > ytd-transcript-segment-renderer:nth-child" + "(" +j+ ") > div > yt-formatted-string");
     // get the current text and store in array
+    console.log(cmd)
     let currentTranscript = cmd[0].innerText;
 
     //get the offset value
     // Set it to empty initially
     cmd[0].innerText = "";
     currentText = currentTranscript.split(" ");
-    let attr = cmd[0].attributes;
-    var className = attr[0].value;
-    var tabIndex = attr[2].value;
-    var offset = attr[3].value;
+    // let attr = cmd[0].attributes;
+    // var className = attr[0].value;
+    // var tabIndex = attr[2].value;
+    // var offset = attr[3].value;
 
     let text = "";           
     for (let val of currentText){
@@ -175,7 +179,8 @@ function updateTranscripts(){
       let lowerCaseWord = refactoredWord.toLowerCase(); 
 
       if (dataSet.has(lowerCaseWord)){
-        text += '<div class = "demonetized_words cue style-scope ytd-transcript-body-renderer" role ="button" tabindex='+tabIndex +' start-offset='+offset +'>' + originalWord + " " + '</div>' + " ";
+        // text += '<div class = "demonetized_words cue style-scope ytd-transcript-body-renderer" role ="button" tabindex='+tabIndex +' aria-hidden='+offset +'>' + originalWord + " " + '</div>' + " ";
+        text+= '<span class = "demonetized_words"' + '>' +  originalWord + '</span>' + " ";
       }
       else {
         text += originalWord + " ";
@@ -191,7 +196,7 @@ $(document).on ('click', '#contentWrapper > ytd-menu-popup-renderer > tp-yt-pape
   if (event) {
   // Get the transcripts children
   // Set a timeout here
-  setTimeout( updateTranscripts , 500);
+  setTimeout( updateTranscripts , 1000);
   }
 })
 
