@@ -209,15 +209,17 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 		});
 	}
 });
-chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 
+// https://www.youtube.com/watch?v=p1Zb90MFf20&list=RDCMUCMTk_R_Y49jvq-HQXDmKI0Q&index=35
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 		/*
 		["https://www.youtube.com/watch?*", "http://www.youtube.com/watch?*", "https://www.youtube.com/results*",
 			"https://m.youtube.com/watch?*", "http://m.youtube.com/watch?*", "https://m.youtube.com/results*"]
 		Reference - https://regexr.com/
 		*/
 		let regex = /((https|http):\/\/(www|m).youtube.com\/(watch|results).*)$/g
-		if (changeInfo.url.match(regex)) {
+		let notRegex = /((https|http):\/\/(www|m).youtube.com\/(watch|results)(.*)(&index)(.*))$/g
+		if (changeInfo.url.match(regex) && !changeInfo.url.match(notRegex)) {
 			console.log("Tab updated: " + tab.url);
 
 			chrome.tabs.sendMessage(tabId, {
@@ -226,7 +228,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 			}, function (response) {
 				console.log(response);
 			});
-
+			console.log(tabId)
 			chrome.tabs.reload(tabId);
 
 		}

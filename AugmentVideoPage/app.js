@@ -51,7 +51,7 @@ app.get("/videoData/:video_id", function(req,res){
             if (top_words.trim() == "Keywords Sheet Not Available" || top_words.trim() == "Not Available"){
                 stdData = top_words.trim();
             }
-
+            // send the video Id as well
             res.send(stdData.toString());       
         }
     });

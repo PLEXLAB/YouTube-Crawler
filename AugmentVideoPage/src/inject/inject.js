@@ -59,14 +59,14 @@ function demonetizedWords(isAvailable, data) {
   if (! found) {
   var demonKeywordsDiv = document.createElement('div');
   demonKeywordsDiv.setAttribute("id", "demonClass");
-  var demonIdentifier = document.createElement('div');
+  // var demonIdentifier = document.createElement('div');
   demonKeywordsDiv.style = 'background-color:gray;z-index:24;opacity:0.7;position:relative;text-align:center';
   if(isAvailable) {
-    demonIdentifier.innerText = 'VIDEO DEMONETIZED';
+    // demonIdentifier.innerText = 'VIDEO DEMONETIZED';
     var demonKeywords = document.createElement('div');
     demonKeywords.innerText = 'DEMONETIZED KEYWORDS FOUND IN TRANSCRIPT - ';
     demonKeywords.style.cssText = 'font-size:16px;padding:10px;letter-spacing: 0.15px;padding:10px;color:white'
-    demonIdentifier.style.cssText = 'font-size:18px;padding:10px;border-bottom:1px solid darkgray;color: #c00;font-weight:600;'
+    // demonIdentifier.style.cssText = 'font-size:18px;padding:10px;border-bottom:1px solid darkgray;color: #c00;font-weight:600;'
     var keywords = document.createElement('span');
     data = data.replace(/,/g, ', ')
     keywords.innerText = data
@@ -79,7 +79,7 @@ function demonetizedWords(isAvailable, data) {
     demonKeywords.style.cssText = 'font-size:16px;padding:10px;letter-spacing: 0.15px;padding:10px;color:white;text-align:center;'   
   }
 
-  $(demonKeywordsDiv).append(demonIdentifier)
+  // $(demonKeywordsDiv).append(demonIdentifier)
   $(demonKeywordsDiv).append(demonKeywords)
   $('#movie_player').append(demonKeywordsDiv)
 }
