@@ -5,7 +5,7 @@ const { request } = require('http');
 
 // Socket connection
 
-// app.use(cors())
+app.use(cors())
 
 /* Creates new HTTP server for socket */
 var socketServer = require('http').createServer(app);
@@ -47,9 +47,13 @@ app.get("/videoData/:video_id", function(req,res){
             
             wordsFound = stdData.toString().split("__")
             top_words = wordsFound[0]
-
-            if (top_words.trim() == "Keywords Sheet Not Available" || top_words.trim() == "Not Available"){
-                stdData = top_words.trim();
+            
+            if (top_words.trim() == ""){
+                console.log(stdData)
+                stdData="No Demonetized Keywords Found" + "__";
+            }
+            else if (top_words.trim() == "Keywords Sheet Not Available" || top_words.trim() == "Transcripts Not Available"){
+                stdData = top_words.trim() + "__";
             }
             // send the video Id as well
             res.send(stdData.toString());       
@@ -63,6 +67,6 @@ app.get("/videoData/:video_id", function(req,res){
 
 
 /* Listen for socket connection on port 443 */
-socketServer.listen(443, function () {
+socketServer.listen(3002, function () {
     console.log('Socket server listening on : 443');
 });

@@ -169,7 +169,7 @@ def main(id):
         elif len(wordsLikely) == 10:
             output = ",".join(sorted(wordsLikely))
 
-        #Case 3 - more than 10 words in likeley list
+        #Case 3 - more than 10 words in likely list
         # Pick top 10 words from the transcript video
         else:
             temp = []
@@ -187,7 +187,7 @@ def main(id):
             output= ",".join(sorted(temp))
     except:
         output = "Transcripts Not Available"
-
+    
     print(output + "__" + ",".join(demonetized_res[0]))
 
 #call the main function
