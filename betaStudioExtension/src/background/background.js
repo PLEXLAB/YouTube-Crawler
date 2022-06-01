@@ -9,6 +9,7 @@ var xBackup2= [];
 var lastCrawledVid = "";
 var prevSender = -1000;
 var lastrunTime = "";
+
 function callback() {
     if (chrome.runtime.lastError) {
         console.log(chrome.runtime.lastError.message);
