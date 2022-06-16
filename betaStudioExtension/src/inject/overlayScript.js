@@ -9,9 +9,9 @@ function displayOverlay(text) {
         "z-index": 10000,
         "vertical-align": "middle",
         "text-align": "left",
-		"background-color": "rgba(128,128,128,0.75)",
-        "color": "#E8E8E8",
-		"opacity":"0.5",
+		"background-color": "rgba(0,0,0,0.50)",// this part was changed
+        "color": "#2B2B2B",
+		"opacity":"1",
         "cursor": "wait"
     }).appendTo("body");
 	

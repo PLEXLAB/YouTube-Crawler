@@ -1,6 +1,6 @@
 /*
 	This function checks if the video creator has signed 
-	the consent form before crwling his/her channel
+	the consent form before crawling his/her channel
 */
 //==========================================================
 function querycForms(chID) {
@@ -23,7 +23,7 @@ function querycForms(chID) {
 		}	
 	};
 	//conFhttpReq.onerror = function(){		chrome.runtime.sendMessage("NetworkError");	};
-	conFhttpReq.open('GET', 'https://plexweb.cs.nmsu.edu/conFormMatch/'+chID, true); 
+	conFhttpReq.open('GET', 'http://localhost:3000/conFormMatch/'+chID, true);
 	conFhttpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 	//conFhttpReq.send('chID='   + encodeURIComponent(chID));
 	conFhttpReq.send();

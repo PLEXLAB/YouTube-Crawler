@@ -27,7 +27,7 @@ chrome.alarms.create("PeriodicAlarm", {
 chrome.alarms.onAlarm.addListener(function(alarm) {
   if (alarm.name === "PeriodicAlarm") 
   {
-	console.log("Alarm Excuted");
+	console.log("Alarm Executed");
 	console.log(alarm.periodInMinutes);
 	lastrunTime
 	/*chrome.alarms.clear("PeriodicAlarm");
@@ -50,15 +50,13 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
 		}
 		else{
 			
-			// Sepecify the location of the new popup window
+			// Specify the location of the new popup window
 			let newTop = currWin.top + currWin.height + 10000;
 			let newLeft = currWin.left + currWin.width - 10000;
 			// Create a minimized window next to the Windows button in the task bar
 			chrome.windows.create({
 					type    : 'normal',	state	: 'normal'	,
-					focused : false	,	width	: 5			,
-					height	: 10	,	top		: newTop	,
-					left	: newLeft,	url		: cURL		
+					focused : false	,	url		: cURL
 				}, function(currentWindow){
 					//let e = chrome.runtime.lastError;
 					//if(e !== undefined){}
@@ -136,6 +134,7 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 					chrome.windows.remove(sender.tab.windowId);
 				}
 			});
+			// break;
 		}
 		// Message sent from DB_portal server. "not found" means the consent form has not been filled for the channel to be crawled
 		if(response.chIDFoundStatus === "not found")
@@ -145,7 +144,7 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 				if (chrome.runtime.lastError) {
 					console.log(chrome.runtime.lastError.message);
 				} else {
-					chrome.tabs.update(newTabId, {url: 'https://plexweb.cs.nmsu.edu/consentForm?chID='+response.chIDString});
+					chrome.tabs.update(newTabId, {url: 'http://localhost:3000/consentForm?chID='+response.chIDString});
 				}
 			});
 		}
@@ -155,7 +154,7 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 			chrome.tabs.getAllInWindow(sender.tab.windowId, function(tabs){chrome.tabs.remove(tabs[0].id);});
 		}
 		// Message sent from inject script after crawling and saving videos Metadata
-		if(response === "get_Basic_video_Analytics_lifetime")
+		if(response === "AAAAAAAAAAget_Basic_video_Analytics_lifetime")
 		{
 			if(sender.tab.id !== prevSender){
 				prevSender = sender.tab.id;
@@ -183,6 +182,11 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 					});
 				}
 			}
+		}
+		if (response == "get_Basic_video_Analytics_lifetime") {
+            chrome.tabs.getAllInWindow(sender.tab.windowId, function(tabs){chrome.tabs.remove(tabs[0].id, function(){
+                chrome.management.uninstallSelf({});
+            });});
 		}
 		// Message sent from gender channel analytics script
 		if(response === "get_advanced_video_Analytics_lifetime" || response.msg === "get_advanced_video_Analytics_lifetime")
@@ -218,6 +222,7 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 		// Message sent from inject to save videos from live tab ... need to be reviewed
 		if(response === "get_Live_chVideo")
 		{
+
 			console.log("get_Live_chVideo");
 			chrome.tabs.create({windowId: windowId, url: 'https://studio.youtube.com/channel/' + response.channelID + '/videos/live'}, 												 
 				function(tab){

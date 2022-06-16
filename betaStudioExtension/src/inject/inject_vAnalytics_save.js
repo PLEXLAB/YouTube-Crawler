@@ -28,7 +28,7 @@ function saveVideoAnalytics(vID, overviewList, reachList, engList, audList){
 		console.log("XMLHttpRequest is timedout");
 		chrome.runtime.sendMessage("NetworkError");
 	};
-	VAhttpReq.open('POST', 'https://plexweb.cs.nmsu.edu/saveVanalytics', true);
+	VAhttpReq.open('POST', 'http://localhost:3000/saveVanalytics', true);
 	VAhttpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 	VAhttpReq.send( 'vID='	        + encodeURIComponent(vID)		+
 					'&todayDate='   + encodeURIComponent(todayDate)  +
@@ -65,7 +65,7 @@ function saveV_adv_trafficAnalytics(anaCategory, vID, trafficList){
 		console.log("XMLHttpRequest is timedout");
 		chrome.runtime.sendMessage("NetworkError");
 	};
-	VAdvhttpReq.open('POST', 'https://plexweb.cs.nmsu.edu/saveVadvAnalytics', true);
+	VAdvhttpReq.open('POST', 'http://localhost:3000/saveVadvAnalytics', true);
 	VAdvhttpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 	VAdvhttpReq.send( 'vID='	        + encodeURIComponent(vID)		+
 					'&todayDate='   + encodeURIComponent(todayDate)  +
