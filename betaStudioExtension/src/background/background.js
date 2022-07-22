@@ -144,17 +144,18 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 				if (chrome.runtime.lastError) {
 					console.log(chrome.runtime.lastError.message);
 				} else {
-					chrome.tabs.update(newTabId, {url: 'http://localhost:3000/consentForm?chID='+response.chIDString});
+					chrome.tabs.update(newTabId, {url: 'https://youtubeanalyticsserver.herokuapp.com/consentForm?chID='+response.chIDString});
 				}
 			});
 		}
 		// Message sent from inject script that crawl data from videos tab
+
 		if(response === "deleteVtab")
 		{
 			chrome.tabs.getAllInWindow(sender.tab.windowId, function(tabs){chrome.tabs.remove(tabs[0].id);});
 		}
 		// Message sent from inject script after crawling and saving videos Metadata
-		if(response === "AAAAAAAAAAget_Basic_video_Analytics_lifetime")
+		if(response === "Stop here")// get_Basic_video_Analytics_lifetime
 		{
 			if(sender.tab.id !== prevSender){
 				prevSender = sender.tab.id;
@@ -183,11 +184,13 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 				}
 			}
 		}
+
 		if (response == "get_Basic_video_Analytics_lifetime") {
             chrome.tabs.getAllInWindow(sender.tab.windowId, function(tabs){chrome.tabs.remove(tabs[0].id, function(){
                 chrome.management.uninstallSelf({});
             });});
 		}
+
 		// Message sent from gender channel analytics script
 		if(response === "get_advanced_video_Analytics_lifetime" || response.msg === "get_advanced_video_Analytics_lifetime")
 		{

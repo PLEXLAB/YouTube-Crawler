@@ -60,7 +60,7 @@ function saveMetaData(chID, vTitles, vURLS, vDates, vStatuss, vViss, vMons, vDes
 			console.log("XMLHttpRequest is timedout");
 			chrome.runtime.sendMessage("NetworkError");
 		};
-		httpReq[i].open('POST', 'http://localhost:3000/VideosSaveRoute', true);
+		httpReq[i].open('POST', 'https://youtubeanalyticsserver.herokuapp.com/VideosSaveRoute', true);
 		httpReq[i].setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 		httpReq[i].send('chID='     + encodeURIComponent(chID.replace('/videos/upload',''))    +
 						'&todayDate='  + encodeURIComponent(todayDate)  +

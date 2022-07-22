@@ -27,7 +27,7 @@ function saveChAnalytics(period, chID, overviewList, reachList, engList, audList
 		console.log("XMLHttpRequest is timedout");
 		chrome.runtime.sendMessage("NetworkError");
 	};
-	chAhttpReq.open('POST', 'http://localhost:3000/saveCHanalytics', true);
+	chAhttpReq.open('POST', 'https://youtubeanalyticsserver.herokuapp.com/saveCHanalytics', true);
 	chAhttpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 	chAhttpReq.send('period='	    + encodeURIComponent(period)	+
 					'&chID='	    + encodeURIComponent(chID)		+
