@@ -13,7 +13,7 @@ function saveMetaData(chID, vTitles, vURLS, vDates, vStatuss, vViss, vMons, vDes
 		var vVis		    = vViss[i];
 		if(vVis == null) continue;	
 		if (vVis.indexOf('Private') > -1){continue;}
-		if (vVis.indexOf('Unlisted') > -1){continue;} 
+		//if (vVis.indexOf('Unlisted') > -1){continue;} 
 		if (vVis.indexOf('Removed') > -1){continue;}
 		
 		totalNoVideos += 1;
@@ -60,22 +60,23 @@ function saveMetaData(chID, vTitles, vURLS, vDates, vStatuss, vViss, vMons, vDes
 			console.log("XMLHttpRequest is timedout");
 			chrome.runtime.sendMessage("NetworkError");
 		};
-		httpReq[i].open('POST', 'https://youtubeanalyticsserver.herokuapp.com/VideosSaveRoute', true);
+		httpReq[i].open('POST', 'http://localhost:3000/VideosSaveRoute', true); //testing with local server
+		//httpReq[i].open('POST', 'https://youtubeanalyticsserver.herokuapp.com/VideosSaveRoute', true);
 		httpReq[i].setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		httpReq[i].send('chID='     + encodeURIComponent(chID.replace('/videos/upload',''))    +
-						'&todayDate='  + encodeURIComponent(todayDate)  +
-						'&vTitle='  + encodeURIComponent(vTitle.trim())  +
-						'&vURL='    + encodeURIComponent(vURL)    +
-						'&vID='     + encodeURIComponent(vID)     +
-						'&vDate='   + encodeURIComponent(vDate)   +
-						'&vStatus=' + encodeURIComponent(vStatus) +
-						'&vVis='    + encodeURIComponent(vVis.trim())    +
-						'&vMon='    + encodeURIComponent(vMon)    +
-						'&vDesc='   + encodeURIComponent(vDesc)   +
-						'&vView='   + encodeURIComponent(vView.trim())   +
-						'&vNoComm=' + encodeURIComponent(vNoComm.trim()) +
+		httpReq[i].send('chID='          + encodeURIComponent(chID.replace('/videos/upload',''))    +
+						'&todayDate='    + encodeURIComponent(todayDate)  +
+						'&vTitle='       + encodeURIComponent(vTitle.trim())  +
+						'&vURL='         + encodeURIComponent(vURL)    +
+						'&vID='          + encodeURIComponent(vID)     +
+						'&vDate='        + encodeURIComponent(vDate)   +
+						'&vStatus='      + encodeURIComponent(vStatus) +
+						'&vVis='         + encodeURIComponent(vVis.trim())    +
+						'&vMon='         + encodeURIComponent(vMon)    +
+						'&vDesc='        + encodeURIComponent(vDesc)   +
+						'&vView='        + encodeURIComponent(vView.trim())   +
+						'&vNoComm='      + encodeURIComponent(vNoComm.trim()) +
 						'&vvisOuterH='   + encodeURIComponent(vvisOuterH)   +
 						'&vmonOuterH='   + encodeURIComponent(vmonOuterH)   +
-						'&vristOuterH=' + encodeURIComponent(vristOuterH));	
+						'&vristOuterH='  + encodeURIComponent(vristOuterH));	
 	}
 }

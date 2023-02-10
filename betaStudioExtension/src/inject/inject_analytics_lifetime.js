@@ -55,7 +55,7 @@ function getOverview(){
 }
 //Reach Tab ==============================================================
 function reachVisit(){
-	var reachTab = document.querySelector("#reach_viewers");
+	var reachTab = document.querySelector("#content");
 	if (reachTab !== null){
 		reachTab.click();
 		clearInterval(reachVistTabInt);

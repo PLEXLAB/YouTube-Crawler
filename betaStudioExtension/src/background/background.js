@@ -10,6 +10,7 @@ var lastCrawledVid = "";
 var prevSender = -1000;
 var lastrunTime = "";
 
+
 function callback() {
     if (chrome.runtime.lastError) {
         console.log(chrome.runtime.lastError.message);
@@ -144,48 +145,49 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 				if (chrome.runtime.lastError) {
 					console.log(chrome.runtime.lastError.message);
 				} else {
-					chrome.tabs.update(newTabId, {url: 'https://youtubeanalyticsserver.herokuapp.com/consentForm?chID='+response.chIDString});
+					chrome.tabs.update(newTabId, {url: 'http://localhost:3000/consentForm?chID='+response.chIDString});
+					// chrome.tabs.update(newTabId, {url: 'https://youtubeanalyticsserver.herokuapp.com/consentForm?chID='+response.chIDString});
 				}
 			});
 		}
 		// Message sent from inject script that crawl data from videos tab
-
 		if(response === "deleteVtab")
 		{
 			chrome.tabs.getAllInWindow(sender.tab.windowId, function(tabs){chrome.tabs.remove(tabs[0].id);});
 		}
 		// Message sent from inject script after crawling and saving videos Metadata
-		if(response === "Stop here")// get_Basic_video_Analytics_lifetime
-		{
-			if(sender.tab.id !== prevSender){
-				prevSender = sender.tab.id;
-				vID = xBack.pop();
-				console.log("Video ID is added to videos list");
-				console.log(!(xBackup.includes(vID)));
-				if( vID !== undefined && !(xBackup.includes(vID))){
-					xBackup.push(vID);
-					chrome.tabs.create({windowId: windowId, url: 'https://studio.youtube.com/video/' + vID + '/analytics/./period-lifetime'},
-						function(tab){
-							chrome.tabs.executeScript(tab.id, {file: "src/inject/jquery-3.3.1.min.js"});
-							chrome.tabs.executeScript(tab.id, {file: "src/inject/overlayScript.js"});
-							chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_vAnalytics_save.js"});
-							chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_analytics_Single_video_lifetime.js"});
-					});
-				}
-				else{
-					// Start getting channel analytics after finshing video analytics
-					chrome.tabs.create({windowId: windowId, url: 'https://studio.youtube.com/channel/*/analytics/./period-lifetime'}, 
-						function(tab){
-							chrome.tabs.executeScript(tab.id, {file: "src/inject/jquery-3.3.1.min.js"});
-							chrome.tabs.executeScript(tab.id, {file: "src/inject/overlayScript.js"});
-							chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_chAnalytics_save.js"});
-							chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_analytics_lifetime.js"});
-					});
-				}
-			}
-		}
+		// if(response === "get_Basic_video_Analytics_lifetime")// get_Basic_video_Analytics_lifetime
+		// {
+		// 	if(sender.tab.id !== prevSender){
+		// 		prevSender = sender.tab.id;
+		// 		vID = xBack.pop();
+		// 		console.log("Video ID is added to videos list");
+		// 		console.log(!(xBackup.includes(vID)));
+		// 		if( vID !== undefined && !(xBackup.includes(vID))){
+		// 			xBackup.push(vID);
+		// 			chrome.tabs.create({windowId: windowId, url: 'https://studio.youtube.com/video/' + vID + '/analytics/./period-lifetime'},
+		// 				function(tab){
+		// 					chrome.tabs.executeScript(tab.id, {file: "src/inject/jquery-3.3.1.min.js"});
+		// 					chrome.tabs.executeScript(tab.id, {file: "src/inject/overlayScript.js"});
+		// 					chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_vAnalytics_save.js"});
+		// 					chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_analytics_Single_video_lifetime.js"});
+		// 			});
+		// 		}
+		// 		else{
+		// 			// Start getting channel analytics after finshing video analytics
+		// 			chrome.tabs.create({windowId: windowId, url: 'https://studio.youtube.com/channel/*/analytics/./period-lifetime'}, 
+		// 				function(tab){
+		// 					chrome.tabs.executeScript(tab.id, {file: "src/inject/jquery-3.3.1.min.js"});
+		// 					chrome.tabs.executeScript(tab.id, {file: "src/inject/overlayScript.js"});
+		// 					chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_chAnalytics_save.js"});
+		// 					chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_analytics_lifetime.js"});
+		// 			});
+		// 		}
+		// 	}
+		// }
 
-		if (response == "get_Basic_video_Analytics_lifetime") {
+		if (response == "Stop here") { //Stop here
+			
             chrome.tabs.getAllInWindow(sender.tab.windowId, function(tabs){chrome.tabs.remove(tabs[0].id, function(){
                 chrome.management.uninstallSelf({});
             });});

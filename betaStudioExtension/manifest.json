@@ -22,7 +22,7 @@
 	},
 	"permissions": [
 		"https://studio.youtube.com/*",
-		"https://youtubeanalyticsserver.herokuapp.com/*",
+		"http://localhost:3000/",
 		"<all_urls>",
 		"tabs",
 		"activeTab",
