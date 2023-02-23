@@ -10,7 +10,7 @@ var table_list				= [];
 var colsList				= [];
 var updateColsList			= [];
 var newTitles				= [];
-var readyStateChkInterval 	= setInterval(chkDocReady	, Math.floor(Math.random() * 15000 + 5000));
+var readyStateChkInterval 	= setInterval(chkDocReady	, config.getRandomTimeoutInterval());
 var tableHeadersInt			= 0;
 var	tableContentsInt		= 0;
 var numberOfCols			= 0;
@@ -18,7 +18,7 @@ var numberOfCols			= 0;
 function chkDocReady(){
 	if (document.readyState === "complete") {
 		clearInterval(readyStateChkInterval);
-		tableHeadersInt	= setInterval(getVideoTabHeaders,	Math.floor(Math.random() * 15000 + 5000));
+		tableHeadersInt	= setInterval(getVideoTabHeaders,	config.getRandomTimeoutInterval());
 	}
 }
 
@@ -48,7 +48,7 @@ function getVideoTabHeaders(){
 	if(mainColTitleFlag === true && otherColTilesFlag === true)
 	{
 		clearInterval(tableHeadersInt);
-		tableContentsInt	=	setInterval(getVideTabBody,	Math.floor(Math.random() * 15000 + 5000));
+		tableContentsInt	=	setInterval(getVideTabBody,	config.getRandomTimeoutInterval());
 	}
 }
 //=========================================================
@@ -126,8 +126,8 @@ function getVideTabBody(){
 		var chID   		= urlOFpopup.substring(lastIndex + 8);
 		chID			= chID.substring(0, chID.indexOf('/'));
 		saveChExpAnalytics("lifetime", "geoAna", chID, table_list);
-		setTimeout(function(){chrome.runtime.sendMessage({msg: "getAanalytics_explore_Age", channelID: chID});}, Math.floor(Math.random() * 15000 + 5000));
-		// setTimeout(function(){chrome.runtime.sendMessage("getAanalytics_explore_Age");}, Math.floor(Math.random() * 15000 + 5000));
+		setTimeout(function(){chrome.runtime.sendMessage({msg: "getAanalytics_explore_Age", channelID: chID});}, config.getRandomTimeoutInterval());
+		// setTimeout(function(){chrome.runtime.sendMessage("getAanalytics_explore_Age");}, config.getRandomTimeoutInterval());
 	}
 }
 console.log("in Explore");

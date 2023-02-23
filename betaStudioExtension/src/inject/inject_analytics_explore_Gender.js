@@ -10,7 +10,7 @@ var table_list				= [];
 var colsList				= [];
 var updateColsList			= [];
 var newTitles				= [];
-var readyStateChkInterval 	= setInterval(chkDocReady	, Math.floor(Math.random() * 15000 + 5000));
+var readyStateChkInterval 	= setInterval(chkDocReady	, config.getRandomTimeoutInterval());
 var tableHeadersInt			= 0;
 var	tableContentsInt		= 0;
 var numberOfCols			= 0;
@@ -18,7 +18,7 @@ var numberOfCols			= 0;
 function chkDocReady(){
 	if (document.readyState === "complete") {
 		clearInterval(readyStateChkInterval);
-		tableHeadersInt	= setInterval(getVideoTabHeaders,	Math.floor(Math.random() * 15000 + 5000));
+		tableHeadersInt	= setInterval(getVideoTabHeaders,	config.getRandomTimeoutInterval());
 	}
 }
 
@@ -48,7 +48,7 @@ function getVideoTabHeaders(){
 	if(mainColTitleFlag === true && otherColTilesFlag === true)
 	{
 		clearInterval(tableHeadersInt);
-		tableContentsInt	=	setInterval(getVideTabBody,	Math.floor(Math.random() * 15000 + 5000));
+		tableContentsInt	=	setInterval(getVideTabBody,	config.getRandomTimeoutInterval());
 	}
 }
 //=========================================================
@@ -129,8 +129,8 @@ function getVideTabBody(){
 		chID			= chID.substring(0, chID.indexOf('/'));
 		saveChExpAnalytics("lifetime", "genderAna", chID, table_list);
 		//setTimeout(function(){chrome.runtime.sendMessage({msg: "channelCrawled", channelID: chID});}, 5000);
-		setTimeout(function(){chrome.runtime.sendMessage("get_advanced_video_Analytics_lifetime");}, Math.floor(Math.random() * 15000 + 5000));
-		// setTimeout(function(){chrome.runtime.sendMessage("get_advanced_video_Analytics_lifetime");}, Math.floor(Math.random() * 15000 + 5000));
+		setTimeout(function(){chrome.runtime.sendMessage("get_advanced_video_Analytics_lifetime");}, config.getRandomTimeoutInterval());
+		// setTimeout(function(){chrome.runtime.sendMessage("get_advanced_video_Analytics_lifetime");}, config.getRandomTimeoutInterval());
 	}
 }
 console.log("in Explore");

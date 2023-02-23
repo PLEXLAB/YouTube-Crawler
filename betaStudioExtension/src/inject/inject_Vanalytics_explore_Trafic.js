@@ -10,7 +10,7 @@ var table_list				= [];
 var colsList				= [];
 var updateColsList			= [];
 var newTitles				= [];
-var readyStateChkInterval 	= setInterval(chkDocReady	, Math.floor(Math.random() * 15000 + 5000));
+var readyStateChkInterval 	= setInterval(chkDocReady	, config.getRandomTimeoutInterval());
 var tableHeadersInt			= 0;
 var	tableContentsInt		= 0;
 var numberOfCols			= 0;
@@ -18,7 +18,7 @@ var numberOfCols			= 0;
 function chkDocReady(){
 	if (document.readyState === "complete") {
 		clearInterval(readyStateChkInterval);
-		tableHeadersInt	= setInterval(getVideoTabHeaders,	Math.floor(Math.random() * 15000 + 5000));
+		tableHeadersInt	= setInterval(getVideoTabHeaders,	config.getRandomTimeoutInterval());
 	}
 }
 
@@ -48,7 +48,7 @@ function getVideoTabHeaders(){
 	if(mainColTitleFlag === true && otherColTilesFlag === true)
 	{
 		clearInterval(tableHeadersInt);
-		tableContentsInt	=	setInterval(getVideTabBody,	Math.floor(Math.random() * 15000 + 5000));
+		tableContentsInt	=	setInterval(getVideTabBody,	config.getRandomTimeoutInterval());
 	}
 }
 //=========================================================
@@ -127,7 +127,7 @@ function getVideTabBody(){
 		var vID   		= urlOFpopup.substring(lastIndex + 6);
 		vID				= vID.substring(0, vID.indexOf('/'));
 		saveV_adv_trafficAnalytics("traficAna", vID, table_list);
-		setTimeout(function(){chrome.runtime.sendMessage({msg: "get_advanced_video_Analytics_lifetime", vID: vID});}, Math.floor(Math.random() * 15000 + 5000));
+		setTimeout(function(){chrome.runtime.sendMessage({msg: "get_advanced_video_Analytics_lifetime", vID: vID});}, config.getRandomTimeoutInterval());
 	}
 }
 console.log("in Explore");

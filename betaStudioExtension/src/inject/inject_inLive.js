@@ -10,12 +10,12 @@ chrome.runtime.sendMessage("deleteVtab");
 var lastPageFlag 	= false	; // flag used to mark reaching the last page of videos list, will be used to start crawling analytics page
 var conFormCheck	= true	;
 var chID		 	= ""	;
-var readyStateChkInterval 	= setInterval(chkDocReady	, Math.floor(Math.random() * 15000 + 5000));
+var readyStateChkInterval 	= setInterval(chkDocReady	, config.getRandomTimeoutInterval());
 try{
 	displayOverlay("<h3 align='center'>Crawling: <u>Videos</u>, Videos-Analytics, Channel_Analytics, Advanced-Channel_Analytics</h3><h5 align='center'><br>Please DO NOT close this window<br>This window will be closed automatically once the crawling is finished.</h5>");
 }
 catch{}
-var nextBtnChkClk			= setInterval(chkClkNextBtn , Math.floor(Math.random() * 15000 + 5000));
+var nextBtnChkClk			= setInterval(chkClkNextBtn , config.getRandomTimeoutInterval());
 
 //=========================================================
 function chkDocReady(){
@@ -41,7 +41,7 @@ function chkClkNextBtn(){
 			setTimeout(function(){
 					saveMetaData (chID, getVideoTitles(), getVideUrls(), getDate(), getStatus(), getVisibility(), getMonStat(), getVideoDescriptions(), getNoViews(), getNoComments(), getOuterHtml_Vis(), getOuterHtml_Mon(), getOuterHtml_Rist());
 					nextBtn.click();
-			}, Math.floor(Math.random() * 15000 + 5000));
+			}, config.getRandomTimeoutInterval());
 			lastPageFlag = true;
 		}
 		else{
@@ -55,7 +55,7 @@ function chkClkNextBtn(){
 					setTimeout(function(){
 						saveMetaData (chID, getVideoTitles(), getVideUrls(), getDate(), getStatus(), getVisibility(), getMonStat(), getVideoDescriptions(), getNoViews(), getNoComments(), getOuterHtml_Vis(), getOuterHtml_Mon(), getOuterHtml_Rist());
 						chrome.runtime.sendMessage("get_Basic_video_Analytics_lifetime");
-					}, Math.floor(Math.random() * 15000 + 5000));
+					}, config.getRandomTimeoutInterval());
 					clearInterval(nextBtnChkClk);
 				}
 	}

@@ -10,7 +10,7 @@ var table_list				= [];
 var colsList				= [];
 var updateColsList			= [];
 var newTitles				= [];
-var readyStateChkInterval 	= setInterval(chkDocReady	, Math.floor(Math.random() * 15000 + 5000));
+var readyStateChkInterval 	= setInterval(chkDocReady	, config.getRandomTimeoutInterval());
 var tableHeadersInt			= 0;
 var	tableContentsInt		= 0;
 var numberOfCols			= 0;
@@ -18,11 +18,11 @@ var numberOfCols			= 0;
 function chkDocReady(){
 	if (document.readyState === "complete") {
 		clearInterval(readyStateChkInterval);
-		tableHeadersInt	= setInterval(stopCrawling,	Math.floor(Math.random() * 15000 + 5000));
+		tableHeadersInt	= setInterval(stopCrawling,	config.getRandomTimeoutInterval());
 	}
 }
 
 //=========================================================
 function stopCrawling(){
-		setTimeout(function(){chrome.runtime.sendMessage("channelCrawled");}, Math.floor(Math.random() * 15000 + 5000));
+		setTimeout(function(){chrome.runtime.sendMessage("channelCrawled");}, config.getRandomTimeoutInterval());
 }

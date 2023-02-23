@@ -31,7 +31,7 @@ function getDuration(){
 		console.log(duration.textContent);
 		clearInterval(overviewDurationInt);
 		overview_vAnalytics["duration"] =  duration.textContent;
-		overviewMetricsInt	= setInterval(getOverview	, Math.floor(Math.random() * 15000 + 5000));
+		overviewMetricsInt	= setInterval(getOverview	, config.getRandomTimeoutInterval());
 	}
 }
 //Overview Tab ==============================================================
@@ -50,7 +50,7 @@ function getOverview(){
 		overview_vAnalytics["watchTime"] 	=  overviewWatchTime;
 		overview_vAnalytics["subscribers"] 	=  overviewSubscribers;;
 		clearInterval(overviewMetricsInt);
-		reachVistTabInt		= setInterval(reachVisit	, Math.floor(Math.random() * 15000 + 5000));
+		reachVistTabInt		= setInterval(reachVisit	, config.getRandomTimeoutInterval());
 	}
 }
 //Reach Tab ==============================================================
@@ -59,7 +59,7 @@ function reachVisit(){
 	if (reachTab !== null){
 		reachTab.click();
 		clearInterval(reachVistTabInt);
-		reachMetricsInt		= setInterval(getReach		, Math.floor(Math.random() * 15000 + 5000));
+		reachMetricsInt		= setInterval(getReach		, config.getRandomTimeoutInterval());
 	}
 }
 //Reach Tab ==============================================================
@@ -111,7 +111,7 @@ function getReach(){
 				{	watchTimeFromImp	= 	(watchTimeFromImp.textContent).trim();	reach_vAnalytics["watchTimeFromImp"]= watchTimeFromImp;	console.log(watchTimeFromImp);	}
 		}
 		clearInterval(reachMetricsInt);
-		engVistTabInt		= setInterval(audVisit		, Math.floor(Math.random() * 15000 + 5000));
+		engVistTabInt		= setInterval(audVisit		, config.getRandomTimeoutInterval());
 	}
 	if(config.debug){console.log("debug-- getReach end");}
 }
@@ -123,7 +123,7 @@ function getReach(){
 // 	if (engTab !== null){
 // 		engTab.click();
 // 		clearInterval(engVistTabInt);
-// 		engMetricsInt		= setInterval(getEng		, Math.floor(Math.random() * 15000 + 5000));
+// 		engMetricsInt		= setInterval(getEng		, config.getRandomTimeoutInterval());
 // 	}
 // 	if(config.debug){console.log("debug-- engVisit end");}
 // }
@@ -152,7 +152,7 @@ function getReach(){
 // 				{	avgViewDurPrsnt	=	(reachMetricsPerc[1].textContent).trim();	console.log(avgViewDurPrsnt);	}
 // 		}
 // 		clearInterval(engMetricsInt);
-// 		audienceInt			= setInterval(audVisit		, Math.floor(Math.random() * 15000 + 5000));
+// 		audienceInt			= setInterval(audVisit		, config.getRandomTimeoutInterval());
 // 	}
 // 	if(config.debug){console.log("debug-- getEng end");}
 // }
@@ -164,7 +164,7 @@ function audVisit(){
 	{
 		audTab.click();
 		clearInterval(audienceInt);
-		audienceMetricsInt	= setInterval(getAud		, Math.floor(Math.random() * 15000 + 5000));
+		audienceMetricsInt	= setInterval(getAud		, config.getRandomTimeoutInterval());
 	}
 	if(config.debug){console.log("debug-- audVisit end");}
 }
@@ -195,8 +195,8 @@ function getAud(){
 		chID			= chID.substring(0, chID.indexOf('/'));
 		if(config.debug){console.log("")}
 		saveChAnalytics("lifetime", chID, overview_vAnalytics, reach_vAnalytics, audit_vAnalytics);
-		setTimeout(function(){chrome.runtime.sendMessage({msg: "getAanalytics_explore_chVideo", channelID: chID});}, Math.floor(Math.random() * 15000 + 5000));
-		// setTimeout(function(){chrome.runtime.sendMessage("getAanalytics_explore_chVideo");}, Math.floor(Math.random() * 15000 + 5000));
+		setTimeout(function(){chrome.runtime.sendMessage({msg: "getAanalytics_explore_chVideo", channelID: chID});}, config.getRandomTimeoutInterval());
+		// setTimeout(function(){chrome.runtime.sendMessage("getAanalytics_explore_chVideo");}, config.getRandomTimeoutInterval());
 
 	}
 }

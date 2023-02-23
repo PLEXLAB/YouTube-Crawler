@@ -9,15 +9,15 @@
 var lastPageFlag 	= false	; // flag used to mark reaching the last page of videos list, will be used to start crawling analytics page
 var conFormCheck	= true	;
 var chID		 	= ""	;
-var readyStateChkInterval 	= setInterval(chkDocReady	, Math.floor(Math.random() * 15000 + 5000));
+var readyStateChkInterval 	= setInterval(chkDocReady	, config.getRandomTimeoutInterval());
 try{
 	displayOverlay("<h3 align='center'>Crawling: <u>Videos</u>, Videos-Analytics, Channel_Analytics, Advanced-Channel-Analytics, Advanced-Video-Analytics</h3><h5 align='center'><br>Please DO NOT close this window<br>This window will be closed automatically once the crawling is finished.</h5>");
 }
 catch{}
 
-var betaPageCformchk		= setInterval(chkBetaCform	, Math.floor(Math.random() * 15000 + 5000));
-var videoLinkChk 			= setInterval(chkVideoLink	, Math.floor(Math.random() * 15000 + 5000));
-var nextBtnChkClk			= setInterval(chkClkNextBtn , Math.floor(Math.random() * 15000 + 5000));
+var betaPageCformchk		= setInterval(chkBetaCform	, config.getRandomTimeoutInterval());
+var videoLinkChk 			= setInterval(chkVideoLink	, config.getRandomTimeoutInterval());
+var nextBtnChkClk			= setInterval(chkClkNextBtn , config.getRandomTimeoutInterval());
 
 //=========================================================
 function chkDocReady(){
@@ -56,7 +56,7 @@ function chkVideoLink(){
 	videosBtnCaption = videosBtnCaption.innerText;
 	if (videosBtnCaption === "Content" || videosBtnCaption === "Videos")
 	{
-		setTimeout(function(){videosBtn.click();}, Math.floor(Math.random() * 15000 + 5000));
+		setTimeout(function(){videosBtn.click();}, config.getRandomTimeoutInterval());
 		clearInterval(videoLinkChk);
 	}
 }
@@ -78,7 +78,7 @@ function chkClkNextBtn(){
 			setTimeout(function(){
 					saveMetaData (chID, getVideoTitles(), getVideUrls(), getDate(), getStatus(), getVisibility(), getMonStat(), getVideoDescriptions(), getNoViews(), getNoComments(), getOuterHtml_Vis(), getOuterHtml_Mon(), getOuterHtml_Rist());
 					nextBtn.click();
-			}, Math.floor(Math.random() * 15000 + 5000));
+			}, config.getRandomTimeoutInterval());
 			lastPageFlag = true;
 		}
 		else{
@@ -98,7 +98,7 @@ function chkClkNextBtn(){
 						}
 						catch{   console.log("live button is not available");}
 						chrome.runtime.sendMessage("get_Live_chVideo");
-					}, Math.floor(Math.random() * 15000 + 5000));
+					}, config.getRandomTimeoutInterval());
 					clearInterval(nextBtnChkClk);
 				}
 	}
