@@ -130,6 +130,7 @@ function getVideTabBody(){
 		saveChExpAnalytics("lifetime", "genderAna", chID, table_list);
 		//setTimeout(function(){chrome.runtime.sendMessage({msg: "channelCrawled", channelID: chID});}, 5000);
 		setTimeout(function(){chrome.runtime.sendMessage("get_advanced_video_Analytics_lifetime");}, Math.floor(Math.random() * 15000 + 5000));
+		// setTimeout(function(){chrome.runtime.sendMessage("get_advanced_video_Analytics_lifetime");}, Math.floor(Math.random() * 15000 + 5000));
 	}
 }
 console.log("in Explore");

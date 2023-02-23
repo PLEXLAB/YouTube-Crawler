@@ -126,6 +126,7 @@ function getVideTabBody(){
 		var chID   		= urlOFpopup.substring(lastIndex + 8);
 		chID			= chID.substring(0, chID.indexOf('/'));
 		saveChExpAnalytics("lifetime", "ageAna", chID, table_list);
+		// setTimeout(function(){chrome.runtime.sendMessage("getAanalytics_explore_Gender");}, Math.floor(Math.random() * 15000 + 5000));
 		setTimeout(function(){chrome.runtime.sendMessage({msg: "getAanalytics_explore_Gender", channelID: chID});}, Math.floor(Math.random() * 15000 + 5000));
 	}
 }

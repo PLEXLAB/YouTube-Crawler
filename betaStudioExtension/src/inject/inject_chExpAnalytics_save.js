@@ -27,7 +27,7 @@ function saveChExpAnalytics(period, anaCategory, chID, tableList){
 		console.log("XMLHttpRequest is timedout");
 		chrome.runtime.sendMessage("NetworkError");
 	};
-	chAhttpReq.open('POST', 'http://localhost:3000/saveCHexpAnalytics', true);
+	chAhttpReq.open('POST', config.nodeURL+'/saveCHexpAnalytics', true);
 	// chAhttpReq.open('POST', 'https://youtubeanalyticsserver.herokuapp.com/saveCHexpAnalytics', true);
 	chAhttpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 	chAhttpReq.send('period='	    + encodeURIComponent(period)		+

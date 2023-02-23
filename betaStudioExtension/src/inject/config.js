@@ -1,2 +1,4 @@
-var nodeURL = "http://localhost:3000";
-module.exports = {nodeURL};
+var config = {
+    nodeURL: "http://localhost:3000",
+    debug: true
+};

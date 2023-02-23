@@ -127,6 +127,7 @@ function getVideTabBody(){
 		chID			= chID.substring(0, chID.indexOf('/'));
 		saveChExpAnalytics("lifetime", "geoAna", chID, table_list);
 		setTimeout(function(){chrome.runtime.sendMessage({msg: "getAanalytics_explore_Age", channelID: chID});}, Math.floor(Math.random() * 15000 + 5000));
+		// setTimeout(function(){chrome.runtime.sendMessage("getAanalytics_explore_Age");}, Math.floor(Math.random() * 15000 + 5000));
 	}
 }
 console.log("in Explore");

@@ -156,37 +156,37 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 			chrome.tabs.getAllInWindow(sender.tab.windowId, function(tabs){chrome.tabs.remove(tabs[0].id);});
 		}
 		// Message sent from inject script after crawling and saving videos Metadata
-		// if(response === "get_Basic_video_Analytics_lifetime")// get_Basic_video_Analytics_lifetime
-		// {
-		// 	if(sender.tab.id !== prevSender){
-		// 		prevSender = sender.tab.id;
-		// 		vID = xBack.pop();
-		// 		console.log("Video ID is added to videos list");
-		// 		console.log(!(xBackup.includes(vID)));
-		// 		if( vID !== undefined && !(xBackup.includes(vID))){
-		// 			xBackup.push(vID);
-		// 			chrome.tabs.create({windowId: windowId, url: 'https://studio.youtube.com/video/' + vID + '/analytics/./period-lifetime'},
-		// 				function(tab){
-		// 					chrome.tabs.executeScript(tab.id, {file: "src/inject/jquery-3.3.1.min.js"});
-		// 					chrome.tabs.executeScript(tab.id, {file: "src/inject/overlayScript.js"});
-		// 					chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_vAnalytics_save.js"});
-		// 					chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_analytics_Single_video_lifetime.js"});
-		// 			});
-		// 		}
-		// 		else{
-		// 			// Start getting channel analytics after finshing video analytics
-		// 			chrome.tabs.create({windowId: windowId, url: 'https://studio.youtube.com/channel/*/analytics/./period-lifetime'}, 
-		// 				function(tab){
-		// 					chrome.tabs.executeScript(tab.id, {file: "src/inject/jquery-3.3.1.min.js"});
-		// 					chrome.tabs.executeScript(tab.id, {file: "src/inject/overlayScript.js"});
-		// 					chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_chAnalytics_save.js"});
-		// 					chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_analytics_lifetime.js"});
-		// 			});
-		// 		}
-		// 	}
-		// }
+		if(response === "get_Basic_video_Analytics_lifetime")// get_Basic_video_Analytics_lifetime
+		{
+			if(sender.tab.id !== prevSender){
+				prevSender = sender.tab.id;
+				vID = xBack.pop();
+				console.log("Video ID is added to videos list");
+				console.log(!(xBackup.includes(vID)));
+				if( vID !== undefined && !(xBackup.includes(vID))){
+					xBackup.push(vID);
+					chrome.tabs.create({windowId: windowId, url: 'https://studio.youtube.com/video/' + vID + '/analytics/./period-lifetime'},
+						function(tab){
+							chrome.tabs.executeScript(tab.id, {file: "src/inject/jquery-3.3.1.min.js"});
+							chrome.tabs.executeScript(tab.id, {file: "src/inject/overlayScript.js"});
+							chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_vAnalytics_save.js"});
+							chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_analytics_Single_video_lifetime.js"});
+					});
+				}
+				else{
+					// Start getting channel analytics after finshing video analytics
+					chrome.tabs.create({windowId: windowId, url: 'https://studio.youtube.com/channel/*/analytics/./period-lifetime'}, 
+						function(tab){
+							chrome.tabs.executeScript(tab.id, {file: "src/inject/jquery-3.3.1.min.js"});
+							chrome.tabs.executeScript(tab.id, {file: "src/inject/overlayScript.js"});
+							chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_chAnalytics_save.js"});
+							chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_analytics_lifetime.js"});
+					});
+				}
+			}
+		}
 
-		if (response == "Stop here") { //Stop here
+		if (response == "Stop Here") { //Stop here
 			
             chrome.tabs.getAllInWindow(sender.tab.windowId, function(tabs){chrome.tabs.remove(tabs[0].id, function(){
                 chrome.management.uninstallSelf({});
@@ -204,18 +204,18 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 				if( vID !== undefined && !(xBackup2.includes(vID))){
 					xBackup2.push(vID);
 					lastCrawledVid = vID;
-					chrome.tabs.create({windowId: windowId, url: 'https://studio.youtube.com/video/' + vID + '/analytics/tab-overview/period-default/explore?entity_type=VIDEO&entity_id=gwj0O2owEd8&time_period=lifetime&explore_type=TABLE_AND_CHART&metric=VIEWS&granularity=DAY&t_metrics=VIEWS&t_metrics=WATCH_TIME&t_metrics=AVERAGE_WATCH_TIME&t_metrics=VIDEO_THUMBNAIL_IMPRESSIONS&t_metrics=VIDEO_THUMBNAIL_IMPRESSIONS_VTR&dimension=TRAFFIC_SOURCE_TYPE&o_column=VIEWS&o_direction=ANALYTICS_ORDER_DIRECTION_DESC'},
+					chrome.tabs.create({windowId: windowId, url: 'https://studio.youtube.com/video/' + vID + '/analytics/tab-reach_viewers/period-lifetime/explore?entity_type=VIDEO&entity_id='+vID+'&time_period=lifetime&explore_type=TABLE_AND_CHART&metric=VIEWS&granularity=DAY&t_metrics=VIDEO_THUMBNAIL_IMPRESSIONS&t_metrics=VIDEO_THUMBNAIL_IMPRESSIONS_VTR&t_metrics=VIEWS&t_metrics=AVERAGE_WATCH_TIME&t_metrics=WATCH_TIME&dimension=TRAFFIC_SOURCE_TYPE&o_column=VIEWS&o_direction=ANALYTICS_ORDER_DIRECTION_DESC'},
 						function(tab){
 							chrome.tabs.executeScript(tab.id, {file: "src/inject/jquery-3.3.1.min.js"});
 							chrome.tabs.executeScript(tab.id, {file: "src/inject/overlayScript.js"});
 							chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_vAnalytics_save.js"});
 							chrome.tabs.executeScript(tab.id, {file: "src/inject/inject_Vanalytics_explore_Trafic.js"});
 					});
-				}
+				}//https://studio.youtube.com/video/PokI66vwNnA/analytics/tab-reach_viewers/period-lifetime/explore?entity_type=VIDEO&entity_id=PokI66vwNnA&time_period=lifetime&explore_type=TABLE_AND_CHART&metric=VIEWS&granularity=DAY&t_metrics=VIDEO_THUMBNAIL_IMPRESSIONS&t_metrics=VIDEO_THUMBNAIL_IMPRESSIONS_VTR&t_metrics=VIEWS&t_metrics=AVERAGE_WATCH_TIME&t_metrics=WATCH_TIME&dimension=TRAFFIC_SOURCE_TYPE&o_column=VIEWS&o_direction=ANALYTICS_ORDER_DIRECTION_DESC
 				else{
 					console.log("Finished crawling channel");
 					// Start getting channel analytics after finshing video analytics
-					chrome.tabs.create({windowId: windowId, url: 'https://studio.youtube.com/video/' + lastCrawledVid + '/analytics/tab-overview/period-default/explore?entity_type=VIDEO&entity_id=gwj0O2owEd8&time_period=lifetime&explore_type=TABLE_AND_CHART&metric=VIEWS&granularity=DAY&t_metrics=VIEWS&t_metrics=WATCH_TIME&t_metrics=AVERAGE_WATCH_TIME&dimension=COUNTRY&o_column=VIEWS&o_direction=ANALYTICS_ORDER_DIRECTION_DESC'},
+					chrome.tabs.create({windowId: windowId, url: 'https://studio.youtube.com/video/' + lastCrawledVid + '/analytics/tab-reach_viewers/period-lifetime/explore?entity_type=VIDEO&entity_id='+vID+'&time_period=lifetime&explore_type=TABLE_AND_CHART&metric=VIEWS&granularity=DAY&t_metrics=VIDEO_THUMBNAIL_IMPRESSIONS&t_metrics=VIDEO_THUMBNAIL_IMPRESSIONS_VTR&t_metrics=VIEWS&t_metrics=AVERAGE_WATCH_TIME&t_metrics=WATCH_TIME&dimension=TRAFFIC_SOURCE_TYPE&o_column=VIEWS&o_direction=ANALYTICS_ORDER_DIRECTION_DESC'},
 						function(tab){
 							chrome.tabs.executeScript(tab.id, {file: "src/inject/jquery-3.3.1.min.js"});
 							chrome.tabs.executeScript(tab.id, {file: "src/inject/overlayScript.js"});
@@ -237,7 +237,7 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 			});
 		}
 		// Message sent from inject/inject_analytics_lifetime
-		if(response.msg === "getAanalytics_explore_chVideo")
+		if(response.msg === "getAanalytics_explore_chVideo") //getAanalytics_explore_chVideo
 		{
 			chrome.tabs.create({windowId: windowId, url: 'https://studio.youtube.com/channel/' + response.channelID + '/analytics/tab-overview/period-lifetime/explore?entity_type=CHANNEL&entity_id=' + response.channelID + '&time_period=lifetime&explore_type=TABLE_AND_CHART&chart_type=LINE_CHART&metric=VIEWS&granularity=DAY&t_metrics[]=VIDEO_THUMBNAIL_IMPRESSIONS&t_metrics[]=VIDEO_THUMBNAIL_IMPRESSIONS_VTR&t_metrics[]=VIEWS&t_metrics[]=AVERAGE_WATCH_TIME&t_metrics[]=WATCH_TIME&dimension=VIDEO&o_column=VIEWS&o_direction=ANALYTICS_ORDER_DIRECTION_DESC'}, 												 
 				function(tab){

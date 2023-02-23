@@ -34,9 +34,11 @@
 	"web_accessible_resources": ["src/inject/NM_State_Mark.png", "src/inject/LightBanner.png"],
 	"content_scripts": [{
 		"matches": [
-			"https://studio.youtube.com/channel/*"
+			"https://studio.youtube.com/channel/*",
+			"https://studio.youtube.com/*"
 		],
 		"js": [
+			"src/inject/config.js",
 			"src/inject/jquery-3.3.1.min.js", 
 			"src/inject/inject_videos_extract.js", 
 			"src/inject/inject_videos_save.js", 

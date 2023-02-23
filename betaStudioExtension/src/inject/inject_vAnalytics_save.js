@@ -28,7 +28,7 @@ function saveVideoAnalytics(vID, overviewList, reachList, engList, audList){
 		console.log("XMLHttpRequest is timedout");
 		chrome.runtime.sendMessage("NetworkError");
 	};
-	VAhttpReq.open('POST', 'http://localhost:3000/saveVanalytics', true);
+	VAhttpReq.open('POST', config.nodeURL+'/saveVanalytics', true);
 	// VAhttpReq.open('POST', 'https://youtubeanalyticsserver.herokuapp.com/saveVanalytics', true);
 	VAhttpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 	VAhttpReq.send( 'vID='	        + encodeURIComponent(vID)		+
@@ -50,13 +50,13 @@ function saveV_adv_trafficAnalytics(anaCategory, vID, trafficList){
 			if (VAdvhttpReq.readyState === XMLHttpRequest.DONE) {
 				if (VAdvhttpReq.status == 201) {
 					console.log('successful');
-				} 
+				}
 				else {
 					console.log("ERROR: status " + VAdvhttpReq.status);
 				}
 			}
-		}	
-	}; 
+		}
+	};
 	// Check if the server is not reachable
 	VAdvhttpReq.onerror = function(){
 		chrome.runtime.sendMessage("NetworkError");
@@ -66,12 +66,13 @@ function saveV_adv_trafficAnalytics(anaCategory, vID, trafficList){
 		console.log("XMLHttpRequest is timedout");
 		chrome.runtime.sendMessage("NetworkError");
 	};
-	VAdvhttpReq.open('POST', 'http://localhost:3000/saveVadvAnalytics', true);
+	if(config.debug){console.log(trafficList);}
+	VAdvhttpReq.open('POST', config.nodeURL+'/saveVadvAnalytics', true);
 	// VAdvhttpReq.open('POST', 'https://youtubeanalyticsserver.herokuapp.com/saveVadvAnalytics', true);
 	VAdvhttpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-	VAdvhttpReq.send( 'vID='	        + encodeURIComponent(vID)		+
-					'&todayDate='   + encodeURIComponent(todayDate)  +
-					'&anaCategory='   + encodeURIComponent(anaCategory)  +
-					'&trafficList='	+ JSON.stringify(trafficList)		
-	);	
+	VAdvhttpReq.send( 'vID='	        + encodeURIComponent(vID)		   +
+					  '&todayDate='     + encodeURIComponent(todayDate)    +
+					  '&anaCategory='   + encodeURIComponent(anaCategory)  +
+					  '&trafficList='	+ JSON.stringify(trafficList)		
+	);
 }

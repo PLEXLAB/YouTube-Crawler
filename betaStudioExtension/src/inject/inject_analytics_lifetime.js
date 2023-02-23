@@ -111,46 +111,54 @@ function getReach(){
 				{	watchTimeFromImp	= 	(watchTimeFromImp.textContent).trim();	reach_vAnalytics["watchTimeFromImp"]= watchTimeFromImp;	console.log(watchTimeFromImp);	}
 		}
 		clearInterval(reachMetricsInt);
-		engVistTabInt		= setInterval(engVisit		, Math.floor(Math.random() * 15000 + 5000));
+		engVistTabInt		= setInterval(audVisit		, Math.floor(Math.random() * 15000 + 5000));
 	}
+	if(config.debug){console.log("debug-- getReach end");}
 }
 //Engagement Tab ==============================================================
-function engVisit(){
-	var engTab = document.querySelector("#interest_viewers");
-	if (engTab !== null){
-		engTab.click();
-		clearInterval(engVistTabInt);
-		engMetricsInt		= setInterval(getEng		, Math.floor(Math.random() * 15000 + 5000));
-	}
-}
-//Engagement Tab ==============================================================
-function getEng(){
-	var engLabels			=	document.querySelectorAll("#metric-label");
-	var engMetrics			= 	document.querySelectorAll("#metric-total");
-	var reachMetricsPerc	=	document.querySelectorAll("#comparison > span.only-visible-for-accessibility.style-scope.ytcp-trend-label");
-	var watchTime			= 	"";
-	var watchTimePrsnt		=	"";
-	var avgViewDur			= 	"";
-	var avgViewDurPrsnt		=	"";
-	if(engMetrics.length > 0)
-	{
-		if(engMetrics[0] !== undefined)
-			{	watchTime		=	(engMetrics[0].textContent).trim();	eng_vAnalytics["watchTime"] = watchTime;	console.log(watchTime);		}
-		if(engMetrics[1] !== undefined)
-			{	avgViewDur		=	(engMetrics[1].textContent).trim();	eng_vAnalytics["avgViewDur"] = watchTime;	console.log(avgViewDur);}
+//no longer exists for youtube channel analytics
+// function engVisit(){
+// 	if(config.debug){console.log("debug-- engVisit start");}
+// 	var engTab = document.querySelector("#interest_viewers");
+// 	if (engTab !== null){
+// 		engTab.click();
+// 		clearInterval(engVistTabInt);
+// 		engMetricsInt		= setInterval(getEng		, Math.floor(Math.random() * 15000 + 5000));
+// 	}
+// 	if(config.debug){console.log("debug-- engVisit end");}
+// }
+// //Engagement Tab ==============================================================
+// //no longer exists for youtube channel analytics
+// function getEng(){
+// 	if(config.debug){console.log("debug-- getEng start");}
+// 	var engLabels			=	document.querySelectorAll("#metric-label");
+// 	var engMetrics			= 	document.querySelectorAll("#metric-total");
+// 	var reachMetricsPerc	=	document.querySelectorAll("#comparison > span.only-visible-for-accessibility.style-scope.ytcp-trend-label");
+// 	var watchTime			= 	"";
+// 	var watchTimePrsnt		=	"";
+// 	var avgViewDur			= 	"";
+// 	var avgViewDurPrsnt		=	"";
+// 	if(engMetrics.length > 0)
+// 	{
+// 		if(engMetrics[0] !== undefined)
+// 			{	watchTime		=	(engMetrics[0].textContent).trim();	eng_vAnalytics["watchTime"] = watchTime;	console.log(watchTime);		}
+// 		if(engMetrics[1] !== undefined)
+// 			{	avgViewDur		=	(engMetrics[1].textContent).trim();	eng_vAnalytics["avgViewDur"] = watchTime;	console.log(avgViewDur);}
 		
-		if(reachMetricsPerc.length > 0){
-			if(reachMetricsPerc[0] !== undefined)
-				{	watchTimePrsnt	=	(reachMetricsPerc[0].textContent).trim();	console.log(watchTimePrsnt);	}
-			if(reachMetricsPerc[1] !== undefined)
-				{	avgViewDurPrsnt	=	(reachMetricsPerc[1].textContent).trim();	console.log(avgViewDurPrsnt);	}
-		}
-		clearInterval(engMetricsInt);
-		audienceInt			= setInterval(audVisit		, Math.floor(Math.random() * 15000 + 5000));
-	}
-}
+// 		if(reachMetricsPerc.length > 0){
+// 			if(reachMetricsPerc[0] !== undefined)
+// 				{	watchTimePrsnt	=	(reachMetricsPerc[0].textContent).trim();	console.log(watchTimePrsnt);	}
+// 			if(reachMetricsPerc[1] !== undefined)
+// 				{	avgViewDurPrsnt	=	(reachMetricsPerc[1].textContent).trim();	console.log(avgViewDurPrsnt);	}
+// 		}
+// 		clearInterval(engMetricsInt);
+// 		audienceInt			= setInterval(audVisit		, Math.floor(Math.random() * 15000 + 5000));
+// 	}
+// 	if(config.debug){console.log("debug-- getEng end");}
+// }
 //Audeince Tab ==============================================================
 function audVisit(){
+	if(config.debug){console.log("debug-- audVisit start");}
 	var audTab = document.querySelector('#build_audience');
 	if(audTab !== null)
 	{
@@ -158,6 +166,7 @@ function audVisit(){
 		clearInterval(audienceInt);
 		audienceMetricsInt	= setInterval(getAud		, Math.floor(Math.random() * 15000 + 5000));
 	}
+	if(config.debug){console.log("debug-- audVisit end");}
 }
 //Audeince Tab ==============================================================
 function getAud(){
@@ -184,7 +193,10 @@ function getAud(){
 		var lastIndex  	= urlOFpopup.lastIndexOf(match[match.length-1]);
 		var chID   		= urlOFpopup.substring(lastIndex + 8);
 		chID			= chID.substring(0, chID.indexOf('/'));
-		saveChAnalytics("lifetime", chID, overview_vAnalytics, reach_vAnalytics, eng_vAnalytics, audit_vAnalytics);
+		if(config.debug){console.log("")}
+		saveChAnalytics("lifetime", chID, overview_vAnalytics, reach_vAnalytics, audit_vAnalytics);
 		setTimeout(function(){chrome.runtime.sendMessage({msg: "getAanalytics_explore_chVideo", channelID: chID});}, Math.floor(Math.random() * 15000 + 5000));
+		// setTimeout(function(){chrome.runtime.sendMessage("getAanalytics_explore_chVideo");}, Math.floor(Math.random() * 15000 + 5000));
+
 	}
 }
