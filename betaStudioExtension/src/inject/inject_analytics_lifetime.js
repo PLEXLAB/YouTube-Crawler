@@ -81,10 +81,16 @@ function getReach(){
 	
 	if(reachMetrics.length > 0)
 	{
-		reachImp	= 	(reachMetrics[0].textContent).trim();
-		reachImpClk	=	(reachMetrics[1].textContent).trim();
-		reachViews	= 	(reachMetrics[2].textContent).trim();
-		reachUviews	= 	(reachMetrics[3].textContent).trim();
+
+		reachImp	= 	"";
+		reachImpClk	=	"";
+		reachViews	= 	"";
+		reachUviews	= 	"";
+
+		if(reachMetrics[0] !== 'undefined') reachImp	= 	(reachMetrics[0].textContent).trim();
+		if(reachMetrics[1] !== 'undefined') reachImpClk	=	(reachMetrics[1].textContent).trim();
+		if(reachMetrics[2] !== 'undefined') reachViews	= 	(reachMetrics[2].textContent).trim();
+		if(reachMetrics[3] !== 'undefined') reachUviews	= 	(reachMetrics[3].textContent).trim();
 		
 		console.log(reachImp 	);
 		console.log(reachImpClk );

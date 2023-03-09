@@ -76,6 +76,14 @@ function getVideTabBody(){
 		var otherCol_v2	=	document.querySelectorAll("#row-container > div:nth-child(" + colIndex + ") > div.layout.horizontal.end-justified.style-scope.yta-explore-table-row > div.value.debug-metric-value.style-scope.yta-explore-table-row");
 		var otherColPerc= 	document.querySelectorAll("#row-container > div:nth-child(" + colIndex + ") > div.layout.horizontal.end-justified.style-scope.yta-explore-table-row > div.formatted-percentage.style-scope.yta-explore-table-row");
 		console.log(otherCol_v2.length + "----------------->");
+		var tmp = document.querySelectorAll("#row-container > div:nth-child(" + colIndex + ")");
+		console.log(tmp.length  + " otherCol_v1  ----------------->");
+		for (var index = 0; index < tmp.length; index++) {
+			console.log(tmp[index]);
+		}
+		otherCol_v1 = tmp
+		otherCol_v2 = tmp // (potential) fix for traffic grab
+		otherColPerc = tmp
 		if(otherCol_v2 !== undefined && otherCol_v2 !== null && otherCol_v2.length > 0 && otherColPerc !== undefined && otherColPerc !== null && otherColPerc.length > 0)
 		{
 			otherCol_v2.forEach(function(item){
