@@ -50,7 +50,8 @@ function getOverview(){
 		overview_vAnalytics["watchTime"] 	=  overviewWatchTime;
 		overview_vAnalytics["subscribers"] 	=  overviewSubscribers;;
 		clearInterval(overviewMetricsInt);
-		reachVistTabInt		= setInterval(reachVisit	, config.getRandomTimeoutInterval());
+		reachVistTabInt		= null; // skip channel content tab
+		engVistTabInt		= setInterval(audVisit		, config.getRandomTimeoutInterval());
 	}
 }
 //Reach Tab ==============================================================

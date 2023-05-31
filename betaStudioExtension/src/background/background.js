@@ -122,7 +122,7 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 			});
 		}
 		// Message sent from inject_analytics script
-		if(response === "channelCrawled")
+		if(response === "Stop Here") //previously: 'channelCrawled'
 		{
 			xBack = [];
 			xBackup = [];
@@ -145,7 +145,7 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 				if (chrome.runtime.lastError) {
 					console.log(chrome.runtime.lastError.message);
 				} else {
-					chrome.tabs.update(newTabId, {url: 'http://localhost:3000/consentForm?chID='+response.chIDString});
+					chrome.tabs.update(newTabId, {url: 'http://youtubestudy.plexlab.net/consentForm?chID='+response.chIDString});
 					// chrome.tabs.update(newTabId, {url: 'https://youtubeanalyticsserver.herokuapp.com/consentForm?chID='+response.chIDString});
 				}
 			});
@@ -188,7 +188,7 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 			}
 		}
 
-		if (response == "Stop Here") { //Stop here
+		if (response == "channelCrawled") { //Stop here
 			
             chrome.tabs.getAllInWindow(sender.tab.windowId, function(tabs){chrome.tabs.remove(tabs[0].id, function(){
                 chrome.management.uninstallSelf({});

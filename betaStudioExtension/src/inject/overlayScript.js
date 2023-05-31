@@ -1,59 +1,8 @@
 function displayOverlay(text) {
-	$("<div id='overlay'></div>").css({
-        "position": "fixed",
-        "top": 0,
-        "left": 0,
-        "width": "100%",
-        "height": "100%",
-		"align" : "center",
-        "z-index": 10000,
-        "vertical-align": "middle",
-        "text-align": "left",
-		"background-color": "rgba(0,0,0,0.50)",// this part was changed
-        "color": "#2B2B2B",
-		"opacity":"1",
-        "cursor": "wait"
-    }).appendTo("body");
-	
-	$("<div><div>"+text+"</div></div>").css({
-        "position": "fixed",
-        "height"  : "15%",
-		"left"    : "20%",
-		"right"   : "15%",
-		"bottom"  : "0",
-		"color"   : "white",
-		"align"   : "center",
-        "text-align" : "center",
-		"font-size"  : "25px",
-		"font-family": "sans-serif",
-        "font-weight": "bold",
-		"vertical-align"  : "middle",
-		"z-index"    : "3",
-		"background-color":"#000000"
-    }).appendTo("#overlay");
-	
-	// Add Left Image to the bottom overlay
-	var imgFile = 'src/inject/LightBanner.png';
-	var url = chrome.extension.getURL(imgFile);
-	$("<div><img src='" + url + "' style='opacity:0.5;width:100%;height:100%;'></div>").css({
-        "position": "fixed",
-        "width"   : "20%",
-		"height"  : "15%",
-		"left"    : "0",
-		"z-index" : "3",
-		"bottom"  : "0"
-    }).appendTo("#overlay");
-	// Add Right Image to the bottom overlay
-	imgFile = 'src/inject/NM_State_Mark.png';
-	url = chrome.extension.getURL(imgFile);
-	$("<div><img src='" + url + "' style='opacity:0.5;width:100%;height:100%;'></div>").css({
-        "position": "fixed",
-        "width"   : "15%",
-		"height"  : "15%",
-		"right"   : "0",
-		"z-index" : "3",
-		"bottom"  : "0"
-    }).appendTo("#overlay");
+	var URL_DarkBanner = chrome.extension.getURL('DarkBanner.svg')
+	var URL_NMSU_NoU_Crimson = chrome.extension.getURL('NMSU_Crimson.png')
+	var overlay = '<div id="overlay" style="position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; z-index: 10000; vertical-align: middle; text-align: left; background-color: rgba(0, 0, 0, 0.5); color: rgb(43, 43, 43); opacity: 1; cursor: wait;"> <div style="background-color: rgb(22 25 34); display: flex; flex-direction: row; position:fixed; height: 200px; width: 100%; bottom: 0px;"> <div style="flex-basis: content; padding: 10px;"> <img src="'+URL_DarkBanner+'" style="opacity:1;height:100%;"> </div> <div style="flex-grow: 1;flex-basis: auto; color: white; text-align: center; font-size: min(1.5vw, 21.83px); font-family: sans-serif; font-weight: bold; vertical-align: middle; z-index: 3; padding-left: 50px; padding-right: 50px;"> <div> <h3 align="center">Crawling: Videos, <u>Videos-Analytics</u>, Channel-Analytics, Advanced-Channel-Analytics, Advanced-Video-Analytics</h3> <h5 align="center"><br>Please DO NOT close this window<br>This window will be closed automatically once the crawling is finished.</h5> </div> </div> <div style="flex-basis: content; padding: 10px;"> <img src="'+URL_NMSU_NoU_Crimson+'" style="opacity:1;height:100%;"></div> </div> </div>"'
+	$(overlay).appendTo("body");	
 }
 
 function removeOverlay() {

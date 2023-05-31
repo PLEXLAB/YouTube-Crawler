@@ -22,7 +22,7 @@
 	},
 	"permissions": [
 		"https://studio.youtube.com/*",
-		"http://localhost:3000/",
+		"https://youtubestudy.plexlab.net/",
 		"<all_urls>",
 		"tabs",
 		"activeTab",
@@ -31,7 +31,15 @@
 		"alarms" 
 
 	],
-	"web_accessible_resources": ["src/inject/NM_State_Mark.png", "src/inject/LightBanner.png"],
+	"web_accessible_resources": 
+	[
+		"src/inject/NM_State_Mark.png", 
+		"src/inject/LightBanner.png", 
+		"src/inject/DarkBanner.svg", 
+		"src/inject/NMSU_Crimson.png", 
+		"DarkBanner.svg",
+		"NMSU_Crimson.png"
+	],
 	"content_scripts": [{
 		"matches": [
 			"https://studio.youtube.com/channel/*",

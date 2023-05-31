@@ -32,7 +32,7 @@ function processVID(vID) {
 // https://www.demonetize.plexlab.net
 
 function requestData() {
-  fetch('http://localhost:3002/videoData/'+vID).then(response => response.text())
+  fetch('https://youtubestudy.plexlab.net:3002/videoData/'+vID).then(response => response.text())
   .then(text => handleData(text)); 
 }
 
