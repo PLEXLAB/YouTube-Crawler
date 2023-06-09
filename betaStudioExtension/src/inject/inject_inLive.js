@@ -15,8 +15,10 @@ try{
 	displayOverlay("<h3 align='center'>Crawling: <u>Videos</u>, Videos-Analytics, Channel_Analytics, Advanced-Channel_Analytics</h3><h5 align='center'><br>Please DO NOT close this window<br>This window will be closed automatically once the crawling is finished.</h5>");
 }
 catch{}
-var nextBtnChkClk			= setInterval(chkClkNextBtn , config.getRandomTimeoutInterval());
 
+if(typeof nextBtnChkClk == 'undefined'){
+var nextBtnChkClk = setInterval(chkClkNextBtn , config.getRandomTimeoutInterval());
+}
 //=========================================================
 function chkDocReady(){
 	if (document.readyState === "complete") {

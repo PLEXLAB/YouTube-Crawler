@@ -4,6 +4,7 @@
 */
 //==========================================================
 function querycForms(chID) {
+	try{
 	console.log("==============>>>>> " + chID);
 	conFhttpReq = new XMLHttpRequest();
 	conFhttpReq.onreadystatechange = function() {
@@ -28,4 +29,8 @@ function querycForms(chID) {
 	conFhttpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 	//conFhttpReq.send('chID='   + encodeURIComponent(chID));
 	conFhttpReq.send();
+	}catch{
+		chrome.runtime.sendMessage({checkcform: 'error'});
+	}
+
 }

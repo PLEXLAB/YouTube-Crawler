@@ -52,7 +52,7 @@
 			"src/inject/inject_videos_save.js", 
 			"src/inject/overlayScript.js",
 			"src/inject/querycForm.js"
-		],
+		], 
 		"Content_Security_Policy": "script-src 'self' blob: filesystem: chrome-extension-resource: 'strict-dynamic' 'unsafe-inline' https: 'report-sample' 'nonce-ETAvKsvoXgT+MNdY5u7/TA==' Access-Control-Allow-Origin: *"
     }]
 }

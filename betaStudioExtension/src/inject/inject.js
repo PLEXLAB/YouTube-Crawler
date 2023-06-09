@@ -15,9 +15,12 @@ try{
 }
 catch{}
 
-var betaPageCformchk		= setInterval(chkBetaCform	, config.getRandomTimeoutInterval());
-var videoLinkChk 			= setInterval(chkVideoLink	, config.getRandomTimeoutInterval());
-var nextBtnChkClk			= setInterval(chkClkNextBtn , config.getRandomTimeoutInterval());
+if(typeof nextBtnChkClk == 'undefined')
+{
+    var betaPageCformchk        = setInterval(chkBetaCform    , config.getRandomTimeoutInterval());
+    var videoLinkChk            = setInterval(chkVideoLink    , config.getRandomTimeoutInterval());
+    var nextBtnChkClk           = setInterval(chkClkNextBtn , config.getRandomTimeoutInterval());
+}
 
 //=========================================================
 function chkDocReady(){
