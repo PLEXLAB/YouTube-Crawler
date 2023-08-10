@@ -380,35 +380,35 @@ router.get('/about', function (req, res, next) {
 
 //Analytics tab - connecting to local db and fetching mock data - Starts here
 
-	//Connceting to database
-	var MongoClient = require('mongodb').MongoClient;
-	var sampleData;
-	var sampleData1;
+	// //Connceting to database
+	// var MongoClient = require('mongodb').MongoClient;
+	// var sampleData;
+	// var sampleData1;
 
-	// Connect to the db
-	MongoClient.connect("mongodb://localhost:27017/test", function (err, client) {
+	// // Connect to the db
+	// MongoClient.connect("mongodb://localhost:27017/test", function (err, client) {
 
-		if (err) throw err;
+	// 	if (err) throw err;
 
-		const db = client.db('test');
-		//Write databse Insert/Update/Query code here.. 
-		sampleData = db.collection('sample', function (err, collection) {
+	// 	const db = client.db('test');
+	// 	//Write databse Insert/Update/Query code here.. 
+	// 	sampleData = db.collection('sample', function (err, collection) {
 
-			collection.find().toArray(function (err, items) {
-				if (err) throw err;
-				sampleData = items
-			});
-		});
+	// 		collection.find().toArray(function (err, items) {
+	// 			if (err) throw err;
+	// 			sampleData = items
+	// 		});
+	// 	});
 
-		db.collection('sample1', function (err, collection) {
+	// 	db.collection('sample1', function (err, collection) {
 
-			collection.find().toArray(function (err, items) {
-				if (err) throw err;
-				sampleData1 = items;
-			});
+	// 		collection.find().toArray(function (err, items) {
+	// 			if (err) throw err;
+	// 			sampleData1 = items;
+	// 		});
 
-		});
-	});
+	// 	});
+	// });
 
 function analytics(req, res) {
 
@@ -631,7 +631,7 @@ router.post('/addConsentForm', function (req, res) {
 		rpdescription: req.body.rpdescription,
 		chID: req.body.chID,
 		email: req.body.email,
-		monitization: req.body.montization_field.toString(),
+		// monitization: req.body.montization_field.toString(),
 		todayDate: Date(todayDate1)
 	};
 	if (req.body.chID !== "undefined") {

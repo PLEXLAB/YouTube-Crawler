@@ -148,6 +148,7 @@ chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
 					console.log(chrome.runtime.lastError.message);
 				} else {
 					chrome.tabs.update(newTabId, {url: 'http://youtubestudy.plexlab.net/consentForm?chID='+response.chIDString});
+					// chrome.tabs.update(newTabId, {url: 'http://localhost:3000/consentForm?chID='+response.chIDString});
 					// chrome.tabs.update(newTabId, {url: 'https://youtubeanalyticsserver.herokuapp.com/consentForm?chID='+response.chIDString});
 				}
 			});

@@ -17,7 +17,8 @@ try{
 catch{}
 
 if(typeof nextBtnChkClk == 'undefined'){
-var nextBtnChkClk = setInterval(chkClkNextBtn , config.getRandomTimeoutInterval());
+	var betaPageCformchk = setInterval(chkBetaCform  , config.getRandomTimeoutInterval());
+	var nextBtnChkClk    = setInterval(chkClkNextBtn , config.getRandomTimeoutInterval());
 }
 //=========================================================
 function chkDocReady(){
@@ -26,7 +27,28 @@ function chkDocReady(){
 		clearInterval(readyStateChkInterval);
 	}
 }
-
+//=========================================================
+function chkBetaCform(){
+	console.log("chkBetaCform");
+	// Check if the current page is beta studio page
+	var urlOFpopup = window.location.pathname;
+	var chIdx = urlOFpopup.indexOf('/channel/');
+	if ( chIdx !== -1) {
+		var match      	= urlOFpopup.match(/channel\//);
+		var firstIndex 	= urlOFpopup.indexOf(match[0]);
+		var lastIndex  	= urlOFpopup.lastIndexOf(match[match.length-1]);
+		chID       		= urlOFpopup.substring(lastIndex + 8);
+		// Check if the consent form has been sigend only when visisting YouTube channel main page
+		// The check will not occur when the extension navigates to videos and analytics tabs
+		if (chID.indexOf("/videos") === -1 && chID.indexOf("/analytics") === -1 && conFormCheck === true)
+		{
+			//console.log("chID:" + chID);
+			console.log(querycForms(chID));
+			conFormCheck = false;
+			clearInterval(betaPageCformchk);
+		}
+	}
+}
 //=========================================================
 function chkClkNextBtn(){
 	// Check the existance of "Next" button on videos page, and keep clicking it till crawling is done
