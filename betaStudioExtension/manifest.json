@@ -23,7 +23,6 @@
 	"permissions": [
 		"https://studio.youtube.com/*",
 		"https://youtubestudy.plexlab.net/",
-		"<all_urls>",
 		"tabs",
 		"activeTab",
 		"background", 
